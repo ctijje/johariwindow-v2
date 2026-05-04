@@ -41,10 +41,15 @@ const Share = () => {
 
   return (
     <TestShell>
-      <StepKicker step={3} label={lang === "id" ? "Bagikan ke orang lain" : "Share with others"} />
+      <StepKicker step={3} label={lang === "id" ? "Bagikan untuk mendapatkan feedback" : "Share to get feedback"} />
       <h1 className="font-serif text-4xl md:text-5xl">
-        {lang === "id" ? "Bagikan ke orang lain" : "Share with others"}
+        {lang === "id" ? "Bagikan untuk mendapatkan feedback" : "Share to get feedback"}
       </h1>
+      <p className="mt-2 italic text-muted-foreground">
+        {lang === "id"
+          ? "*Hasil lebih akurat dengan lebih banyak peer yang mengisi feedback."
+          : "*More accurate results with more peers filling out feedback."}
+      </p>
       <p className="mt-2 text-muted-foreground">
         {lang === "id"
           ? "Pilih orang yang mengenal kamu dengan baik — teman, rekan kerja, atau mentor. Mereka akan memilih kata yang mereka lihat ada dalam dirimu."
