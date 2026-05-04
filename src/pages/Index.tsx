@@ -504,8 +504,8 @@ const Index = () => {
               ["product", c.footer.links.product],
               ["resources", c.footer.links.resources],
               ["company", c.footer.links.company],
-            ] as const).map(([key, links]) => (
-              <div key={key} className="md:col-span-2 md:col-start-auto">
+            ] as const).map(([key, links], idx) => (
+              <div key={key} className={cn("md:col-span-2", idx === 0 && "md:col-start-7")}>
                 <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   {c.footer[key as "product" | "resources" | "company"]}
                 </div>
