@@ -28,14 +28,14 @@ const t = {
     },
     why: {
       kicker: "KENAPA JOHARI",
-      title: ["Ini bukan", "kuis kepribadian biasa."],
-      lead: "Tes kepribadian mengkotak-kotakkan kamu. Johari membuka empat jendela — dan mengundang orang yang benar-benar mengenalmu untuk menggambar pemandangannya.",
+      title: ["Mengapa", "Johari Window?"],
+      lead: "Framework yang sudah terbukti untuk mengenal diri dan berkomunikasi lebih baik. Bandingkan cara kamu melihat dirimu sendiri dengan cara orang lain melihatmu, dan temukan kekuatan tersembunyi serta titik butamu.",
       cta: "Buka jendelamu",
       cards: [
-        { icon: LayoutGrid, title: "Berbasis psikologi nyata", desc: "Dirancang oleh Joseph Luft & Harrington Ingham pada 1955. Dipakai terapis, coach, dan tim pelatihan." },
-        { icon: Lock, title: "Privat secara default", desc: "Teman menilai kamu secara anonim. Hanya hasil agregat yang muncul. Data tidak dijual atau dilatih." },
-        { icon: Users, title: "Versi grup", desc: "Jalankan Johari untuk timmu, pasanganmu, atau circle-mu. Lihat bagaimana grup melihat dirinya sendiri vs bagaimana ia dilihat." },
-        { icon: Clock, title: "Mode time-lapse", desc: "Buka ulang jendelamu setiap kuartal. Saksikan titik buta menyusut dan diri terbukamu tumbuh." },
+        { icon: LayoutGrid, title: "Berbasis Psikologi", desc: "Bukan sekadar kuis kepribadian biasa. Johari Window adalah framework yang dikembangkan oleh psikolog Joseph Luft dan Harry Ingham dan sudah digunakan selama puluhan tahun di dunia pendidikan, coaching, dan pengembangan tim." },
+        { icon: Users, title: "Dua Perspektif Sekaligus", desc: "Kamu tidak hanya menilai diri sendiri. Kamu juga mendapat gambaran nyata tentang bagaimana orang-orang yang mengenalmu melihatmu, dan di situlah insight yang paling berharga muncul." },
+        { icon: Lock, title: "Temukan yang Belum Pernah Kamu Sadari", desc: "Ada kekuatan yang orang lain lihat dari kamu, tapi kamu sendiri belum menyadarinya. Ada juga sisi diri yang belum sempat kamu tunjukkan. Johari Window membantumu melihat keduanya." },
+        { icon: Clock, title: "Langkah Nyata, Bukan Sekadar Label", desc: "Hasilnya bukan hanya kategori atau tipe kepribadian. Kamu mendapat peta yang jelas tentang mana yang perlu dikembangkan, mana yang perlu dibuka, dan mana yang masih bisa dieksplorasi lebih jauh." },
       ],
     },
     voices: {
@@ -102,14 +102,14 @@ const t = {
     },
     why: {
       kicker: "WHY JOHARI",
-      title: ["A vibe quiz", "this is not."],
-      lead: "Personality tests put you in a box. Johari opens four windows — and lets the people who actually know you draw the view.",
+      title: ["Why", "Johari Window?"],
+      lead: "A proven framework for self-awareness and better communication. Compare how you see yourself with how others see you, and uncover hidden strengths along with your blind spots.",
       cta: "Open your window",
       cards: [
-        { icon: LayoutGrid, title: "Built on real psychology", desc: "Designed by Joseph Luft & Harrington Ingham in 1955. Used by therapists, coaches, and the US Navy." },
-        { icon: Lock, title: "Private by default", desc: "Friends rate you anonymously. Only aggregate results show. We never sell, never share, never train on your data." },
-        { icon: Users, title: "Group windows", desc: "Run a Johari for your team, your relationship, or your D&D party. See where the group sees itself vs how it's seen." },
-        { icon: Clock, title: "Time-lapse mode", desc: "Re-open your window every quarter. Watch your blind spots shrink and your open self grow over years." },
+        { icon: LayoutGrid, title: "Grounded in Psychology", desc: "Not just another personality quiz. The Johari Window is a framework developed by psychologists Joseph Luft and Harry Ingham, used for decades in education, coaching, and team development." },
+        { icon: Users, title: "Two Perspectives at Once", desc: "You don't just rate yourself. You also get a real picture of how people who know you see you — and that's where the most valuable insight lives." },
+        { icon: Lock, title: "Discover What You Never Noticed", desc: "There are strengths others see in you that you haven't realized yet. There are also sides of you you haven't shown. Johari Window helps you see both." },
+        { icon: Clock, title: "Real Next Steps, Not Just Labels", desc: "The result isn't a category or personality type. You get a clear map of what to develop, what to open up, and what's still worth exploring." },
       ],
     },
     voices: {
@@ -178,7 +178,27 @@ const Kicker = ({ children }: { children: React.ReactNode }) => (
 const Index = () => {
   const [lang, setLang] = useState<Lang>("id");
   const [open, setOpen] = useState<number | null>(0);
+  const [activePane, setActivePane] = useState<number>(0);
   const c = t[lang];
+
+  const panes = [
+    {
+      id: { label: "Open", desc: "Yang kamu dan orang lain sama-sama lihat." },
+      en: { label: "Open", desc: "What you and others both see." },
+    },
+    {
+      id: { label: "Blind", desc: "Yang orang lain lihat, tapi kamu belum sadar." },
+      en: { label: "Blind", desc: "What others see, but you don't." },
+    },
+    {
+      id: { label: "Hidden", desc: "Yang kamu tahu, tapi belum kamu tunjukkan." },
+      en: { label: "Hidden", desc: "What you know, but haven't shown." },
+    },
+    {
+      id: { label: "Unknown", desc: "Yang belum diketahui siapa pun — ruang untuk tumbuh." },
+      en: { label: "Unknown", desc: "What no one knows yet — room to grow." },
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -240,25 +260,42 @@ const Index = () => {
             <div className="lg:col-span-5">
               <div className="relative mx-auto aspect-square max-w-md rounded-3xl bg-background p-6 shadow-soft">
                 <div className="grid h-full grid-cols-2 grid-rows-2 gap-3">
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-gradient-brand p-5 text-primary-foreground">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">01</span>
-                    <span className="font-serif text-2xl">Open</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary p-5 text-primary">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">02</span>
-                    <span className="font-serif text-2xl">Blind</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary-glow p-5 text-primary-glow">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">03</span>
-                    <span className="font-serif text-2xl">Hidden</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-accent p-5 text-primary/60">
-                    <span className="font-mono text-[10px] uppercase tracking-widest">04</span>
-                    <span className="font-serif text-2xl">Unknown</span>
-                  </div>
+                  {panes.map((p, i) => {
+                    const isActive = activePane === i;
+                    const pane = p[lang];
+                    return (
+                      <button
+                        key={i}
+                        onMouseEnter={() => setActivePane(i)}
+                        onFocus={() => setActivePane(i)}
+                        onClick={() => setActivePane(i)}
+                        className={cn(
+                          "group relative flex flex-col justify-between rounded-2xl p-5 text-left transition-all duration-300",
+                          isActive ? "scale-[1.03] shadow-brand" : "scale-100",
+                          i === 0 && (isActive ? "bg-gradient-brand text-primary-foreground" : "bg-gradient-brand/80 text-primary-foreground"),
+                          i === 1 && (isActive ? "bg-gradient-brand text-primary-foreground border-2 border-primary" : "border-2 border-primary text-primary"),
+                          i === 2 && (isActive ? "bg-primary-glow text-primary-foreground border-2 border-primary-glow" : "border-2 border-primary-glow text-primary-glow"),
+                          i === 3 && (isActive ? "bg-primary text-primary-foreground" : "bg-accent text-primary/70"),
+                        )}
+                      >
+                        <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">0{i + 1}</span>
+                        <div>
+                          <div className="font-serif text-2xl">{pane.label}</div>
+                          <div
+                            className={cn(
+                              "mt-1 text-[11px] leading-snug transition-opacity duration-300",
+                              isActive ? "opacity-100" : "opacity-0 md:opacity-0",
+                            )}
+                          >
+                            {pane.desc}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="absolute -bottom-4 -right-4 rounded-full bg-background px-4 py-2 font-mono text-[10px] uppercase tracking-widest shadow-soft">
-                  4 panes · 1 you
+                  {panes[activePane][lang].label} · 0{activePane + 1}/04
                 </div>
               </div>
             </div>
@@ -278,7 +315,7 @@ const Index = () => {
           </div>
           <div className="flex items-start justify-end lg:col-span-4">
             <button className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm transition hover:border-foreground">
-              {c.how.demo} <ArrowRight className="h-4 w-4" />
+              {lang === "id" ? "Coba Sekarang" : c.how.demo} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -467,8 +504,8 @@ const Index = () => {
               ["product", c.footer.links.product],
               ["resources", c.footer.links.resources],
               ["company", c.footer.links.company],
-            ] as const).map(([key, links]) => (
-              <div key={key} className="md:col-span-2 md:col-start-auto">
+            ] as const).map(([key, links], idx) => (
+              <div key={key} className={cn("md:col-span-2", idx === 0 && "md:col-start-7")}>
                 <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   {c.footer[key as "product" | "resources" | "company"]}
                 </div>
