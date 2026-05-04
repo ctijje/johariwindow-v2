@@ -270,23 +270,16 @@ const Index = () => {
                         onFocus={() => setActivePane(i)}
                         onClick={() => setActivePane(i)}
                         className={cn(
-                          "group relative flex flex-col justify-between rounded-2xl p-5 text-left transition-all duration-300",
-                          isActive ? "scale-[1.03] shadow-brand" : "scale-100",
-                          i === 0 && (isActive ? "bg-gradient-brand text-primary-foreground" : "bg-gradient-brand/80 text-primary-foreground"),
-                          i === 1 && (isActive ? "bg-gradient-brand text-primary-foreground border-2 border-primary" : "border-2 border-primary text-primary"),
-                          i === 2 && (isActive ? "bg-primary-glow text-primary-foreground border-2 border-primary-glow" : "border-2 border-primary-glow text-primary-glow"),
-                          i === 3 && (isActive ? "bg-primary text-primary-foreground" : "bg-accent text-primary/70"),
+                          "group relative flex flex-col justify-between rounded-2xl border-2 p-5 text-left transition-colors duration-300",
+                          isActive
+                            ? "bg-gradient-brand border-transparent text-primary-foreground shadow-brand"
+                            : "border-border bg-background text-foreground hover:border-primary/40",
                         )}
                       >
-                        <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">0{i + 1}</span>
+                        <span className={cn("font-mono text-[10px] uppercase tracking-widest", isActive ? "opacity-90" : "text-muted-foreground")}>0{i + 1}</span>
                         <div>
                           <div className="font-serif text-2xl">{pane.label}</div>
-                          <div
-                            className={cn(
-                              "mt-1 text-[11px] leading-snug transition-opacity duration-300",
-                              isActive ? "opacity-100" : "opacity-0 md:opacity-0",
-                            )}
-                          >
+                          <div className={cn("mt-1 text-[11px] leading-snug", isActive ? "opacity-95" : "text-muted-foreground")}>
                             {pane.desc}
                           </div>
                         </div>
