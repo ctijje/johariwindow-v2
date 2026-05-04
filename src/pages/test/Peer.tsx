@@ -26,7 +26,7 @@ const Peer = () => {
   }, [code]);
 
   const submit = async () => {
-    if (!windowData || selected.length < 4 || selected.length > 8) return;
+    if (!windowData || selected.length < 5 || selected.length > 20) return;
     setLoading(true);
     const { error } = await supabase.from("peer_responses").insert({
       window_id: windowData.id,
@@ -70,8 +70,8 @@ const Peer = () => {
       </h1>
       <p className="mt-2 text-muted-foreground">
         {lang === "id"
-          ? "Pilih kata yang benar-benar kamu lihat atau paling menggambarkan diri mereka. Pilih 4–8 kata."
-          : "Pick words you genuinely see in them. Choose 4–8."}
+          ? "Pilih kata yang benar-benar kamu lihat atau paling menggambarkan diri mereka. Pilih 5–20 kata."
+          : "Pick words you genuinely see in them. Choose 5–20."}
       </p>
 
       <label className="mt-8 block">
@@ -88,7 +88,7 @@ const Peer = () => {
       <div className="mt-8 flex justify-end">
         <button
           onClick={submit}
-          disabled={selected.length < 4 || selected.length > 8 || loading}
+          disabled={selected.length < 5 || selected.length > 20 || loading}
           className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 font-medium text-primary-foreground shadow-brand disabled:opacity-40"
         >
           {lang === "id" ? "Kirim" : "Submit"}
