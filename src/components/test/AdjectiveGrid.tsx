@@ -9,7 +9,7 @@ type Props = {
   max?: number;
 };
 
-export const AdjectiveGrid = ({ selected, onToggle, min = 4, max = 8 }: Props) => {
+export const AdjectiveGrid = ({ selected, onToggle, min = 5, max = 20 }: Props) => {
   const { lang } = useLang();
   return (
     <>
@@ -34,12 +34,14 @@ export const AdjectiveGrid = ({ selected, onToggle, min = 4, max = 8 }: Props) =
                 disabled && "cursor-not-allowed opacity-40",
               )}
             >
-              <div className={cn("text-sm font-semibold", active ? "text-foreground" : "text-foreground")}>
+              <div className={cn("text-sm font-semibold", active ? "text-primary" : "text-foreground")}>
                 {lang === "id" ? a.label_id : a.label_en}
               </div>
-              <div className={cn("mt-1 text-xs", active ? "text-primary" : "text-muted-foreground")}>
-                {lang === "id" ? a.sub_id : a.sub_en}
-              </div>
+              {(lang === "id" ? a.sub_id : a.sub_en) && (
+                <div className={cn("mt-1 text-xs", active ? "text-primary/80" : "text-muted-foreground")}>
+                  {lang === "id" ? a.sub_id : a.sub_en}
+                </div>
+              )}
             </button>
           );
         })}

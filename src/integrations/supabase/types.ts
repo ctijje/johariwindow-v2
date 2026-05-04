@@ -90,6 +90,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_window: {
+        Args: {
+          _age: number
+          _code: string
+          _email: string
+          _gender: string
+          _name: string
+          _occupation: string
+          _self_words: string[]
+          _whatsapp: string
+        }
+        Returns: {
+          code: string
+          id: string
+        }[]
+      }
       get_self_window: {
         Args: { _id: string }
         Returns: {
