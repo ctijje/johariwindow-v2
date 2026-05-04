@@ -44,13 +44,6 @@ export type Database = {
             referencedRelation: "windows"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "peer_responses_window_id_fkey"
-            columns: ["window_id"]
-            isOneToOne: false
-            referencedRelation: "windows_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       windows: {
@@ -94,30 +87,37 @@ export type Database = {
       }
     }
     Views: {
-      windows_public: {
-        Row: {
-          code: string | null
-          created_at: string | null
-          id: string | null
-          name: string | null
-        }
-        Insert: {
-          code?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-        }
-        Update: {
-          code?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_self_window: {
+        Args: { _id: string }
+        Returns: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+          self_words: string[]
+        }[]
+      }
+      get_window_by_code: {
+        Args: { _code: string }
+        Returns: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+        }[]
+      }
+      get_window_by_id: {
+        Args: { _id: string }
+        Returns: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
