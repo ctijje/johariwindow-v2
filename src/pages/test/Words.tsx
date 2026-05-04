@@ -53,8 +53,8 @@ const Words = () => {
       </h1>
       <p className="mt-2 text-muted-foreground">
         {lang === "id"
-          ? "Pilih kata yang paling sesuai dan menggambarkan kamu, bukan yang kamu inginkan, tapi yang memang paling menggambarkan kamu. Pilih 4–8 kata."
-          : "Pick words that genuinely describe you — not what you wish you were. Choose 4–8."}
+          ? "Pilih kata yang paling sesuai dan menggambarkan kamu, bukan yang kamu inginkan, tapi yang memang paling menggambarkan kamu. Pilih 5–20 kata."
+          : "Pick words that genuinely describe you — not what you wish you were. Choose 5–20."}
       </p>
 
       <div className="mt-8">
