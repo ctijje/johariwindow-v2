@@ -52,28 +52,10 @@ const Share = () => {
       </p>
 
       <div className="mt-8 rounded-3xl bg-accent p-6 md:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
-              {lang === "id" ? "KODE UNIKMU" : "YOUR UNIQUE CODE"}
-            </div>
-            <div className="mt-2 font-mono text-4xl font-bold tracking-[0.3em] text-primary md:text-5xl">{code}</div>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <button
-              onClick={() => copy(peerLink, lang === "id" ? "Link disalin" : "Link copied")}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm hover:border-primary"
-            >
-              <Copy className="h-4 w-4" /> {lang === "id" ? "Salin link" : "Copy link"}
-            </button>
-            <a
-              href={`https://wa.me/?text=${waText}`} target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700"
-            >
-              {lang === "id" ? "Kirim via WA" : "Send via WhatsApp"}
-            </a>
-          </div>
+        <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
+          {lang === "id" ? "KODE UNIKMU" : "YOUR UNIQUE CODE"}
         </div>
+        <div className="mt-2 font-mono text-4xl font-bold tracking-[0.3em] text-primary md:text-5xl">{code}</div>
       </div>
 
       <div className="mt-6 space-y-3">
