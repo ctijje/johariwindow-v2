@@ -28,14 +28,14 @@ const t = {
     },
     why: {
       kicker: "KENAPA JOHARI",
-      title: ["Ini bukan", "kuis kepribadian biasa."],
-      lead: "Tes kepribadian mengkotak-kotakkan kamu. Johari membuka empat jendela — dan mengundang orang yang benar-benar mengenalmu untuk menggambar pemandangannya.",
+      title: ["Mengapa", "Johari Window?"],
+      lead: "Framework yang sudah terbukti untuk mengenal diri dan berkomunikasi lebih baik. Bandingkan cara kamu melihat dirimu sendiri dengan cara orang lain melihatmu, dan temukan kekuatan tersembunyi serta titik butamu.",
       cta: "Buka jendelamu",
       cards: [
-        { icon: LayoutGrid, title: "Berbasis psikologi nyata", desc: "Dirancang oleh Joseph Luft & Harrington Ingham pada 1955. Dipakai terapis, coach, dan tim pelatihan." },
-        { icon: Lock, title: "Privat secara default", desc: "Teman menilai kamu secara anonim. Hanya hasil agregat yang muncul. Data tidak dijual atau dilatih." },
-        { icon: Users, title: "Versi grup", desc: "Jalankan Johari untuk timmu, pasanganmu, atau circle-mu. Lihat bagaimana grup melihat dirinya sendiri vs bagaimana ia dilihat." },
-        { icon: Clock, title: "Mode time-lapse", desc: "Buka ulang jendelamu setiap kuartal. Saksikan titik buta menyusut dan diri terbukamu tumbuh." },
+        { icon: LayoutGrid, title: "Berbasis Psikologi", desc: "Bukan sekadar kuis kepribadian biasa. Johari Window adalah framework yang dikembangkan oleh psikolog Joseph Luft dan Harry Ingham dan sudah digunakan selama puluhan tahun di dunia pendidikan, coaching, dan pengembangan tim." },
+        { icon: Users, title: "Dua Perspektif Sekaligus", desc: "Kamu tidak hanya menilai diri sendiri. Kamu juga mendapat gambaran nyata tentang bagaimana orang-orang yang mengenalmu melihatmu, dan di situlah insight yang paling berharga muncul." },
+        { icon: Lock, title: "Temukan yang Belum Pernah Kamu Sadari", desc: "Ada kekuatan yang orang lain lihat dari kamu, tapi kamu sendiri belum menyadarinya. Ada juga sisi diri yang belum sempat kamu tunjukkan. Johari Window membantumu melihat keduanya." },
+        { icon: Clock, title: "Langkah Nyata, Bukan Sekadar Label", desc: "Hasilnya bukan hanya kategori atau tipe kepribadian. Kamu mendapat peta yang jelas tentang mana yang perlu dikembangkan, mana yang perlu dibuka, dan mana yang masih bisa dieksplorasi lebih jauh." },
       ],
     },
     voices: {
@@ -102,14 +102,14 @@ const t = {
     },
     why: {
       kicker: "WHY JOHARI",
-      title: ["A vibe quiz", "this is not."],
-      lead: "Personality tests put you in a box. Johari opens four windows — and lets the people who actually know you draw the view.",
+      title: ["Why", "Johari Window?"],
+      lead: "A proven framework for self-awareness and better communication. Compare how you see yourself with how others see you, and uncover hidden strengths along with your blind spots.",
       cta: "Open your window",
       cards: [
-        { icon: LayoutGrid, title: "Built on real psychology", desc: "Designed by Joseph Luft & Harrington Ingham in 1955. Used by therapists, coaches, and the US Navy." },
-        { icon: Lock, title: "Private by default", desc: "Friends rate you anonymously. Only aggregate results show. We never sell, never share, never train on your data." },
-        { icon: Users, title: "Group windows", desc: "Run a Johari for your team, your relationship, or your D&D party. See where the group sees itself vs how it's seen." },
-        { icon: Clock, title: "Time-lapse mode", desc: "Re-open your window every quarter. Watch your blind spots shrink and your open self grow over years." },
+        { icon: LayoutGrid, title: "Grounded in Psychology", desc: "Not just another personality quiz. The Johari Window is a framework developed by psychologists Joseph Luft and Harry Ingham, used for decades in education, coaching, and team development." },
+        { icon: Users, title: "Two Perspectives at Once", desc: "You don't just rate yourself. You also get a real picture of how people who know you see you — and that's where the most valuable insight lives." },
+        { icon: Lock, title: "Discover What You Never Noticed", desc: "There are strengths others see in you that you haven't realized yet. There are also sides of you you haven't shown. Johari Window helps you see both." },
+        { icon: Clock, title: "Real Next Steps, Not Just Labels", desc: "The result isn't a category or personality type. You get a clear map of what to develop, what to open up, and what's still worth exploring." },
       ],
     },
     voices: {
