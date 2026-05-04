@@ -41,9 +41,9 @@ const Share = () => {
 
   return (
     <TestShell>
-      <StepKicker step={3} label={lang === "id" ? "Bagikan ke peer" : "Share with peers"} />
+      <StepKicker step={3} label={lang === "id" ? "Bagikan ke orang lain" : "Share with others"} />
       <h1 className="font-serif text-4xl md:text-5xl">
-        {lang === "id" ? "Bagikan ke 1–3 orang" : "Share with 1–3 people"}
+        {lang === "id" ? "Bagikan ke orang lain" : "Share with others"}
       </h1>
       <p className="mt-2 text-muted-foreground">
         {lang === "id"
@@ -77,7 +77,7 @@ const Share = () => {
       </div>
 
       <div className="mt-6 space-y-3">
-        {[0, 1, 2].map((i) => {
+        {[0, 1, 2, 3, 4].map((i) => {
           const filled = i < peerCount;
           const required = i === 0;
           return (

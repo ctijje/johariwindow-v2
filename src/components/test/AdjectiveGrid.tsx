@@ -37,9 +37,9 @@ export const AdjectiveGrid = ({ selected, onToggle, min = 5, max = 20 }: Props) 
               <div className={cn("text-sm font-semibold", active ? "text-primary" : "text-foreground")}>
                 {lang === "id" ? a.label_id : a.label_en}
               </div>
-              {(lang === "id" ? a.sub_id : a.sub_en) && (
+              {(lang === "id" ? a.sub_id : a.sub_en || a.sub_id) && (
                 <div className={cn("mt-1 text-xs", active ? "text-primary/80" : "text-muted-foreground")}>
-                  {lang === "id" ? a.sub_id : a.sub_en}
+                  {lang === "id" ? a.sub_id : (a.sub_en || a.sub_id)}
                 </div>
               )}
             </button>
