@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Globe } from "lucide-react";
 import { useLang } from "@/lib/lang";
+import { Footer } from "@/components/Footer";
 
 const Logo = () => (
   <div className="relative h-10 w-10">
@@ -29,6 +30,7 @@ export const TestShell = ({ children }: { children: ReactNode }) => {
         </div>
       </header>
       <main className="container mx-auto max-w-3xl py-12 md:py-16">{children}</main>
+      <Footer />
     </div>
   );
 };
