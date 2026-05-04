@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Lock, Users, Clock, LayoutGrid, Plus, Minus, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import johariDoodle from "@/assets/johari-window-doodle.png";
 
 type Lang = "id" | "en";
 
@@ -9,13 +10,10 @@ const t = {
   id: {
     nav: { how: "Cara Kerja", why: "Kenapa Johari", voices: "Cerita", faq: "FAQ", signin: "Masuk", cta: "Mulai Gratis" },
     hero: {
-      kicker: "JOHARI WINDOW · 1955",
       h1: "Johari Window",
       h2: "Temukan bagaimana kamu melihat diri kamu, dan bagaimana orang lain melihat kamu melalui pendekatan Johari Window.",
       h3: "Ada versi dirimu yang orang lain lihat, tapi kamu belum tentu sadar. Johari Window membantumu menemukan keduanya.",
-      ctaPrimary: "Buka Jendelamu",
-      ctaSecondary: "Coba Demo",
-      meta: "Gratis · 2 menit · Tanpa daftar",
+      ctaPrimary: "Coba Sekarang",
     },
     how: {
       kicker: "CARA KERJA",
@@ -86,13 +84,10 @@ const t = {
   en: {
     nav: { how: "How it works", why: "Why Johari", voices: "Voices", faq: "FAQ", signin: "Sign in", cta: "Start free" },
     hero: {
-      kicker: "JOHARI WINDOW · 1955",
       h1: "Johari Window",
       h2: "Discover how you see yourself, and how others see you, through the Johari Window approach.",
       h3: "There's a version of you others see that you may not be aware of. Johari Window helps you find both.",
-      ctaPrimary: "Open your window",
-      ctaSecondary: "Try the demo",
-      meta: "Free · 2 minutes · No signup",
+      ctaPrimary: "Start free",
     },
     how: {
       kicker: "HOW IT WORKS",
@@ -163,14 +158,13 @@ const t = {
 } as const;
 
 const Logo = () => (
-  <div className="flex items-center gap-2.5">
-    <div className="relative h-8 w-8">
-      <div className="absolute left-0 top-0 h-3.5 w-3.5 rounded-[5px] bg-gradient-brand" />
-      <div className="absolute right-0 top-0 h-3.5 w-3.5 rounded-[5px] border-2 border-primary/70" />
-      <div className="absolute bottom-0 left-0 h-3.5 w-3.5 rounded-[5px] border-2 border-primary-glow" />
-      <div className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-[5px] bg-primary-glow/40" />
+  <div className="flex items-center">
+    <div className="relative h-12 w-12">
+      <div className="absolute left-0 top-0 h-5 w-5 rounded-[6px] bg-gradient-brand" />
+      <div className="absolute right-0 top-0 h-5 w-5 rounded-[6px] border-2 border-primary/70" />
+      <div className="absolute bottom-0 left-0 h-5 w-5 rounded-[6px] border-2 border-primary-glow" />
+      <div className="absolute bottom-0 right-0 h-5 w-5 rounded-[6px] bg-primary-glow/40" />
     </div>
-    <span className="font-serif text-2xl tracking-tight">Johari</span>
   </div>
 );
 
@@ -224,8 +218,7 @@ const Index = () => {
         <div className="container relative mx-auto py-24 md:py-32">
           <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7">
-              <Kicker>{c.hero.kicker}</Kicker>
-              <h1 className="mt-8 font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
+              <h1 className="font-serif text-6xl leading-[0.95] tracking-tight md:text-8xl">
                 {c.hero.h1.split(" ")[0]}{" "}
                 <em className="text-gradient-brand not-italic">{c.hero.h1.split(" ")[1]}</em>
               </h1>
@@ -240,39 +233,18 @@ const Index = () => {
                   {c.hero.ctaPrimary}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </button>
-                <button className="rounded-full border border-border bg-background/80 px-7 py-4 font-medium backdrop-blur transition hover:border-foreground">
-                  {c.hero.ctaSecondary}
-                </button>
-                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                  {c.hero.meta}
-                </span>
               </div>
             </div>
 
             {/* Window visual */}
             <div className="lg:col-span-5">
-              <div className="relative mx-auto aspect-square max-w-md rounded-3xl bg-background p-6 shadow-soft">
-                <div className="grid h-full grid-cols-2 grid-rows-2 gap-3">
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-gradient-brand p-5 text-primary-foreground">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">01</span>
-                    <span className="font-serif text-2xl">Open</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary p-5 text-primary">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">02</span>
-                    <span className="font-serif text-2xl">Blind</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary-glow p-5 text-primary-glow">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">03</span>
-                    <span className="font-serif text-2xl">Hidden</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-accent p-5 text-primary/60">
-                    <span className="font-mono text-[10px] uppercase tracking-widest">04</span>
-                    <span className="font-serif text-2xl">Unknown</span>
-                  </div>
-                </div>
-                <div className="absolute -bottom-4 -right-4 rounded-full bg-background px-4 py-2 font-mono text-[10px] uppercase tracking-widest shadow-soft">
-                  4 panes · 1 you
-                </div>
+              <div className="relative mx-auto max-w-md">
+                <img
+                  src={johariDoodle}
+                  alt="Hand-drawn Johari Window illustration with four panes: Open, Blind, Hidden, and Unknown"
+                  className="h-auto w-full object-contain"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
