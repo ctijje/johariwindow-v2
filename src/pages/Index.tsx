@@ -3,6 +3,8 @@ import { ArrowRight, Lock, Users, Clock, LayoutGrid, Plus, Minus, Globe } from "
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import johariDoodle from "@/assets/johari-window-doodle.png";
+import { Link } from "react-router-dom";
+import { useLang } from "@/lib/lang";
 
 type Lang = "id" | "en";
 
@@ -176,7 +178,7 @@ const Kicker = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Index = () => {
-  const [lang, setLang] = useState<Lang>("id");
+  const { lang, toggle } = useLang();
   const [open, setOpen] = useState<number | null>(0);
   const [activePane, setActivePane] = useState<number>(0);
   const c = t[lang];
@@ -214,7 +216,7 @@ const Index = () => {
           </nav>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setLang(lang === "id" ? "en" : "id")}
+              onClick={toggle}
               className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 font-mono text-xs uppercase transition hover:border-primary hover:text-primary"
             >
               <Globe className="h-3.5 w-3.5" />
@@ -223,10 +225,10 @@ const Index = () => {
             <button className="hidden rounded-full border border-border px-5 py-2.5 text-sm transition hover:border-foreground sm:block">
               {c.nav.signin}
             </button>
-            <button className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
+            <Link to="/test" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
               {c.nav.cta}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -249,10 +251,10 @@ const Index = () => {
                 {c.hero.h3}
               </h3>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <button className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-4 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
+                <Link to="/test" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-4 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
                   {c.hero.ctaPrimary}
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -307,9 +309,9 @@ const Index = () => {
             <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">{c.how.lead}</p>
           </div>
           <div className="flex items-start justify-end lg:col-span-4">
-            <button className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm transition hover:border-foreground">
+            <Link to="/test" className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm transition hover:border-foreground">
               {lang === "id" ? "Coba Sekarang" : c.how.demo} <ArrowRight className="h-4 w-4" />
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -377,9 +379,9 @@ const Index = () => {
               <em className="text-gradient-brand not-italic">{c.why.title[1]}</em>
             </h2>
             <p className="mt-6 text-muted-foreground">{c.why.lead}</p>
-            <button className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3.5 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
+            <Link to="/test" className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3.5 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
               {c.why.cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </button>
+            </Link>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:col-span-8">
             {c.why.cards.map((card, i) => {
@@ -473,10 +475,10 @@ const Index = () => {
               {c.final.lead}
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <button className="group inline-flex items-center gap-2 rounded-full bg-background px-7 py-4 font-medium text-primary transition hover:scale-[1.02]">
+              <Link to="/test" className="group inline-flex items-center gap-2 rounded-full bg-background px-7 py-4 font-medium text-primary transition hover:scale-[1.02]">
                 {c.final.ctaPrimary}
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </button>
+              </Link>
               <button className="rounded-full border border-primary-foreground/40 px-7 py-4 font-medium text-primary-foreground transition hover:bg-primary-foreground/10">
                 {c.final.ctaSecondary}
               </button>
