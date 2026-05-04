@@ -238,13 +238,28 @@ const Index = () => {
 
             {/* Window visual */}
             <div className="lg:col-span-5">
-              <div className="relative mx-auto max-w-md">
-                <img
-                  src={johariDoodle}
-                  alt="Hand-drawn Johari Window illustration with four panes: Open, Blind, Hidden, and Unknown"
-                  className="h-auto w-full object-contain"
-                  loading="eager"
-                />
+              <div className="relative mx-auto aspect-square max-w-md rounded-3xl bg-background p-6 shadow-soft">
+                <div className="grid h-full grid-cols-2 grid-rows-2 gap-3">
+                  <div className="relative flex flex-col justify-between rounded-2xl bg-gradient-brand p-5 text-primary-foreground">
+                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">01</span>
+                    <span className="font-serif text-2xl">Open</span>
+                  </div>
+                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary p-5 text-primary">
+                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">02</span>
+                    <span className="font-serif text-2xl">Blind</span>
+                  </div>
+                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary-glow p-5 text-primary-glow">
+                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">03</span>
+                    <span className="font-serif text-2xl">Hidden</span>
+                  </div>
+                  <div className="relative flex flex-col justify-between rounded-2xl bg-accent p-5 text-primary/60">
+                    <span className="font-mono text-[10px] uppercase tracking-widest">04</span>
+                    <span className="font-serif text-2xl">Unknown</span>
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 rounded-full bg-background px-4 py-2 font-mono text-[10px] uppercase tracking-widest shadow-soft">
+                  4 panes · 1 you
+                </div>
               </div>
             </div>
           </div>
