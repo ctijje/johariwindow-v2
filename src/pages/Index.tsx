@@ -260,25 +260,42 @@ const Index = () => {
             <div className="lg:col-span-5">
               <div className="relative mx-auto aspect-square max-w-md rounded-3xl bg-background p-6 shadow-soft">
                 <div className="grid h-full grid-cols-2 grid-rows-2 gap-3">
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-gradient-brand p-5 text-primary-foreground">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">01</span>
-                    <span className="font-serif text-2xl">Open</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary p-5 text-primary">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">02</span>
-                    <span className="font-serif text-2xl">Blind</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl border-2 border-primary-glow p-5 text-primary-glow">
-                    <span className="font-mono text-[10px] uppercase tracking-widest opacity-70">03</span>
-                    <span className="font-serif text-2xl">Hidden</span>
-                  </div>
-                  <div className="relative flex flex-col justify-between rounded-2xl bg-accent p-5 text-primary/60">
-                    <span className="font-mono text-[10px] uppercase tracking-widest">04</span>
-                    <span className="font-serif text-2xl">Unknown</span>
-                  </div>
+                  {panes.map((p, i) => {
+                    const isActive = activePane === i;
+                    const pane = p[lang];
+                    return (
+                      <button
+                        key={i}
+                        onMouseEnter={() => setActivePane(i)}
+                        onFocus={() => setActivePane(i)}
+                        onClick={() => setActivePane(i)}
+                        className={cn(
+                          "group relative flex flex-col justify-between rounded-2xl p-5 text-left transition-all duration-300",
+                          isActive ? "scale-[1.03] shadow-brand" : "scale-100",
+                          i === 0 && (isActive ? "bg-gradient-brand text-primary-foreground" : "bg-gradient-brand/80 text-primary-foreground"),
+                          i === 1 && (isActive ? "bg-gradient-brand text-primary-foreground border-2 border-primary" : "border-2 border-primary text-primary"),
+                          i === 2 && (isActive ? "bg-primary-glow text-primary-foreground border-2 border-primary-glow" : "border-2 border-primary-glow text-primary-glow"),
+                          i === 3 && (isActive ? "bg-primary text-primary-foreground" : "bg-accent text-primary/70"),
+                        )}
+                      >
+                        <span className="font-mono text-[10px] uppercase tracking-widest opacity-80">0{i + 1}</span>
+                        <div>
+                          <div className="font-serif text-2xl">{pane.label}</div>
+                          <div
+                            className={cn(
+                              "mt-1 text-[11px] leading-snug transition-opacity duration-300",
+                              isActive ? "opacity-100" : "opacity-0 md:opacity-0",
+                            )}
+                          >
+                            {pane.desc}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="absolute -bottom-4 -right-4 rounded-full bg-background px-4 py-2 font-mono text-[10px] uppercase tracking-widest shadow-soft">
-                  4 panes · 1 you
+                  {panes[activePane][lang].label} · 0{activePane + 1}/04
                 </div>
               </div>
             </div>
@@ -298,7 +315,7 @@ const Index = () => {
           </div>
           <div className="flex items-start justify-end lg:col-span-4">
             <button className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm transition hover:border-foreground">
-              {c.how.demo} <ArrowRight className="h-4 w-4" />
+              {lang === "id" ? "Coba Sekarang" : c.how.demo} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
