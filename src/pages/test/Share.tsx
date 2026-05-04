@@ -118,6 +118,34 @@ const Share = () => {
           : (lang === "id" ? `${peerCount} peer sudah mengisi. Tambah lagi untuk hasil yang lebih akurat.` : `${peerCount} peer(s) responded. Add more for richer results.`)}
       </div>
 
+      <div className="mt-8 rounded-3xl border border-border bg-background p-6">
+        <h2 className="text-base font-semibold">
+          {lang === "id"
+            ? "Bagikan link untuk mengumpulkan atau mendapatkan feedback"
+            : "Share the link to collect or get feedback"}
+        </h2>
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <input
+            readOnly
+            value={peerLink}
+            onFocus={(e) => e.currentTarget.select()}
+            className="flex-1 rounded-full border border-border bg-accent/40 px-5 py-2.5 font-mono text-xs text-primary"
+          />
+          <button
+            onClick={() => copy(peerLink, lang === "id" ? "Link disalin" : "Link copied")}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+          >
+            <Copy className="h-4 w-4" /> {lang === "id" ? "Salin link" : "Copy link"}
+          </button>
+          <a
+            href={`https://wa.me/?text=${waText}`} target="_blank" rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-emerald-700"
+          >
+            {lang === "id" ? "Kirim via WA" : "Send via WhatsApp"}
+          </a>
+        </div>
+      </div>
+
       <div className="mt-8 flex items-center justify-between">
         <button onClick={() => nav("/test/words")} className="text-sm text-muted-foreground hover:text-foreground">
           {lang === "id" ? "Kembali" : "Back"}
