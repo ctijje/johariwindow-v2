@@ -178,7 +178,27 @@ const Kicker = ({ children }: { children: React.ReactNode }) => (
 const Index = () => {
   const [lang, setLang] = useState<Lang>("id");
   const [open, setOpen] = useState<number | null>(0);
+  const [activePane, setActivePane] = useState<number>(0);
   const c = t[lang];
+
+  const panes = [
+    {
+      id: { label: "Open", desc: "Yang kamu dan orang lain sama-sama lihat." },
+      en: { label: "Open", desc: "What you and others both see." },
+    },
+    {
+      id: { label: "Blind", desc: "Yang orang lain lihat, tapi kamu belum sadar." },
+      en: { label: "Blind", desc: "What others see, but you don't." },
+    },
+    {
+      id: { label: "Hidden", desc: "Yang kamu tahu, tapi belum kamu tunjukkan." },
+      en: { label: "Hidden", desc: "What you know, but haven't shown." },
+    },
+    {
+      id: { label: "Unknown", desc: "Yang belum diketahui siapa pun — ruang untuk tumbuh." },
+      en: { label: "Unknown", desc: "What no one knows yet — room to grow." },
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
