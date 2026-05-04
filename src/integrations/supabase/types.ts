@@ -14,10 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      peer_responses: {
+        Row: {
+          created_at: string
+          id: string
+          peer_name: string | null
+          window_id: string
+          words: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          peer_name?: string | null
+          window_id: string
+          words?: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          peer_name?: string | null
+          window_id?: string
+          words?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "peer_responses_window_id_fkey"
+            columns: ["window_id"]
+            isOneToOne: false
+            referencedRelation: "windows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "peer_responses_window_id_fkey"
+            columns: ["window_id"]
+            isOneToOne: false
+            referencedRelation: "windows_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      windows: {
+        Row: {
+          age: number
+          code: string
+          created_at: string
+          email: string
+          gender: string
+          id: string
+          name: string
+          occupation: string
+          self_words: string[]
+          whatsapp: string
+        }
+        Insert: {
+          age: number
+          code: string
+          created_at?: string
+          email: string
+          gender: string
+          id?: string
+          name: string
+          occupation: string
+          self_words?: string[]
+          whatsapp: string
+        }
+        Update: {
+          age?: number
+          code?: string
+          created_at?: string
+          email?: string
+          gender?: string
+          id?: string
+          name?: string
+          occupation?: string
+          self_words?: string[]
+          whatsapp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      windows_public: {
+        Row: {
+          code: string | null
+          created_at: string | null
+          id: string | null
+          name: string | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string | null
+          id?: string | null
+          name?: string | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string | null
+          id?: string | null
+          name?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
