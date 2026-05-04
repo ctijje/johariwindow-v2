@@ -1,0 +1,75 @@
+import { useLang } from "@/lib/lang";
+import { cn } from "@/lib/utils";
+
+const Logo = () => (
+  <div className="relative h-10 w-10">
+    <div className="absolute left-0 top-0 h-4 w-4 rounded-[5px] bg-gradient-brand" />
+    <div className="absolute right-0 top-0 h-4 w-4 rounded-[5px] border-2 border-primary/70" />
+    <div className="absolute bottom-0 left-0 h-4 w-4 rounded-[5px] border-2 border-primary-glow" />
+    <div className="absolute bottom-0 right-0 h-4 w-4 rounded-[5px] bg-primary-glow/40" />
+  </div>
+);
+
+const COPY = {
+  id: {
+    tagline: "Alat penemuan diri berbasis framework Johari Window 1955. Dibuat dengan cermat di Yogyakarta + Berlin.",
+    product: "PRODUK",
+    resources: "SUMBER",
+    company: "PERUSAHAAN",
+    links: {
+      product: ["Cara Kerja", "Coba Demo", "Versi Grup", "Harga"],
+      resources: ["Sains di Baliknya", "Blog", "Untuk Coach", "Untuk Tim"],
+      company: ["Tentang", "Privasi", "Syarat", "Kontak"],
+    },
+  },
+  en: {
+    tagline: "A self-discovery tool built on the 1955 Johari Window framework. Made with care in Yogyakarta + Berlin.",
+    product: "PRODUCT",
+    resources: "RESOURCES",
+    company: "COMPANY",
+    links: {
+      product: ["How it works", "Try the demo", "Group windows", "Pricing"],
+      resources: ["The science", "Blog", "For coaches", "For teams"],
+      company: ["About", "Privacy", "Terms", "Contact"],
+    },
+  },
+} as const;
+
+export const Footer = () => {
+  const { lang } = useLang();
+  const c = COPY[lang];
+  return (
+    <footer className="border-t border-border/70">
+      <div className="container mx-auto py-16">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <Logo />
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">{c.tagline}</p>
+          </div>
+          {([
+            ["product", c.links.product],
+            ["resources", c.links.resources],
+            ["company", c.links.company],
+          ] as const).map(([key, links], idx) => (
+            <div key={key} className={cn("md:col-span-2", idx === 0 && "md:col-start-7")}>
+              <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                {c[key as "product" | "resources" | "company"]}
+              </div>
+              <ul className="mt-5 space-y-3">
+                {links.map((l) => (
+                  <li key={l}><a href="#" className="text-sm transition hover:text-primary">{l}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-8 md:flex-row md:items-center">
+          <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA Product</p>
+          <p className="font-mono text-xs text-muted-foreground">johariwindow.id</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
