@@ -9,9 +9,9 @@ const schema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
   whatsapp: z.string().trim().min(5).max(32),
-  occupation: z.string().trim().min(1).max(120),
-  age: z.coerce.number().int().min(10).max(120),
-  gender: z.string().trim().min(1).max(40),
+  occupation: z.string().trim().max(120).optional().or(z.literal("")),
+  age: z.union([z.coerce.number().int().min(10).max(120), z.literal("")]).optional(),
+  gender: z.string().trim().max(40).optional().or(z.literal("")),
 });
 
 const DataDiri = () => {
@@ -58,7 +58,6 @@ const DataDiri = () => {
             ["name", labels.name, "text"],
             ["email", labels.email, "email"],
             ["whatsapp", labels.wa, "tel"],
-            ["occupation", labels.occ, "text"],
           ].map(([k, label, type]) => (
             <label key={k} className="block">
               <span className="text-sm text-muted-foreground">{label} *</span>
@@ -69,16 +68,22 @@ const DataDiri = () => {
               />
             </label>
           ))}
+          <label className="block">
+            <span className="text-sm text-muted-foreground">{labels.occ}</span>
+            <input type="text" value={form.occupation}
+              onChange={(e) => setForm({ ...form, occupation: e.target.value })}
+              className={`mt-1 w-full ${field}`} />
+          </label>
           <div className="grid grid-cols-2 gap-5">
             <label className="block">
-              <span className="text-sm text-muted-foreground">{labels.age} *</span>
-              <input required type="number" min={10} max={120} value={form.age}
+              <span className="text-sm text-muted-foreground">{labels.age}</span>
+              <input type="number" min={10} max={120} value={form.age}
                 onChange={(e) => setForm({ ...form, age: e.target.value })}
                 className={`mt-1 w-full ${field}`} />
             </label>
             <label className="block">
-              <span className="text-sm text-muted-foreground">{labels.gender} *</span>
-              <select required value={form.gender}
+              <span className="text-sm text-muted-foreground">{labels.gender}</span>
+              <select value={form.gender}
                 onChange={(e) => setForm({ ...form, gender: e.target.value })}
                 className={`mt-1 w-full ${field}`}>
                 <option value="">—</option>

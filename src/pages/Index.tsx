@@ -3,7 +3,7 @@ import { ArrowRight, Lock, Users, Clock, LayoutGrid, Plus, Minus, Globe } from "
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import johariDoodle from "@/assets/johari-window-doodle.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLang } from "@/lib/lang";
 
 type Lang = "id" | "en";
@@ -27,6 +27,13 @@ const t = {
         { n: "02", title: "Undang lingkaranmu", desc: "Kirim link privat ke teman, pasangan, atau rekan tim. Mereka pilih kata yang menggambarkan kamu.", tag: "sebanyak yang kamu mau" },
         { n: "03", title: "Buka jendelamu", desc: "Lihat empat panel terisi: kebenaran bersama, titik buta, sisi tersembunyi, dan ruang untuk tumbuh.", tag: "hasil real-time" },
       ],
+      previewKicker: "COBA SEKARANG",
+      previewTitle: "Lihat gambaran quiznya",
+      previewLead: "Mulai dengan info singkat di bawah — lalu langsung masuk ke quiz.",
+      previewName: "Nama lengkap",
+      previewEmail: "Email",
+      previewWa: "Nomor WhatsApp",
+      previewCta: "Mulai quiz",
     },
     why: {
       kicker: "KENAPA JOHARI",
@@ -72,12 +79,12 @@ const t = {
       ctaSecondary: "Baca sainsnya",
     },
     footer: {
-      tagline: "Alat penemuan diri berbasis framework Johari Window 1955. Dibuat dengan cermat di Yogyakarta + Berlin.",
+      tagline: "Talent discovery tool berbasis framework Johari Window.",
       product: "PRODUK",
       resources: "SUMBER",
       company: "PERUSAHAAN",
       links: {
-        product: ["Cara Kerja", "Coba Demo", "Versi Grup", "Harga"],
+        product: ["Cara Kerja", "Versi Grup", "Harga"],
         resources: ["Sains di Baliknya", "Blog", "Untuk Coach", "Untuk Tim"],
         company: ["Tentang", "Privasi", "Syarat", "Kontak"],
       },
@@ -101,6 +108,13 @@ const t = {
         { n: "02", title: "Invite your circle", desc: "Send a private link to friends, partners, teammates. They pick the words they'd use for you.", tag: "as many as you like" },
         { n: "03", title: "Open your window", desc: "Watch four panes fill in: shared truths, blind spots, hidden depths, and room to grow.", tag: "live results" },
       ],
+      previewKicker: "TRY IT NOW",
+      previewTitle: "Preview the quiz",
+      previewLead: "Start with a few quick details below — then jump straight into the quiz.",
+      previewName: "Full name",
+      previewEmail: "Email",
+      previewWa: "WhatsApp number",
+      previewCta: "Start quiz",
     },
     why: {
       kicker: "WHY JOHARI",
@@ -146,12 +160,12 @@ const t = {
       ctaSecondary: "Read the science",
     },
     footer: {
-      tagline: "A self-discovery tool built on the 1955 Johari Window framework. Made with care in Yogyakarta + Berlin.",
+      tagline: "Talent discovery tool based on the Johari Window framework.",
       product: "PRODUCT",
       resources: "RESOURCES",
       company: "COMPANY",
       links: {
-        product: ["How it works", "Try the demo", "Group windows", "Pricing"],
+        product: ["How it works", "Group windows", "Pricing"],
         resources: ["The science", "Blog", "For coaches", "For teams"],
         company: ["About", "Privacy", "Terms", "Contact"],
       },
@@ -176,6 +190,47 @@ const Kicker = ({ children }: { children: React.ReactNode }) => (
     {children}
   </div>
 );
+
+const QuickStart = ({ c, lang }: { c: any; lang: Lang }) => {
+  const nav = useNavigate();
+  const [form, setForm] = useState({ name: "", email: "", whatsapp: "" });
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.whatsapp) return;
+    sessionStorage.setItem("johari.profile", JSON.stringify(form));
+    nav("/test/words");
+  };
+  const field = "rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary";
+  return (
+    <div className="mt-16 rounded-3xl border border-border/70 bg-gradient-brand-soft p-8 md:p-12">
+      <div className="grid gap-10 md:grid-cols-2 md:items-center">
+        <div>
+          <Kicker>{c.previewKicker}</Kicker>
+          <h3 className="mt-5 font-serif text-3xl md:text-4xl">{c.previewTitle}</h3>
+          <p className="mt-3 text-muted-foreground">{c.previewLead}</p>
+        </div>
+        <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border/70 bg-background p-6">
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewName} *</span>
+            <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewEmail} *</span>
+            <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewWa} *</span>
+            <input required type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <button type="submit" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 py-3.5 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.01]">
+            {c.previewCta}
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const Index = () => {
   const { lang, toggle } = useLang();
@@ -367,6 +422,8 @@ const Index = () => {
             </div>
           ))}
         </div>
+
+        <QuickStart c={c.how} lang={lang} />
       </section>
 
       {/* Why Johari */}
@@ -513,7 +570,7 @@ const Index = () => {
             ))}
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-8 md:flex-row md:items-center">
-            <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA Product</p>
+          <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA.id Product</p>
             <p className="font-mono text-xs text-muted-foreground">johariwindow.id</p>
           </div>
         </div>
