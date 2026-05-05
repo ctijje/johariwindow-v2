@@ -10,7 +10,7 @@ type Lang = "id" | "en";
 
 const t = {
   id: {
-    nav: { how: "Cara Kerja", why: "Kenapa Johari", coach: "Untuk Coach", team: "Untuk Tim", signin: "Masuk", cta: "Mulai Gratis" },
+    nav: { how: "Cara Kerja", why: "Kenapa Johari", coach: "Untuk Coach", pricing: "Harga", signin: "Masuk", cta: "Mulai Gratis" },
     hero: {
       h1: "Johari Window",
       h2: "Temukan bagaimana kamu melihat diri kamu, dan bagaimana orang lain melihat kamu melalui pendekatan Johari Window.",
@@ -77,14 +77,14 @@ const t = {
       resources: "SUMBER",
       company: "PERUSAHAAN",
       links: {
-        product: ["Cara Kerja", "Untuk Coach", "Untuk Tim", "Versi Grup", "Harga"],
+      product: ["Cara Kerja", "Untuk Coach", "Harga"],
         resources: ["Sains di Baliknya", "Blog"],
         company: ["Tentang", "Privasi", "Syarat", "Kontak"],
       },
     },
   },
   en: {
-    nav: { how: "How it works", why: "Why Johari", coach: "For Coaches", team: "For Teams", signin: "Sign in", cta: "Start free" },
+    nav: { how: "How it works", why: "Why Johari", coach: "For Coaches", pricing: "Pricing", signin: "Sign in", cta: "Start free" },
     hero: {
       h1: "Johari Window",
       h2: "Discover how you see yourself, and how others see you, through the Johari Window approach.",
@@ -151,7 +151,7 @@ const t = {
       resources: "RESOURCES",
       company: "COMPANY",
       links: {
-        product: ["How it works", "For coaches", "For teams", "Group windows", "Pricing"],
+      product: ["How it works", "For coaches", "Pricing"],
         resources: ["The science", "Blog"],
         company: ["About", "Privacy", "Terms", "Contact"],
       },
@@ -212,7 +212,7 @@ const Index = () => {
             <a href="#how" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.how}</a>
             <a href="#why" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.why}</a>
             <Link to="/coach" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.coach}</Link>
-            <Link to="/team" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.team}</Link>
+            <Link to="/pricing" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.pricing}</Link>
           </nav>
           <div className="flex items-center gap-2">
             <button
