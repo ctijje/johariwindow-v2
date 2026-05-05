@@ -381,6 +381,8 @@ const Index = () => {
             </div>
           ))}
         </div>
+
+        <QuickStart c={c.how} lang={lang} />
       </section>
 
       {/* Why Johari */}
