@@ -40,6 +40,12 @@ const t = {
         { icon: Clock, title: "Langkah Nyata, Bukan Sekadar Label", desc: "Hasilnya bukan hanya kategori atau tipe kepribadian. Kamu mendapat peta yang jelas tentang mana yang perlu dikembangkan, mana yang perlu dibuka, dan mana yang masih bisa dieksplorasi lebih jauh." },
       ],
     },
+    scienceTeaser: {
+      title: ["Data &", "background Johari Window"],
+      quote: "Tahukah kamu 95% orang percaya kalau mereka self-aware, nyatanya hanya 12% yang benar-benar self-aware.",
+      subtitle: "Sains di balik Johari Window",
+      cta: "Pelajari Lebih Jauh",
+    },
     voices: {
       kicker: "SUARA DARI DALAM JENDELA",
       title: ["Kata", "mereka."],
@@ -120,6 +126,12 @@ const t = {
         { icon: Lock, title: "Discover What You Never Noticed", desc: "There are strengths others see in you that you haven't realized yet. There are also sides of you you haven't shown. Johari Window helps you see both." },
         { icon: Clock, title: "Real Next Steps, Not Just Labels", desc: "The result isn't a category or personality type. You get a clear map of what to develop, what to open up, and what's still worth exploring." },
       ],
+    },
+    scienceTeaser: {
+      title: ["Data &", "Background Johari Window"],
+      quote: "Did you know 95% of people believe they are self-aware, but only 12% truly are?",
+      subtitle: "The science behind Johari Window",
+      cta: "Learn more",
     },
     voices: {
       kicker: "VOICES FROM INSIDE THE WINDOW",
@@ -411,6 +423,31 @@ const Index = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Science teaser */}
+      <section className="container mx-auto py-24 md:py-32">
+        <div className="relative overflow-hidden rounded-[2rem] border border-border/70 bg-card p-10 md:p-16">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-brand opacity-20 blur-3xl" />
+          <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <Kicker>EVIDENCE-BASED</Kicker>
+              <h2 className="mt-6 font-serif text-4xl leading-[1.1] md:text-5xl">
+                {c.scienceTeaser.title[0]} <em className="text-gradient-brand not-italic">{c.scienceTeaser.title[1]}</em>
+              </h2>
+              <blockquote className="mt-6 border-l-2 border-primary pl-6 font-serif text-xl italic leading-relaxed text-foreground/90 md:text-2xl">
+                “{c.scienceTeaser.quote}”
+              </blockquote>
+              <p className="mt-4 text-sm text-muted-foreground">{c.scienceTeaser.subtitle}</p>
+            </div>
+            <div className="flex justify-start lg:justify-end">
+              <Link to="/science" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-4 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
+                {c.scienceTeaser.cta}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
