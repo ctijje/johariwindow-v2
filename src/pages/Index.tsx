@@ -127,6 +127,12 @@ const t = {
         { icon: Clock, title: "Real Next Steps, Not Just Labels", desc: "The result isn't a category or personality type. You get a clear map of what to develop, what to open up, and what's still worth exploring." },
       ],
     },
+    scienceTeaser: {
+      title: ["Data &", "Background Johari Window"],
+      quote: "Did you know 95% of people believe they are self-aware, but only 12% truly are?",
+      subtitle: "The science behind Johari Window",
+      cta: "Learn more",
+    },
     voices: {
       kicker: "VOICES FROM INSIDE THE WINDOW",
       title: ["Their", "words."],
