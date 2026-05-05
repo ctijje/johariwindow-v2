@@ -12,6 +12,15 @@ import Result from "./pages/test/Result.tsx";
 import Profile from "./pages/test/Profile.tsx";
 import Peer from "./pages/test/Peer.tsx";
 import { LangProvider } from "./lib/lang.tsx";
+import { AuthProvider } from "./hooks/useAuth.tsx";
+import Auth from "./pages/Auth.tsx";
+import CoachLanding from "./pages/coach/CoachLanding.tsx";
+import CoachDashboard from "./pages/coach/CoachDashboard.tsx";
+import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
+import TeamLanding from "./pages/team/TeamLanding.tsx";
+import TeamDashboard from "./pages/team/TeamDashboard.tsx";
+import TeamDetail from "./pages/team/TeamDetail.tsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,19 +30,28 @@ const App = () => (
       <Toaster />
       <Sonner />
       <LangProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/test" element={<DataDiri />} />
-            <Route path="/test/words" element={<Words />} />
-            <Route path="/test/share" element={<Share />} />
-            <Route path="/test/result" element={<Result />} />
-            <Route path="/test/profile" element={<Profile />} />
-            <Route path="/peer/:code" element={<Peer />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/test" element={<DataDiri />} />
+              <Route path="/test/words" element={<Words />} />
+              <Route path="/test/share" element={<Share />} />
+              <Route path="/test/result" element={<Result />} />
+              <Route path="/test/profile" element={<Profile />} />
+              <Route path="/peer/:code" element={<Peer />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/coach" element={<CoachLanding />} />
+              <Route path="/team" element={<TeamLanding />} />
+              <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />
+              <Route path="/coach/mentee/:id" element={<ProtectedRoute requireRole="coach"><MenteeDetail /></ProtectedRoute>} />
+              <Route path="/team/dashboard" element={<ProtectedRoute requireRole="team_lead"><TeamDashboard /></ProtectedRoute>} />
+              <Route path="/team/:id" element={<ProtectedRoute requireRole="team_lead"><TeamDetail /></ProtectedRoute>} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </LangProvider>
     </TooltipProvider>
   </QueryClientProvider>
