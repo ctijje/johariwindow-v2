@@ -10,7 +10,7 @@ type Lang = "id" | "en";
 
 const t = {
   id: {
-    nav: { how: "Cara Kerja", why: "Kenapa Johari", voices: "Cerita", faq: "FAQ", signin: "Masuk", cta: "Mulai Gratis" },
+    nav: { how: "Cara Kerja", why: "Kenapa Johari", coach: "Untuk Coach", team: "Untuk Tim", signin: "Masuk", cta: "Mulai Gratis" },
     hero: {
       h1: "Johari Window",
       h2: "Temukan bagaimana kamu melihat diri kamu, dan bagaimana orang lain melihat kamu melalui pendekatan Johari Window.",
@@ -84,14 +84,14 @@ const t = {
       resources: "SUMBER",
       company: "PERUSAHAAN",
       links: {
-        product: ["Cara Kerja", "Versi Grup", "Harga"],
-        resources: ["Sains di Baliknya", "Blog", "Untuk Coach", "Untuk Tim"],
+        product: ["Cara Kerja", "Untuk Coach", "Untuk Tim", "Versi Grup", "Harga"],
+        resources: ["Sains di Baliknya", "Blog"],
         company: ["Tentang", "Privasi", "Syarat", "Kontak"],
       },
     },
   },
   en: {
-    nav: { how: "How it works", why: "Why Johari", voices: "Voices", faq: "FAQ", signin: "Sign in", cta: "Start free" },
+    nav: { how: "How it works", why: "Why Johari", coach: "For Coaches", team: "For Teams", signin: "Sign in", cta: "Start free" },
     hero: {
       h1: "Johari Window",
       h2: "Discover how you see yourself, and how others see you, through the Johari Window approach.",
@@ -165,8 +165,8 @@ const t = {
       resources: "RESOURCES",
       company: "COMPANY",
       links: {
-        product: ["How it works", "Group windows", "Pricing"],
-        resources: ["The science", "Blog", "For coaches", "For teams"],
+        product: ["How it works", "For coaches", "For teams", "Group windows", "Pricing"],
+        resources: ["The science", "Blog"],
         company: ["About", "Privacy", "Terms", "Contact"],
       },
     },
@@ -266,8 +266,8 @@ const Index = () => {
           <nav className="hidden items-center gap-10 md:flex">
             <a href="#how" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.how}</a>
             <a href="#why" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.why}</a>
-            <a href="#voices" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.voices}</a>
-            <a href="#faq" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.faq}</a>
+            <Link to="/coach" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.coach}</Link>
+            <Link to="/team" className="text-sm text-foreground/70 transition hover:text-foreground">{c.nav.team}</Link>
           </nav>
           <div className="flex items-center gap-2">
             <button
@@ -277,9 +277,9 @@ const Index = () => {
               <Globe className="h-3.5 w-3.5" />
               {lang === "id" ? "ID" : "EN"}
             </button>
-            <button className="hidden rounded-full border border-border px-5 py-2.5 text-sm transition hover:border-foreground sm:block">
+            <Link to="/auth" className="hidden rounded-full border border-border px-5 py-2.5 text-sm transition hover:border-foreground sm:block">
               {c.nav.signin}
-            </button>
+            </Link>
             <Link to="/test" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
               {c.nav.cta}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />

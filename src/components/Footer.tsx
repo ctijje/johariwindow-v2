@@ -17,8 +17,8 @@ const COPY = {
     resources: "SUMBER",
     company: "PERUSAHAAN",
     links: {
-      product: ["Cara Kerja", "Versi Grup", "Harga"],
-      resources: ["Sains di Baliknya", "Blog", "Untuk Coach", "Untuk Tim"],
+      product: ["Cara Kerja", "Untuk Coach", "Untuk Tim", "Versi Grup", "Harga"],
+      resources: ["Sains di Baliknya", "Blog"],
       company: ["Tentang", "Privasi", "Syarat", "Kontak"],
     },
   },
@@ -28,8 +28,8 @@ const COPY = {
     resources: "RESOURCES",
     company: "COMPANY",
     links: {
-      product: ["How it works", "Group windows", "Pricing"],
-      resources: ["The science", "Blog", "For coaches", "For teams"],
+      product: ["How it works", "For coaches", "For teams", "Group windows", "Pricing"],
+      resources: ["The science", "Blog"],
       company: ["About", "Privacy", "Terms", "Contact"],
     },
   },
