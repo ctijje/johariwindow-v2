@@ -12,23 +12,23 @@ const Logo = () => (
 
 const COPY = {
   id: {
-    tagline: "Alat penemuan diri berbasis framework Johari Window 1955. Dibuat dengan cermat di Yogyakarta + Berlin.",
+    tagline: "Talent discovery tool berbasis framework Johari Window.",
     product: "PRODUK",
     resources: "SUMBER",
     company: "PERUSAHAAN",
     links: {
-      product: ["Cara Kerja", "Coba Demo", "Versi Grup", "Harga"],
+      product: ["Cara Kerja", "Versi Grup", "Harga"],
       resources: ["Sains di Baliknya", "Blog", "Untuk Coach", "Untuk Tim"],
       company: ["Tentang", "Privasi", "Syarat", "Kontak"],
     },
   },
   en: {
-    tagline: "A self-discovery tool built on the 1955 Johari Window framework. Made with care in Yogyakarta + Berlin.",
+    tagline: "Talent discovery tool based on the Johari Window framework.",
     product: "PRODUCT",
     resources: "RESOURCES",
     company: "COMPANY",
     links: {
-      product: ["How it works", "Try the demo", "Group windows", "Pricing"],
+      product: ["How it works", "Group windows", "Pricing"],
       resources: ["The science", "Blog", "For coaches", "For teams"],
       company: ["About", "Privacy", "Terms", "Contact"],
     },
@@ -64,7 +64,7 @@ export const Footer = () => {
           ))}
         </div>
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-8 md:flex-row md:items-center">
-          <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA Product</p>
+          <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA.id Product</p>
           <p className="font-mono text-xs text-muted-foreground">johariwindow.id</p>
         </div>
       </div>
