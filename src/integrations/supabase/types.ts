@@ -120,75 +120,6 @@ export type Database = {
         }
         Relationships: []
       }
-      team_members: {
-        Row: {
-          created_at: string
-          id: string
-          member_email: string | null
-          member_name: string
-          team_id: string
-          window_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          member_email?: string | null
-          member_name: string
-          team_id: string
-          window_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          member_email?: string | null
-          member_name?: string
-          team_id?: string
-          window_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "team_members_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "team_members_window_id_fkey"
-            columns: ["window_id"]
-            isOneToOne: false
-            referencedRelation: "windows"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      teams: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          name: string
-          owner_id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name: string
-          owner_id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name?: string
-          owner_id?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       user_roles: {
         Row: {
           created_at: string
@@ -321,10 +252,6 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
-        Returns: boolean
-      }
-      is_team_owner: {
-        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
     }
