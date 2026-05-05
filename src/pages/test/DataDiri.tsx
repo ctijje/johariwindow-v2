@@ -65,6 +65,18 @@ const DataDiri = () => {
       if (!error && data && data[0]) {
         sessionStorage.setItem("johari.windowId", data[0].id);
         sessionStorage.setItem("johari.code", data[0].code);
+        // Fire-and-forget Brevo sync; never block user
+        supabase.functions.invoke("brevo-add-contact", {
+          body: {
+            email: parsed.data.email,
+            name: parsed.data.name,
+            whatsapp: parsed.data.whatsapp,
+            occupation: parsed.data.occupation || "",
+            age: parsed.data.age ? Number(parsed.data.age) : undefined,
+            gender: parsed.data.gender || "",
+            referralSource: parsed.data.referralSource || "",
+          },
+        }).catch((err) => console.warn("brevo sync failed", err));
         nav("/test/share");
         return;
       }
