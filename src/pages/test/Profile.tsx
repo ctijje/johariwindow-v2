@@ -73,6 +73,39 @@ const Profile = () => {
         <Card data={secondary} tone="secondary" />
       </div>
 
+      <div className="mt-8 rounded-3xl border border-border/70 bg-muted/30 p-6 md:p-7">
+        <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
+          {lang === "id" ? "DARI MANA PROFIL INI?" : "WHERE THIS COMES FROM"}
+        </div>
+        <h3 className="mt-2 font-serif text-2xl">
+          {lang === "id" ? "Cara kami menentukan potensimu" : "How we determine your potential"}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+          {lang === "id"
+            ? "Setiap kata sifat di Johari Window dipetakan ke salah satu dari enam arketipe bakat: Kreator, Pemimpin, Konektor, Analis, Empath, dan Eksekutor. Kami menghitung skor setiap arketipe dari kata yang kamu pilih (bobot 2) dan kata yang dipilih peer untukmu (bobot 1)."
+            : "Each Johari Window adjective is mapped to one of six talent archetypes: Creator, Leader, Connector, Analyst, Empath, and Executor. We score each archetype from the words you picked (weight 2) and the words your peers picked for you (weight 1)."}
+        </p>
+        <ul className="mt-4 space-y-2 text-sm text-foreground/85">
+          <li>
+            <span className="font-semibold">{lang === "id" ? "Potensi Utama" : "Primary Potential"}:</span>{" "}
+            {lang === "id"
+              ? "arketipe dengan skor tertinggi — paling sering muncul dari dirimu dan orang-orang sekitarmu."
+              : "the highest-scoring archetype — what shows up most from you and the people around you."}
+          </li>
+          <li>
+            <span className="font-semibold">{lang === "id" ? "Potensi Pendukung" : "Supporting Potential"}:</span>{" "}
+            {lang === "id"
+              ? "arketipe dengan skor tertinggi kedua — kekuatan pelengkap yang memperkuat potensi utamamu."
+              : "the second-highest archetype — a complementary strength that reinforces your primary."}
+          </li>
+        </ul>
+        <p className="mt-4 text-xs text-muted-foreground">
+          {lang === "id"
+            ? "Semakin banyak peer yang mengisi, semakin akurat profilnya."
+            : "The more peers respond, the more accurate the profile."}
+        </p>
+      </div>
+
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
         <button onClick={() => nav("/test/result")} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> {lang === "id" ? "Kembali" : "Back"}
