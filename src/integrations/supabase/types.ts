@@ -153,6 +153,7 @@ export type Database = {
           occupation: string
           owner_id: string | null
           owner_type: string
+          referral_source: string | null
           self_words: string[]
           whatsapp: string
         }
@@ -167,6 +168,7 @@ export type Database = {
           occupation: string
           owner_id?: string | null
           owner_type?: string
+          referral_source?: string | null
           self_words?: string[]
           whatsapp: string
         }
@@ -181,6 +183,7 @@ export type Database = {
           occupation?: string
           owner_id?: string | null
           owner_type?: string
+          referral_source?: string | null
           self_words?: string[]
           whatsapp?: string
         }
@@ -199,6 +202,7 @@ export type Database = {
           _gender: string
           _name: string
           _occupation: string
+          _referral_source?: string
           _self_words: string[]
           _whatsapp: string
         }
