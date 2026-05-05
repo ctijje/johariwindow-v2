@@ -14,6 +14,53 @@ export type Database = {
   }
   public: {
     Tables: {
+      coach_mentees: {
+        Row: {
+          coach_id: string
+          created_at: string
+          id: string
+          mentee_email: string | null
+          mentee_name: string
+          mentee_whatsapp: string | null
+          notes: string | null
+          status: string
+          updated_at: string
+          window_id: string
+        }
+        Insert: {
+          coach_id: string
+          created_at?: string
+          id?: string
+          mentee_email?: string | null
+          mentee_name: string
+          mentee_whatsapp?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          window_id: string
+        }
+        Update: {
+          coach_id?: string
+          created_at?: string
+          id?: string
+          mentee_email?: string | null
+          mentee_name?: string
+          mentee_whatsapp?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          window_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coach_mentees_window_id_fkey"
+            columns: ["window_id"]
+            isOneToOne: false
+            referencedRelation: "windows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       peer_responses: {
         Row: {
           created_at: string
@@ -46,6 +93,123 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          id: string
+          member_email: string | null
+          member_name: string
+          team_id: string
+          window_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_email?: string | null
+          member_name: string
+          team_id: string
+          window_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_email?: string | null
+          member_name?: string
+          team_id?: string
+          window_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_window_id_fkey"
+            columns: ["window_id"]
+            isOneToOne: false
+            referencedRelation: "windows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       windows: {
         Row: {
           age: number
@@ -56,6 +220,8 @@ export type Database = {
           id: string
           name: string
           occupation: string
+          owner_id: string | null
+          owner_type: string
           self_words: string[]
           whatsapp: string
         }
@@ -68,6 +234,8 @@ export type Database = {
           id?: string
           name: string
           occupation: string
+          owner_id?: string | null
+          owner_type?: string
           self_words?: string[]
           whatsapp: string
         }
@@ -80,6 +248,8 @@ export type Database = {
           id?: string
           name?: string
           occupation?: string
+          owner_id?: string | null
+          owner_type?: string
           self_words?: string[]
           whatsapp?: string
         }
@@ -134,9 +304,32 @@ export type Database = {
           name: string
         }[]
       }
+      get_window_full: {
+        Args: { _id: string }
+        Returns: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          owner_type: string
+          self_words: string[]
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_team_owner: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "coach" | "team_lead"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -263,6 +456,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "coach", "team_lead"],
+    },
   },
 } as const
