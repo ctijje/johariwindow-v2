@@ -126,10 +126,8 @@ const t = {
       ],
     },
     scienceTeaser: {
-      title: ["Data &", "Background Johari Window"],
       quote: "Did you know 95% of people believe they are self-aware, but only 12% truly are?",
-      subtitle: "The science behind Johari Window",
-      cta: "Learn more",
+      cta: "Learn about Johari Window",
     },
     voices: {
       kicker: "VOICES FROM INSIDE THE WINDOW",
