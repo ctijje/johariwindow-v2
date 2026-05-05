@@ -42,32 +42,32 @@ const t = {
     },
     voices: {
       kicker: "SUARA DARI DALAM JENDELA",
-      title: ["Momen nyata,", "pergeseran nyata."],
+      title: ["Kata", "mereka."],
       items: [
-        { pane: "PANEL TERBUKA", quote: "Sepuluh tahun aku menyebut diri 'gelisah'. Teman-temanku justru memilih 'penuh perhatian' dan 'mendalam'. Data sama, jendela beda.", who: "Priya · desainer" },
-        { pane: "PANEL BUTA", quote: "Pakai Johari di offsite Q1. Ternyata seluruh tim engineering pikir PM kami lucu banget. Tidak ada yang pernah kasih tahu dia.", who: "Marcus · founder" },
-        { pane: "PANEL TERSEMBUNYI", quote: "Pasanganku melihat 'lembut' dalam diriku. Selama ini aku cuma pernah pilih 'praktis'. Kami ngobrol tiga jam malam itu.", who: "Sam · psikoterapis" },
-        { pane: "PANEL TERBUKA", quote: "Saya pakai Johari dengan klien terapi sebagai pengganti kuesioner kepribadian biasa. Percakapannya jauh lebih kaya.", who: "Dr. Yuki Tanaka" },
+        { tag: "SELF-AWARENESS", quote: "Saya kira saya orangnya reserved dan susah dibaca. Ternyata tiga dari empat teman saya milih kata \"warm\" dan \"approachable\". Saya nangis beneran.", name: "Rania A.", role: "UX Designer, Jakarta", initials: "RA" },
+        { tag: "TIM KERJA", quote: "Saya pakai ini sebelum 1-on-1 dengan tim. Hasilnya jadi bahan ngobrol yang jauh lebih jujur dari biasanya.", name: "Bagas W.", role: "Engineering Manager", initials: "BW" },
+        { tag: "PENGEMBANGAN DIRI", quote: "Prosesnya cuma 10 menit tapi hasilnya saya simpan sampai sekarang. Empat panel itu bikin saya sadar ada sisi diri yang belum pernah saya eksplorasi.", name: "Dinda S.", role: "Psikolog klinis", initials: "DS" },
+        { tag: "HUBUNGAN PERSONAL", quote: "Saya kirim link ke pasangan saya. Ternyata dia milih kata yang sama persis dengan yang saya pilih sendiri. Rasanya validating banget, dan jadi topik ngobrol yang dalam.", name: "Laras M.", role: "Content creator", initials: "LM" },
+        { tag: "COACHING", quote: "Saya coach karir dan mulai rekomendasikan ini ke klien sebelum sesi pertama. Hasilnya bikin sesi jadi lebih fokus dan klien lebih siap untuk refleksi yang lebih dalam.", name: "Farhan N.", role: "Career coach", initials: "FN" },
+        { tag: "PERBANDINGAN", quote: "Yang bikin beda dari tes kepribadian lain adalah ini melibatkan orang lain. Bukan cuma ngaca sendiri, tapi lihat bayangan diri dari kaca orang yang kenal kita.", name: "Tiara R.", role: "HR Generalist", initials: "TR" },
       ],
     },
     faq: {
       kicker: "FAQ",
-      title: ["Enam hal yang", "selalu ditanyakan."],
+      title: ["Lima hal yang", "selalu ditanyakan."],
       lead: "Masih penasaran? Email kami — manusia sungguhan akan balas dalam sehari.",
       items: [
         { q: "Apakah Johari Window framework psikologi yang nyata?", a: "Ya — dikembangkan tahun 1955 oleh psikolog Joseph Luft dan Harrington Ingham (nama 'Johari' adalah gabungan nama depan mereka). Banyak digunakan dalam terapi, pendidikan, pengembangan kepemimpinan, dan coaching tim." },
         { q: "Apakah temanku tahu kata yang aku pilih untuk diriku?", a: "Tidak. Mereka memilih dari daftar yang sama tanpa melihat pilihanmu. Hasilnya baru dibandingkan setelah selesai." },
         { q: "Berapa banyak teman yang sebaiknya diundang?", a: "Minimal 3, idealnya 5–10. Semakin beragam orangnya, semakin kaya jendelamu." },
-        { q: "Apakah Johari gratis?", a: "Ya — versi inti gratis selamanya. Fitur grup dan time-lapse opsional di paket Pro." },
-        { q: "Bagaimana dengan data saya?", a: "Disimpan terenkripsi. Tidak pernah dijual, dibagikan, atau dipakai melatih AI. Bisa dihapus kapan saja." },
+        { q: "Apakah Johari Window ini gratis?", a: "Ya, versi inti untuk perorangan gratis selamanya. Fitur group atau fitur Untuk Coach opsional di paket berbayar. Paket Untuk Coach ini kamu dapat mengumpulkan hasil student/mentee/klien kamu dalam 1 page dan 1 dashboard tersendiri." },
         { q: "Bisa dipakai dengan terapis atau coach saya?", a: "Sangat bisa. Banyak terapis dan coach memakai Johari sebagai bahan dialog yang lebih dalam dengan klien." },
       ],
     },
     final: {
-      badge: "GRATIS · 2 MENIT · TANPA DAFTAR",
       h: "Siap bertemu",
       hi: "semua versi dirimu?",
-      lead: "Pilih lima kata. Kirim linknya. Buka jendelamu. Semua prosesnya lebih cepat dari memilih tontonan malam ini.",
+      lead: "Pilih kata yang menggambarkan kamu. Kirim link dan dapatkan feedback. Buka jendelamu satu per satu. Johari Window membantu kamu menyadari dirimu dan menemukan talent yang belum kamu sadari ada.",
       ctaPrimary: "Buka jendelaku",
       ctaSecondary: "Baca sainsnya",
     },
@@ -116,32 +116,32 @@ const t = {
     },
     voices: {
       kicker: "VOICES FROM INSIDE THE WINDOW",
-      title: ["Real moments,", "real shifts."],
+      title: ["Their", "words."],
       items: [
-        { pane: "OPEN PANE", quote: "I'd called myself 'anxious' for ten years. My friends had picked 'thoughtful' and 'deep.' Same data, different window.", who: "Priya · designer" },
-        { pane: "BLIND PANE", quote: "Did the team Johari at our Q1 offsite. Found out the whole eng org thinks our PM is hilarious. Nobody had told her.", who: "Marcus · founder" },
-        { pane: "HIDDEN PANE", quote: "My partner saw 'tender' in me. I'd only ever picked 'practical.' We talked for three hours that night.", who: "Sam · psychotherapist" },
-        { pane: "OPEN PANE", quote: "Used Johari with my therapy clients in place of the usual personality questionnaires. The conversations are richer.", who: "Dr. Yuki Tanaka" },
+        { tag: "SELF-AWARENESS", quote: "I thought I was reserved and hard to read. Turns out three out of four friends picked \"warm\" and \"approachable\". I actually cried.", name: "Rania A.", role: "UX Designer, Jakarta", initials: "RA" },
+        { tag: "TEAM WORK", quote: "I used this before 1-on-1s with my team. The conversations got way more honest than usual.", name: "Bagas W.", role: "Engineering Manager", initials: "BW" },
+        { tag: "SELF-DEVELOPMENT", quote: "It only took 10 minutes but I've kept the result ever since. The four panes made me realize sides of myself I'd never explored.", name: "Dinda S.", role: "Clinical psychologist", initials: "DS" },
+        { tag: "PERSONAL", quote: "I sent the link to my partner. They picked the exact same words I picked for myself. It felt validating, and sparked a really deep conversation.", name: "Laras M.", role: "Content creator", initials: "LM" },
+        { tag: "COACHING", quote: "I'm a career coach and started recommending this to clients before our first session. It makes sessions more focused and clients more ready for deeper reflection.", name: "Farhan N.", role: "Career coach", initials: "FN" },
+        { tag: "COMPARISON", quote: "What makes this different from other personality tests is that it involves other people. Not just looking in the mirror, but seeing yourself through people who know you.", name: "Tiara R.", role: "HR Generalist", initials: "TR" },
       ],
     },
     faq: {
       kicker: "FAQ",
-      title: ["Six things people", "always ask."],
+      title: ["Five things people", "always ask."],
       lead: "Still curious? Email us — a real human reads everything within a day.",
       items: [
         { q: "Is the Johari Window a real psychology framework?", a: "Yes — it was developed in 1955 by psychologists Joseph Luft and Harrington Ingham (the name 'Johari' is a portmanteau of their first names). It's widely used in therapy, education, leadership development, and team coaching." },
         { q: "Do my friends see what I picked for myself?", a: "No. They pick from the same list without seeing your choices. Results are only compared after." },
         { q: "How many friends should I invite?", a: "At least 3, ideally 5–10. The more diverse the group, the richer your window." },
-        { q: "Is Johari free?", a: "Yes — the core experience is free forever. Group windows and time-lapse mode are optional Pro features." },
-        { q: "What about my data?", a: "Stored encrypted. Never sold, shared, or used to train AI. You can delete it any time." },
+        { q: "Is the Johari Window free?", a: "Yes — the core version for individuals is free forever. Group features and the Coach plan are optional paid add-ons. With the Coach plan you can collect your students'/mentees'/clients' results in one page and a dedicated dashboard." },
         { q: "Can I do this with my therapist or coach?", a: "Absolutely. Many therapists and coaches use Johari as a richer dialogue tool with clients." },
       ],
     },
     final: {
-      badge: "FREE · 2 MINUTES · NO SIGNUP TO START",
       h: "Ready to meet",
       hi: "everyone you already are?",
-      lead: "Pick five words. Send the link. Open the window. The whole thing takes less time than picking what to watch tonight.",
+      lead: "Pick the words that describe you. Send the link and get feedback. Open your window one pane at a time. Johari Window helps you become aware of yourself and discover talents you didn't know you had.",
       ctaPrimary: "Open my window",
       ctaSecondary: "Read the science",
     },
@@ -408,16 +408,35 @@ const Index = () => {
           <h2 className="mt-8 font-serif text-5xl leading-[1.05] md:text-6xl">
             {c.voices.title[0]} <em className="text-gradient-brand not-italic">{c.voices.title[1]}</em>
           </h2>
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {c.voices.items.map((v, i) => (
-              <div key={i} className="rounded-3xl border border-border/70 bg-background/80 p-8 backdrop-blur">
-                <div className="inline-block rounded-full bg-accent px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  {v.pane}
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {c.voices.items.map((v, i) => {
+              const palettes = [
+                "bg-[hsl(22_100%_55%)]",
+                "bg-foreground",
+                "bg-[hsl(150_45%_45%)]",
+                "bg-[hsl(330_70%_55%)]",
+                "bg-[hsl(28_75%_55%)]",
+                "bg-primary",
+              ];
+              return (
+                <div key={i} className="flex flex-col rounded-3xl border border-border/70 bg-background/80 p-8 backdrop-blur transition hover:-translate-y-1 hover:shadow-soft">
+                  <div className="font-serif text-2xl text-primary leading-none">"</div>
+                  <p className="mt-6 flex-1 font-serif text-lg italic leading-relaxed text-foreground/90">{v.quote}</p>
+                  <div className="mt-6 inline-flex w-fit rounded-full bg-accent px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+                    {v.tag}
+                  </div>
+                  <div className="mt-5 flex items-center gap-3">
+                    <div className={cn("flex h-10 w-10 items-center justify-center rounded-full font-mono text-xs font-medium text-primary-foreground", palettes[i % palettes.length])}>
+                      {v.initials}
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold">{v.name}</div>
+                      <div className="text-xs text-muted-foreground">{v.role}</div>
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-6 font-serif text-2xl leading-snug text-foreground/90">"{v.quote}"</p>
-                <p className="mt-6 font-mono text-xs text-muted-foreground">— {v.who}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -464,11 +483,7 @@ const Index = () => {
         <div className="relative overflow-hidden rounded-[2rem] bg-gradient-brand p-12 md:p-20">
           <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-white/20 blur-3xl" />
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary-foreground backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-white" />
-              {c.final.badge}
-            </div>
-            <h2 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+            <h2 className="font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
               {c.final.h}<br />
               <em className="not-italic opacity-90">{c.final.hi}</em>
             </h2>
