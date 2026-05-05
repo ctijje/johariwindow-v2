@@ -41,10 +41,8 @@ const t = {
       ],
     },
     scienceTeaser: {
-      title: ["Data &", "background Johari Window"],
       quote: "Tahukah kamu 95% orang percaya kalau mereka self-aware, nyatanya hanya 12% yang benar-benar self-aware.",
-      subtitle: "Sains di balik Johari Window",
-      cta: "Pelajari Lebih Jauh",
+      cta: "Pelajari Johari Window",
     },
     voices: {
       kicker: "SUARA DARI DALAM JENDELA",
