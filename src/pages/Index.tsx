@@ -41,10 +41,8 @@ const t = {
       ],
     },
     scienceTeaser: {
-      title: ["Data &", "background Johari Window"],
       quote: "Tahukah kamu 95% orang percaya kalau mereka self-aware, nyatanya hanya 12% yang benar-benar self-aware.",
-      subtitle: "Sains di balik Johari Window",
-      cta: "Pelajari Lebih Jauh",
+      cta: "Pelajari Johari Window",
     },
     voices: {
       kicker: "SUARA DARI DALAM JENDELA",
@@ -128,10 +126,8 @@ const t = {
       ],
     },
     scienceTeaser: {
-      title: ["Data &", "Background Johari Window"],
       quote: "Did you know 95% of people believe they are self-aware, but only 12% truly are?",
-      subtitle: "The science behind Johari Window",
-      cta: "Learn more",
+      cta: "Learn about Johari Window",
     },
     voices: {
       kicker: "VOICES FROM INSIDE THE WINDOW",
@@ -434,13 +430,12 @@ const Index = () => {
           <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
               <Kicker>EVIDENCE-BASED</Kicker>
-              <h2 className="mt-6 font-serif text-4xl leading-[1.1] md:text-5xl">
-                {c.scienceTeaser.title[0]} <em className="text-gradient-brand not-italic">{c.scienceTeaser.title[1]}</em>
-              </h2>
-              <blockquote className="mt-6 border-l-2 border-primary pl-6 font-serif text-xl italic leading-relaxed text-foreground/90 md:text-2xl">
-                “{c.scienceTeaser.quote}”
-              </blockquote>
-              <p className="mt-4 text-sm text-muted-foreground">{c.scienceTeaser.subtitle}</p>
+              <div className="relative mt-6 pl-6">
+                <div className="absolute left-0 top-0 h-full w-1 rounded-full bg-gradient-to-b from-[hsl(22_100%_55%)] to-[hsl(0_100%_55%)]" />
+                <blockquote className="font-serif text-2xl italic leading-relaxed text-foreground/90 md:text-4xl">
+                  {c.scienceTeaser.quote}
+                </blockquote>
+              </div>
             </div>
             <div className="flex justify-start lg:justify-end">
               <Link to="/science" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-4 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
