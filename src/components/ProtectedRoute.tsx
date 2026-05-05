@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
-type Props = { children: ReactNode; requireRole?: "coach" | "team_lead" };
+type Props = { children: ReactNode; requireRole?: "coach" };
 
 export const ProtectedRoute = ({ children, requireRole }: Props) => {
   const { session, roles, loading } = useAuth();

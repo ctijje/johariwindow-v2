@@ -12,7 +12,6 @@ const signupSchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
   password: z.string().min(8).max(72),
-  role: z.enum(["coach", "team_lead"]),
 });
 
 const Auth = () => {
@@ -21,37 +20,36 @@ const Auth = () => {
   const { session, roles, loading } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [busy, setBusy] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "", role: "coach" as "coach" | "team_lead" });
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
 
-  // Redirect already-signed-in users to their dashboard
+  // Auto-assign coach role if missing, then redirect
   useEffect(() => {
     if (loading || !session) return;
-    if (roles.includes("coach")) nav("/coach/dashboard", { replace: true });
-    else if (roles.includes("team_lead")) nav("/team/dashboard", { replace: true });
+    (async () => {
+      if (!roles.includes("coach")) {
+        const { error } = await supabase.from("user_roles").insert({ user_id: session.user.id, role: "coach" });
+        if (error && !error.message.includes("duplicate")) { toast.error(error.message); return; }
+      }
+      nav("/coach/dashboard", { replace: true });
+    })();
   }, [loading, session, roles, nav]);
 
   const t = lang === "id" ? {
-    title: "Masuk untuk Coach & Tim",
-    sub: "Khusus Coach dan Team Lead. Peserta umum bisa langsung mulai tanpa daftar.",
+    title: "Masuk untuk Coach",
+    sub: "Khusus Coach. Peserta umum bisa langsung mulai tanpa daftar.",
     signin: "Masuk", signup: "Daftar",
     name: "Nama lengkap", email: "Email", password: "Kata sandi",
-    role: "Saya adalah", coach: "Coach", team: "Team Lead",
     google: "Lanjut dengan Google",
     or: "atau", noAcc: "Belum punya akun?", hasAcc: "Sudah punya akun?",
     backHome: "Kembali ke beranda",
-    pickRole: "Pilih peran kamu", pickRoleSub: "Tentukan peran untuk melanjutkan ke dashboard.",
-    continue: "Lanjutkan",
   } : {
-    title: "Sign in for Coaches & Teams",
-    sub: "For Coaches and Team Leads only. Individual participants can start without an account.",
+    title: "Sign in for Coaches",
+    sub: "For Coaches only. Individual participants can start without an account.",
     signin: "Sign in", signup: "Create account",
     name: "Full name", email: "Email", password: "Password",
-    role: "I am a", coach: "Coach", team: "Team Lead",
     google: "Continue with Google",
     or: "or", noAcc: "No account?", hasAcc: "Already have an account?",
     backHome: "Back to home",
-    pickRole: "Choose your role", pickRoleSub: "Select a role to continue to your dashboard.",
-    continue: "Continue",
   };
 
   const handleGoogle = async () => {
@@ -71,13 +69,12 @@ const Auth = () => {
           password: form.password,
           options: {
             emailRedirectTo: window.location.origin + "/auth",
-            data: { display_name: form.name, intended_role: form.role },
+            data: { display_name: form.name, intended_role: "coach" },
           },
         });
         if (error) { toast.error(error.message); return; }
         if (data.session) {
-          // Session active — insert role now (RLS allows because auth.uid() === user.id)
-          const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.session.user.id, role: form.role });
+          const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.session.user.id, role: "coach" });
           if (rErr && !rErr.message.includes("duplicate")) toast.error(rErr.message);
           toast.success(lang === "id" ? "Akun dibuat" : "Account created");
         } else {
@@ -90,45 +87,7 @@ const Auth = () => {
     } finally { setBusy(false); }
   };
 
-  // If signed in but no role assigned (e.g. Google sign-in or post-email-confirm), prompt role pick
-  const needsRole = !!session && !loading && roles.length === 0;
-  const assignRole = async (role: "coach" | "team_lead") => {
-    if (!session) return;
-    setBusy(true);
-    const { error } = await supabase.from("user_roles").insert({ user_id: session.user.id, role });
-    setBusy(false);
-    if (error && !error.message.includes("duplicate")) { toast.error(error.message); return; }
-    await refreshRolesAndRedirect(role);
-  };
-  const refreshRolesAndRedirect = async (role: "coach" | "team_lead") => {
-    nav(role === "coach" ? "/coach/dashboard" : "/team/dashboard", { replace: true });
-  };
-
   const field = "rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary";
-
-  if (needsRole) {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto max-w-md py-12">
-          <h1 className="font-serif text-4xl">{t.pickRole}</h1>
-          <p className="mt-3 text-sm text-muted-foreground">{t.pickRoleSub}</p>
-          <div className="mt-8 grid gap-3">
-            <button disabled={busy} onClick={() => assignRole("coach")} className="rounded-2xl border border-border p-5 text-left hover:border-foreground">
-              <div className="font-medium">{t.coach}</div>
-              <div className="text-xs text-muted-foreground mt-1">Dashboard untuk mentee 1-on-1.</div>
-            </button>
-            <button disabled={busy} onClick={() => assignRole("team_lead")} className="rounded-2xl border border-border p-5 text-left hover:border-foreground">
-              <div className="font-medium">{t.team}</div>
-              <div className="text-xs text-muted-foreground mt-1">Dashboard untuk tim & agregat.</div>
-            </button>
-          </div>
-          <button onClick={async () => { await supabase.auth.signOut(); }} className="mt-6 text-xs text-muted-foreground hover:underline">
-            {lang === "id" ? "Keluar" : "Sign out"}
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -150,19 +109,10 @@ const Auth = () => {
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           {mode === "signup" && (
-            <>
-              <label className="block">
-                <span className="text-xs text-muted-foreground">{t.name}</span>
-                <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={`mt-1 w-full ${field}`} />
-              </label>
-              <label className="block">
-                <span className="text-xs text-muted-foreground">{t.role}</span>
-                <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as any })} className={`mt-1 w-full ${field}`}>
-                  <option value="coach">{t.coach}</option>
-                  <option value="team_lead">{t.team}</option>
-                </select>
-              </label>
-            </>
+            <label className="block">
+              <span className="text-xs text-muted-foreground">{t.name}</span>
+              <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={`mt-1 w-full ${field}`} />
+            </label>
           )}
           <label className="block">
             <span className="text-xs text-muted-foreground">{t.email}</span>
