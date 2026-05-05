@@ -3,8 +3,9 @@ import { ArrowRight, Check, MessageCircle } from "lucide-react";
 import { useLang } from "@/lib/lang";
 import Footer from "@/components/Footer";
 
-const PAYMENT_LINK = "#"; // TODO: replace with real payment link
-const WHATSAPP_LINK = "https://wa.me/"; // TODO: replace with real WA number
+const STARTER_LINK = "https://digitalskillsstudio.myscalev.com/johari-window-coach-starter";
+const GROWTH_LINK = "https://digitalskillsstudio.myscalev.com/johari-window-coach-growth";
+const WHATSAPP_LINK = "https://wa.me/628561230413";
 
 const Pricing = () => {
   const { lang } = useLang();
@@ -18,11 +19,10 @@ const Pricing = () => {
     backHome: "← Kembali",
     tiers: [
       { name: "Gratis", price: "Rp 0", desc: "Untuk individu. Akses penuh ke Johari Window pribadi.", features: ["1 jendela pribadi", "Undang peer tanpa batas", "Profil bakat & arketipe"], cta: "Mulai gratis", href: "/test", primary: false, highlight: false },
-      { name: "Coach Starter", price: "Rp 99.000", desc: "Sampai 10 anggota tim/mentee.", features: ["10 mentee/anggota", "Dashboard coach", "Mode go-through 1-on-1", "Catatan sesi privat"], cta: "Pilih paket", href: PAYMENT_LINK, primary: true, highlight: true },
-      { name: "Coach Growth", price: "Rp 199.000", desc: "11–49 anggota.", features: ["Hingga 49 mentee", "Semua fitur Starter", "Agregat kekuatan tim"], cta: "Pilih paket", href: PAYMENT_LINK, primary: false, highlight: false },
-      { name: "Coach Pro", price: "Rp 299.000", desc: "50–100 anggota.", features: ["Hingga 100 mentee", "Semua fitur Growth", "Prioritas support"], cta: "Pilih paket", href: PAYMENT_LINK, primary: false, highlight: false },
+      { name: "Coach Starter", price: "Rp 99.000", desc: "1–49 anggota tim/mentee.", features: ["Hingga 49 mentee/anggota", "Dashboard coach", "Mode go-through 1-on-1", "Catatan sesi privat"], cta: "Pilih paket", href: STARTER_LINK, primary: true, highlight: true },
+      { name: "Coach Growth", price: "Rp 199.000", desc: "Mulai dari 50 anggota.", features: ["50+ mentee/anggota", "Semua fitur Starter", "Agregat kekuatan tim"], cta: "Pilih paket", href: GROWTH_LINK, primary: false, highlight: false },
     ],
-    enterprise: { name: "Lebih dari 100 anggota?", desc: "Custom paket untuk organisasi besar. Hubungi kami via WhatsApp.", cta: "Hubungi via WhatsApp" },
+    enterprise: { name: "Butuh paket khusus?", desc: "Custom paket untuk organisasi besar. Hubungi kami via WhatsApp.", cta: "Hubungi via WhatsApp" },
   } : {
     kicker: "PRICING",
     h1: "Simple, transparent, sized to your team.",
@@ -33,11 +33,10 @@ const Pricing = () => {
     backHome: "← Back",
     tiers: [
       { name: "Free", price: "Rp 0", desc: "For individuals. Full access to your personal Johari Window.", features: ["1 personal window", "Unlimited peer invites", "Talent profile & archetypes"], cta: "Start free", href: "/test", primary: false, highlight: false },
-      { name: "Coach Starter", price: "Rp 99,000", desc: "Up to 10 mentees/members.", features: ["10 mentees", "Coach dashboard", "1-on-1 go-through mode", "Private session notes"], cta: "Choose plan", href: PAYMENT_LINK, primary: true, highlight: true },
-      { name: "Coach Growth", price: "Rp 199,000", desc: "11–49 members.", features: ["Up to 49 mentees", "All Starter features", "Team strengths aggregate"], cta: "Choose plan", href: PAYMENT_LINK, primary: false, highlight: false },
-      { name: "Coach Pro", price: "Rp 299,000", desc: "50–100 members.", features: ["Up to 100 mentees", "All Growth features", "Priority support"], cta: "Choose plan", href: PAYMENT_LINK, primary: false, highlight: false },
+      { name: "Coach Starter", price: "Rp 99,000", desc: "1–49 mentees/members.", features: ["Up to 49 mentees", "Coach dashboard", "1-on-1 go-through mode", "Private session notes"], cta: "Choose plan", href: STARTER_LINK, primary: true, highlight: true },
+      { name: "Coach Growth", price: "Rp 199,000", desc: "50+ members.", features: ["50+ mentees", "All Starter features", "Team strengths aggregate"], cta: "Choose plan", href: GROWTH_LINK, primary: false, highlight: false },
     ],
-    enterprise: { name: "More than 100 members?", desc: "Custom plans for larger organizations. Reach us on WhatsApp.", cta: "Contact via WhatsApp" },
+    enterprise: { name: "Need a custom plan?", desc: "Custom plans for larger organizations. Reach us on WhatsApp.", cta: "Contact via WhatsApp" },
   };
 
   return (
@@ -50,7 +49,7 @@ const Pricing = () => {
         <h1 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.05] md:text-6xl">{t.h1}</h1>
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">{t.lead}</p>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
           {t.tiers.map((tier) => {
             const isExternal = tier.href.startsWith("http") || tier.href === "#";
             const Wrapper: any = isExternal ? "a" : Link;
