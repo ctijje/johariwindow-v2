@@ -59,7 +59,7 @@ const Pricing = () => {
               <div key={tier.name} className={`flex flex-col rounded-3xl border p-7 ${tier.highlight ? "border-primary bg-gradient-brand-soft shadow-soft" : "border-border/70 bg-card"}`}>
                 <div className="font-mono text-[11px] uppercase tracking-widest text-primary">{tier.name}</div>
                 <div className="mt-4 font-serif text-4xl">{tier.price}</div>
-                <div className="text-xs text-muted-foreground">{tier.perMo}</div>
+                <div className="text-xs text-muted-foreground">{t.perMo}</div>
                 <p className="mt-4 text-sm text-muted-foreground">{tier.desc}</p>
                 <ul className="mt-6 space-y-2.5 text-sm">
                   {tier.features.map((f) => (
