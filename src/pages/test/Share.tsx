@@ -134,7 +134,7 @@ const Share = () => {
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <button onClick={() => nav("/test/words")} className="text-sm text-muted-foreground hover:text-foreground">
+        <button onClick={() => nav("/test/data")} className="text-sm text-muted-foreground hover:text-foreground">
           {lang === "id" ? "Kembali" : "Back"}
         </button>
         <button

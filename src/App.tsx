@@ -32,8 +32,8 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/test" element={<DataDiri />} />
-              <Route path="/test/words" element={<Words />} />
+              <Route path="/test" element={<Words />} />
+              <Route path="/test/data" element={<DataDiri />} />
               <Route path="/test/share" element={<Share />} />
               <Route path="/test/result" element={<Result />} />
               <Route path="/test/profile" element={<Profile />} />
