@@ -19,13 +19,13 @@ const t = {
     },
     how: {
       kicker: "CARA KERJA",
-      title: ["Tiga langkah.", "Satu jendela terbuka."],
-      lead: "Johari Window adalah framework psikologi tahun 1955. Kami bangun ulang untuk 2026 — tetap berbasis sains, tanpa ribet.",
+      title: ["Tiga langkah.", "Satu per satu jendela terbuka."],
+      lead: "Johari Window memakai metafora jendela untuk menggambarkan dirimu dari dua sudut: apa yang kamu tahu tentang dirimu sendiri, dan apa yang orang lain lihat. Empat panel jendelanya terbuka satu per satu seiring prosesnya berjalan.",
       demo: "Coba demo sekarang",
       steps: [
-        { n: "01", title: "Pilih kata-katamu", desc: "Pilih 5–6 kata sifat dari daftar 56 yang paling menggambarkan dirimu. Tanpa overthinking.", tag: "~2 menit" },
-        { n: "02", title: "Undang lingkaranmu", desc: "Kirim link privat ke teman, pasangan, atau rekan tim. Mereka pilih kata yang menggambarkan kamu.", tag: "sebanyak yang kamu mau" },
-        { n: "03", title: "Buka jendelamu", desc: "Lihat empat panel terisi: kebenaran bersama, titik buta, sisi tersembunyi, dan ruang untuk tumbuh.", tag: "hasil real-time" },
+        { n: "01", title: "Pilih kata yang mencerminkan dirimu", desc: "Pilih 5 sampai 20 kata dari daftar 56 kata sifat yang paling menggambarkan dirimu. Tanpa overthinking.", tag: "~2 menit" },
+        { n: "02", title: "Dapatkan feedback dari orang terdekat", desc: "Kirim link privat ke teman, pasangan, atau rekan tim yang mengenal kamu. Mereka pilih kata yang menggambarkan kamu, dari sudut pandang mereka.", tag: "sebanyak yang kamu mau" },
+        { n: "03", title: "Buka jendelamu", desc: "Lihat empat panel dirimu terisi: hal yang diketahui bersama (open), titik buta (blind), sisi tersembunyi (hidden), dan ruang untuk tumbuh (unknown).", tag: "hasil real-time" },
       ],
     },
     why: {
@@ -93,13 +93,13 @@ const t = {
     },
     how: {
       kicker: "HOW IT WORKS",
-      title: ["Three steps.", "One open window."],
-      lead: "The Johari Window is a 1955 psychology framework. We rebuilt it for 2026 — keeping the rigor, dropping the clipboard.",
+      title: ["Three steps.", "One pane at a time."],
+      lead: "The Johari Window uses the metaphor of a window to describe you from two angles: what you know about yourself, and what others see. Its four panes open one by one as the process unfolds.",
       demo: "Try a demo window",
       steps: [
-        { n: "01", title: "Pick your words", desc: "Choose 5–6 traits from a list of 56 that you feel describe you best. No overthinking.", tag: "~2 min" },
-        { n: "02", title: "Invite your circle", desc: "Send a private link to friends, partners, teammates. They pick the words they'd use for you.", tag: "as many as you like" },
-        { n: "03", title: "Open your window", desc: "Watch four panes fill in: shared truths, blind spots, hidden depths, and room to grow.", tag: "live results" },
+        { n: "01", title: "Pick the words that reflect you", desc: "Choose 5 to 20 words from a list of 56 traits that describe you best. No overthinking.", tag: "~2 min" },
+        { n: "02", title: "Get feedback from people close to you", desc: "Send a private link to friends, partners, or teammates who know you. They pick the words that describe you, from their perspective.", tag: "as many as you like" },
+        { n: "03", title: "Open your window", desc: "See your four panes fill in: what's commonly known (open), blind spots (blind), hidden sides (hidden), and room to grow (unknown).", tag: "live results" },
       ],
     },
     why: {
