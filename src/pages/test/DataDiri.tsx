@@ -4,6 +4,8 @@ import { z } from "zod";
 import { TestShell, StepKicker } from "@/components/test/TestShell";
 import { useLang } from "@/lib/lang";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { generateCode } from "@/lib/johari";
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -12,12 +14,15 @@ const schema = z.object({
   occupation: z.string().trim().max(120).optional().or(z.literal("")),
   age: z.union([z.coerce.number().int().min(10).max(120), z.literal("")]).optional(),
   gender: z.string().trim().max(40).optional().or(z.literal("")),
+  referralSource: z.string().trim().max(120).optional().or(z.literal("")),
 });
 
 const DataDiri = () => {
   const { lang } = useLang();
   const nav = useNavigate();
   const draft = JSON.parse(sessionStorage.getItem("johari.profile") || "{}");
+  const selfWords: string[] = JSON.parse(sessionStorage.getItem("johari.selfWords") || "[]");
+  if (!selfWords.length) { nav("/test"); return null; }
   const [form, setForm] = useState({
     name: draft.name ?? "",
     email: draft.email ?? "",
@@ -25,15 +30,17 @@ const DataDiri = () => {
     occupation: draft.occupation ?? "",
     age: draft.age ?? "",
     gender: draft.gender ?? "",
+    referralSource: draft.referralSource ?? "",
   });
+  const [loading, setLoading] = useState(false);
 
   const labels = lang === "id"
     ? { title: "Data diri", lead: "Informasi ini digunakan untuk mengirimkan hasil kepadamu dan tidak akan dibagikan ke pihak lain.",
-        name: "Nama lengkap", email: "Email", wa: "Nomor WhatsApp", occ: "Pekerjaan saat ini", age: "Usia", gender: "Jenis kelamin", next: "Lanjut →" }
+        name: "Nama lengkap", email: "Email", wa: "Nomor WhatsApp", occ: "Pekerjaan saat ini", age: "Usia", gender: "Jenis kelamin", ref: "Tahu darimana?", refPh: "Mis. Instagram, teman, Google…", next: "Lanjut →", back: "Kembali" }
     : { title: "About you", lead: "This information is used to send your results to you and will not be shared.",
-        name: "Full name", email: "Email", wa: "WhatsApp number", occ: "Current occupation", age: "Age", gender: "Gender", next: "Next →" };
+        name: "Full name", email: "Email", wa: "WhatsApp number", occ: "Current occupation", age: "Age", gender: "Gender", ref: "How did you hear about us?", refPh: "e.g. Instagram, a friend, Google…", next: "Next →", back: "Back" };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -41,14 +48,38 @@ const DataDiri = () => {
       return;
     }
     sessionStorage.setItem("johari.profile", JSON.stringify(parsed.data));
-    nav("/test/words");
+    setLoading(true);
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const code = generateCode();
+      const { data, error } = await supabase.rpc("create_window", {
+        _name: parsed.data.name,
+        _email: parsed.data.email,
+        _whatsapp: parsed.data.whatsapp,
+        _occupation: parsed.data.occupation || "",
+        _age: parsed.data.age ? Number(parsed.data.age) : 0,
+        _gender: parsed.data.gender || "",
+        _self_words: selfWords,
+        _code: code,
+        _referral_source: parsed.data.referralSource || null,
+      } as any);
+      if (!error && data && data[0]) {
+        sessionStorage.setItem("johari.windowId", data[0].id);
+        sessionStorage.setItem("johari.code", data[0].code);
+        nav("/test/share");
+        return;
+      }
+      if (error && !error.message.toLowerCase().includes("unique")) {
+        toast.error(error.message); setLoading(false); return;
+      }
+    }
+    toast.error("Failed to create window"); setLoading(false);
   };
 
   const field = "rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary";
 
   return (
     <TestShell>
-      <StepKicker step={1} label={labels.title} />
+      <StepKicker step={2} label={labels.title} />
       <h1 className="font-serif text-4xl md:text-5xl">{labels.title}</h1>
       <p className="mt-2 text-muted-foreground">{labels.lead}</p>
 
@@ -93,9 +124,18 @@ const DataDiri = () => {
               </select>
             </label>
           </div>
+          <label className="block">
+            <span className="text-sm text-muted-foreground">{labels.ref}</span>
+            <input type="text" value={form.referralSource} placeholder={labels.refPh}
+              onChange={(e) => setForm({ ...form, referralSource: e.target.value })}
+              className={`mt-1 w-full ${field}`} />
+          </label>
         </div>
-        <div className="mt-8 flex justify-end">
-          <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 font-medium text-primary-foreground shadow-brand">
+        <div className="mt-8 flex items-center justify-between">
+          <button type="button" onClick={() => nav("/test")} className="text-sm text-muted-foreground hover:text-foreground">
+            {labels.back}
+          </button>
+          <button type="submit" disabled={loading} className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 font-medium text-primary-foreground shadow-brand disabled:opacity-40">
             {labels.next}
           </button>
         </div>
