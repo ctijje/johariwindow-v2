@@ -40,6 +40,12 @@ const t = {
         { icon: Clock, title: "Langkah Nyata, Bukan Sekadar Label", desc: "Hasilnya bukan hanya kategori atau tipe kepribadian. Kamu mendapat peta yang jelas tentang mana yang perlu dikembangkan, mana yang perlu dibuka, dan mana yang masih bisa dieksplorasi lebih jauh." },
       ],
     },
+    scienceTeaser: {
+      title: ["Data &", "background Johari Window"],
+      quote: "Tahukah kamu 95% orang percaya kalau mereka self-aware, nyatanya hanya 12% yang benar-benar self-aware.",
+      subtitle: "Sains di balik Johari Window",
+      cta: "Pelajari Lebih Jauh",
+    },
     voices: {
       kicker: "SUARA DARI DALAM JENDELA",
       title: ["Kata", "mereka."],
