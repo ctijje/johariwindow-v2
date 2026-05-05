@@ -408,16 +408,35 @@ const Index = () => {
           <h2 className="mt-8 font-serif text-5xl leading-[1.05] md:text-6xl">
             {c.voices.title[0]} <em className="text-gradient-brand not-italic">{c.voices.title[1]}</em>
           </h2>
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {c.voices.items.map((v, i) => (
-              <div key={i} className="rounded-3xl border border-border/70 bg-background/80 p-8 backdrop-blur">
-                <div className="inline-block rounded-full bg-accent px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  {v.pane}
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {c.voices.items.map((v, i) => {
+              const palettes = [
+                "bg-[hsl(22_100%_55%)]",
+                "bg-foreground",
+                "bg-[hsl(150_45%_45%)]",
+                "bg-[hsl(330_70%_55%)]",
+                "bg-[hsl(28_75%_55%)]",
+                "bg-primary",
+              ];
+              return (
+                <div key={i} className="flex flex-col rounded-3xl border border-border/70 bg-background/80 p-8 backdrop-blur transition hover:-translate-y-1 hover:shadow-soft">
+                  <div className="font-serif text-2xl text-primary leading-none">"</div>
+                  <p className="mt-6 flex-1 font-serif text-lg italic leading-relaxed text-foreground/90">{v.quote}</p>
+                  <div className="mt-6 inline-flex w-fit rounded-full bg-accent px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-primary">
+                    {v.tag}
+                  </div>
+                  <div className="mt-5 flex items-center gap-3">
+                    <div className={cn("flex h-10 w-10 items-center justify-center rounded-full font-mono text-xs font-medium text-primary-foreground", palettes[i % palettes.length])}>
+                      {v.initials}
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold">{v.name}</div>
+                      <div className="text-xs text-muted-foreground">{v.role}</div>
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-6 font-serif text-2xl leading-snug text-foreground/90">"{v.quote}"</p>
-                <p className="mt-6 font-mono text-xs text-muted-foreground">— {v.who}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -464,11 +483,7 @@ const Index = () => {
         <div className="relative overflow-hidden rounded-[2rem] bg-gradient-brand p-12 md:p-20">
           <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-white/20 blur-3xl" />
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary-foreground backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-white" />
-              {c.final.badge}
-            </div>
-            <h2 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+            <h2 className="font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
               {c.final.h}<br />
               <em className="not-italic opacity-90">{c.final.hi}</em>
             </h2>
