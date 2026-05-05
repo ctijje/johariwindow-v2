@@ -77,8 +77,15 @@ const t = {
       resources: "SUMBER",
       company: "PERUSAHAAN",
       links: {
-      product: ["Cara Kerja", "Untuk Coach", "Harga"],
-        resources: ["Sains di Baliknya", "Blog"],
+      product: [
+          { label: "Cara Kerja", href: "/#how" },
+          { label: "Untuk Coach", href: "/coach" },
+          { label: "Harga", href: "/pricing" },
+        ],
+        resources: [
+          { label: "Sains di Baliknya", href: "/science" },
+          { label: "Blog", href: "#" },
+        ],
         company: ["Tentang", "Privasi", "Syarat", "Kontak"],
       },
     },
@@ -151,8 +158,15 @@ const t = {
       resources: "RESOURCES",
       company: "COMPANY",
       links: {
-      product: ["How it works", "For coaches", "Pricing"],
-        resources: ["The science", "Blog"],
+      product: [
+          { label: "How it works", href: "/#how" },
+          { label: "For coaches", href: "/coach" },
+          { label: "Pricing", href: "/pricing" },
+        ],
+        resources: [
+          { label: "The science", href: "/science" },
+          { label: "Blog", href: "#" },
+        ],
         company: ["About", "Privacy", "Terms", "Contact"],
       },
     },
