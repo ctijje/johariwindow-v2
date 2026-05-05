@@ -17,9 +17,7 @@ import Auth from "./pages/Auth.tsx";
 import CoachLanding from "./pages/coach/CoachLanding.tsx";
 import CoachDashboard from "./pages/coach/CoachDashboard.tsx";
 import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
-import TeamLanding from "./pages/team/TeamLanding.tsx";
-import TeamDashboard from "./pages/team/TeamDashboard.tsx";
-import TeamDetail from "./pages/team/TeamDetail.tsx";
+import Pricing from "./pages/Pricing.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
@@ -42,11 +40,9 @@ const App = () => (
               <Route path="/peer/:code" element={<Peer />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
-              <Route path="/team" element={<TeamLanding />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />
               <Route path="/coach/mentee/:id" element={<ProtectedRoute requireRole="coach"><MenteeDetail /></ProtectedRoute>} />
-              <Route path="/team/dashboard" element={<ProtectedRoute requireRole="team_lead"><TeamDashboard /></ProtectedRoute>} />
-              <Route path="/team/:id" element={<ProtectedRoute requireRole="team_lead"><TeamDetail /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

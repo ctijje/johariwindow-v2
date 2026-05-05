@@ -17,7 +17,11 @@ const COPY = {
     resources: "SUMBER",
     company: "PERUSAHAAN",
     links: {
-      product: ["Cara Kerja", "Untuk Coach", "Untuk Tim", "Versi Grup", "Harga"],
+      product: [
+        { label: "Cara Kerja", href: "/#how" },
+        { label: "Untuk Coach", href: "/coach" },
+        { label: "Harga", href: "/pricing" },
+      ],
       resources: ["Sains di Baliknya", "Blog"],
       company: ["Tentang", "Privasi", "Syarat", "Kontak"],
     },
@@ -28,7 +32,11 @@ const COPY = {
     resources: "RESOURCES",
     company: "COMPANY",
     links: {
-      product: ["How it works", "For coaches", "For teams", "Group windows", "Pricing"],
+      product: [
+        { label: "How it works", href: "/#how" },
+        { label: "For Coaches", href: "/coach" },
+        { label: "Pricing", href: "/pricing" },
+      ],
       resources: ["The science", "Blog"],
       company: ["About", "Privacy", "Terms", "Contact"],
     },
@@ -47,18 +55,22 @@ export const Footer = () => {
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">{c.tagline}</p>
           </div>
           {([
-            ["product", c.links.product],
-            ["resources", c.links.resources],
-            ["company", c.links.company],
+            ["product", c.links.product as readonly { label: string; href: string }[]],
+            ["resources", c.links.resources as readonly string[]],
+            ["company", c.links.company as readonly string[]],
           ] as const).map(([key, links], idx) => (
             <div key={key} className={cn("md:col-span-2", idx === 0 && "md:col-start-7")}>
               <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                 {c[key as "product" | "resources" | "company"]}
               </div>
               <ul className="mt-5 space-y-3">
-                {links.map((l) => (
-                  <li key={l}><a href="#" className="text-sm transition hover:text-primary">{l}</a></li>
-                ))}
+                {(links as any[]).map((l) => {
+                  const label = typeof l === "string" ? l : l.label;
+                  const href = typeof l === "string" ? "#" : l.href;
+                  return (
+                    <li key={label}><a href={href} className="text-sm transition hover:text-primary">{label}</a></li>
+                  );
+                })}
               </ul>
             </div>
           ))}
