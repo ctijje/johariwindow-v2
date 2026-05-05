@@ -77,8 +77,15 @@ const t = {
       resources: "SUMBER",
       company: "PERUSAHAAN",
       links: {
-      product: ["Cara Kerja", "Untuk Coach", "Harga"],
-        resources: ["Sains di Baliknya", "Blog"],
+      product: [
+          { label: "Cara Kerja", href: "/#how" },
+          { label: "Untuk Coach", href: "/coach" },
+          { label: "Harga", href: "/pricing" },
+        ],
+        resources: [
+          { label: "Sains di Baliknya", href: "/science" },
+          { label: "Blog", href: "#" },
+        ],
         company: ["Tentang", "Privasi", "Syarat", "Kontak"],
       },
     },
@@ -151,8 +158,15 @@ const t = {
       resources: "RESOURCES",
       company: "COMPANY",
       links: {
-      product: ["How it works", "For coaches", "Pricing"],
-        resources: ["The science", "Blog"],
+      product: [
+          { label: "How it works", href: "/#how" },
+          { label: "For coaches", href: "/coach" },
+          { label: "Pricing", href: "/pricing" },
+        ],
+        resources: [
+          { label: "The science", href: "/science" },
+          { label: "Blog", href: "#" },
+        ],
         company: ["About", "Privacy", "Terms", "Contact"],
       },
     },
@@ -495,9 +509,9 @@ const Index = () => {
                 {c.final.ctaPrimary}
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </Link>
-              <button className="rounded-full border border-primary-foreground/40 px-7 py-4 font-medium text-primary-foreground transition hover:bg-primary-foreground/10">
+              <Link to="/science" className="rounded-full border border-primary-foreground/40 px-7 py-4 font-medium text-primary-foreground transition hover:bg-primary-foreground/10">
                 {c.final.ctaSecondary}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -521,9 +535,13 @@ const Index = () => {
                   {c.footer[key as "product" | "resources" | "company"]}
                 </div>
                 <ul className="mt-5 space-y-3">
-                  {links.map((l) => (
-                    <li key={l}><a href="#" className="text-sm transition hover:text-primary">{l}</a></li>
-                  ))}
+                  {(links as readonly (string | { label: string; href: string })[]).map((l) => {
+                    const label = typeof l === "string" ? l : l.label;
+                    const href = typeof l === "string" ? "#" : l.href;
+                    return (
+                      <li key={label}><a href={href} className="text-sm transition hover:text-primary">{label}</a></li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
