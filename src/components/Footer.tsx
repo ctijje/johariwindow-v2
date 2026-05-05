@@ -22,7 +22,10 @@ const COPY = {
         { label: "Untuk Coach", href: "/coach" },
         { label: "Harga", href: "/pricing" },
       ],
-      resources: ["Sains di Baliknya", "Blog"],
+      resources: [
+        { label: "Sains di Baliknya", href: "/science" },
+        { label: "Blog", href: "#" },
+      ],
       company: ["Tentang", "Privasi", "Syarat", "Kontak"],
     },
   },
@@ -37,7 +40,10 @@ const COPY = {
         { label: "For Coaches", href: "/coach" },
         { label: "Pricing", href: "/pricing" },
       ],
-      resources: ["The science", "Blog"],
+      resources: [
+        { label: "The science", href: "/science" },
+        { label: "Blog", href: "#" },
+      ],
       company: ["About", "Privacy", "Terms", "Contact"],
     },
   },
