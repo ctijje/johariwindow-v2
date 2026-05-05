@@ -62,7 +62,7 @@ export const Footer = () => {
           </div>
           {([
             ["product", c.links.product as readonly { label: string; href: string }[]],
-            ["resources", c.links.resources as readonly string[]],
+            ["resources", c.links.resources as readonly { label: string; href: string }[]],
             ["company", c.links.company as readonly string[]],
           ] as const).map(([key, links], idx) => (
             <div key={key} className={cn("md:col-span-2", idx === 0 && "md:col-start-7")}>
