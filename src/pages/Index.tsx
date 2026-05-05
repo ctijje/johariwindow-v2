@@ -3,7 +3,7 @@ import { ArrowRight, Lock, Users, Clock, LayoutGrid, Plus, Minus, Globe } from "
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import johariDoodle from "@/assets/johari-window-doodle.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLang } from "@/lib/lang";
 
 type Lang = "id" | "en";
@@ -190,6 +190,47 @@ const Kicker = ({ children }: { children: React.ReactNode }) => (
     {children}
   </div>
 );
+
+const QuickStart = ({ c, lang }: { c: any; lang: Lang }) => {
+  const nav = useNavigate();
+  const [form, setForm] = useState({ name: "", email: "", whatsapp: "" });
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.whatsapp) return;
+    sessionStorage.setItem("johari.profile", JSON.stringify(form));
+    nav("/test/words");
+  };
+  const field = "rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary";
+  return (
+    <div className="mt-16 rounded-3xl border border-border/70 bg-gradient-brand-soft p-8 md:p-12">
+      <div className="grid gap-10 md:grid-cols-2 md:items-center">
+        <div>
+          <Kicker>{c.previewKicker}</Kicker>
+          <h3 className="mt-5 font-serif text-3xl md:text-4xl">{c.previewTitle}</h3>
+          <p className="mt-3 text-muted-foreground">{c.previewLead}</p>
+        </div>
+        <form onSubmit={submit} className="space-y-4 rounded-2xl border border-border/70 bg-background p-6">
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewName} *</span>
+            <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewEmail} *</span>
+            <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <label className="block">
+            <span className="text-xs text-muted-foreground">{c.previewWa} *</span>
+            <input required type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} className={`mt-1 w-full ${field}`} />
+          </label>
+          <button type="submit" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 py-3.5 font-medium text-primary-foreground shadow-brand transition hover:scale-[1.01]">
+            {c.previewCta}
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const Index = () => {
   const { lang, toggle } = useLang();
