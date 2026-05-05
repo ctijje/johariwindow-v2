@@ -18,6 +18,7 @@ import CoachLanding from "./pages/coach/CoachLanding.tsx";
 import CoachDashboard from "./pages/coach/CoachDashboard.tsx";
 import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
 import Pricing from "./pages/Pricing.tsx";
+import Science from "./pages/Science.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/science" element={<Science />} />
               <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />
               <Route path="/coach/mentee/:id" element={<ProtectedRoute requireRole="coach"><MenteeDetail /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
