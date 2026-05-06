@@ -15,7 +15,10 @@ const Result = () => {
   const [peerCount, setPeerCount] = useState(0);
 
   useEffect(() => {
-    const id = sessionStorage.getItem("johari.windowId");
+    const params = new URLSearchParams(window.location.search);
+    const urlId = params.get("w");
+    const id = urlId || sessionStorage.getItem("johari.windowId");
+    if (urlId) sessionStorage.setItem("johari.windowId", urlId);
     if (!id) { nav("/test"); return; }
     (async () => {
       const { data: w } = await supabase.rpc("get_self_window", { _id: id });

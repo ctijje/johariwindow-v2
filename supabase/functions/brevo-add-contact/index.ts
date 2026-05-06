@@ -1,11 +1,15 @@
-import { corsHeaders } from "@supabase/supabase-js/cors";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
     const body = await req.json();
-    const { email, name, whatsapp, occupation, age, gender, referralSource } = body ?? {};
+    const { email, name, whatsapp, occupation, age, gender, referralSource, resultUrl, peerUrl, code } = body ?? {};
 
     if (!email || typeof email !== "string") {
       return new Response(JSON.stringify({ error: "email required" }), {
@@ -34,6 +38,9 @@ Deno.serve(async (req) => {
       AGE: age ? Number(age) : undefined,
       GENDER: gender || undefined,
       REFERRAL_SOURCE: referralSource || undefined,
+      RESULT_URL: resultUrl || undefined,
+      PEER_URL: peerUrl || undefined,
+      JOHARI_CODE: code || undefined,
     };
     Object.keys(attributes).forEach((k) => attributes[k] === undefined && delete attributes[k]);
 
