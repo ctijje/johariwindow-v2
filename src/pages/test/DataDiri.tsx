@@ -66,6 +66,9 @@ const DataDiri = () => {
         sessionStorage.setItem("johari.windowId", data[0].id);
         sessionStorage.setItem("johari.code", data[0].code);
         // Fire-and-forget Brevo sync; never block user
+        const origin = window.location.origin;
+        const resultUrl = `${origin}/test/result?w=${data[0].id}`;
+        const peerUrl = `${origin}/peer/${data[0].code}`;
         supabase.functions.invoke("brevo-add-contact", {
           body: {
             email: parsed.data.email,
@@ -75,8 +78,11 @@ const DataDiri = () => {
             age: parsed.data.age ? Number(parsed.data.age) : undefined,
             gender: parsed.data.gender || "",
             referralSource: parsed.data.referralSource || "",
+            code: data[0].code,
+            resultUrl,
+            peerUrl,
           },
-        }).catch((err) => console.warn("brevo sync failed", err));
+        }).then((r) => console.log("brevo sync", r)).catch((err) => console.warn("brevo sync failed", err));
         nav("/test/share");
         return;
       }
