@@ -1,110 +1,42 @@
+## Plan: 3 perbaikan
 
-# Untuk Coach & Untuk Tim — Plan
+### 1. Sub-deskripsi kata tidak ke-translate ke EN
+Di `src/data/adjectives.ts`, semua 56 adjective hanya punya `sub_id` (deskripsi singkat dalam Bahasa Indonesia). Field `sub_en` default kosong, sehingga `AdjectiveGrid` & chip hasil fallback menampilkan teks Indonesia walau bahasa = EN.
 
-Membangun dua portal terpisah (Coach & Tim) di atas alur Johari Window yang sudah ada, plus pembersihan navigasi. Login (tombol "Masuk") hanya tersedia untuk Coach & Team — peserta individual tetap pakai flow tanpa daftar.
+**Fix:** Tambahkan `sub_en` (terjemahan natural) untuk seluruh 56 adjective. Otomatis terpakai di halaman Words, Peer, dan Result.
 
----
+### 2. Data tidak masuk ke Brevo + kirim email hasil otomatis
+Log edge function menunjukkan `Brevo error 401: unrecognised IP address`. Kamu akan generate API key Brevo baru tanpa IP allowlist (atau matikan allowlistnya). Itu cukup untuk meresume sync contact.
 
-## 1. Navigasi (Header & Footer)
+Sekaligus pasang **email transaksional otomatis** ke user setelah submit data diri, berisi:
+- Sapaan personal + ringkasan singkat
+- **Link hasil** (`/test/result?w=<windowId>`) — bisa dibuka kapan saja
+- **Link feedback peer** (`/peer/<code>`) — untuk dibagikan ke teman
+- **Kode unik** Johari mereka
 
-**Header** (`src/pages/Index.tsx`)
-- Hapus link: `Cerita` (#voices) dan `FAQ` (#faq).
-- Tambah link: `Untuk Coach` → `/coach`, `Untuk Tim` → `/team`.
-- Tombol `Masuk` → `/auth` (login/signup khusus Coach & Team).
-- Tombol CTA `Mulai Gratis` tetap → `/test` (peserta umum).
+Email akan dikirim dari domain **johariwindow.id** menggunakan infrastruktur email bawaan Lovable (bukan via Brevo, biar lebih reliable, ada queue + retry, dan tidak terpengaruh IP allowlist Brevo). Sender default: `Johari Window <noreply@notify.johariwindow.id>`. Bahasa email mengikuti bahasa user saat isi form (ID/EN).
 
-**Footer** (`src/components/Footer.tsx` & footer di `Index.tsx`)
-- Pindahkan `Untuk Coach` & `Untuk Tim` dari kolom **SUMBER** ke kolom **PRODUK**.
-- Kolom Produk jadi: `Cara Kerja`, `Untuk Coach`, `Untuk Tim`, `Versi Grup`, `Harga`.
-- Kolom Sumber jadi: `Sains di Baliknya`, `Blog`.
+Langkah teknis:
+- Setup email domain `johariwindow.id` (kamu akan diminta tambahkan DNS records sekali — dijalankan via dialog setup).
+- Setup email infra + scaffold transactional email.
+- Buat template `johari-window-ready.tsx` (dwibahasa, branding gradient orange sesuai app).
+- Panggil `send-transactional-email` dari `DataDiri.tsx` setelah `create_window` sukses (idempotency key dari `windowId`).
+- Tetap pertahankan sync ke Brevo (untuk list/contact attribute) — hanya minta kamu update secret `BREVO_API_KEY` dengan key baru tanpa IP restriction.
 
----
+### 3. Tombol "Bagikan hasil" di halaman Profile tidak berfungsi
+Di `src/pages/test/Profile.tsx` baris 115, button copy `window.location.origin + "/"` (homepage), bukan link hasil.
 
-## 2. Halaman publik baru
-
-- `/coach` — landing page "Untuk Coach": value prop, cara kerja (invite mentee, lihat profil, sesi go-through), CTA `Daftar sebagai Coach` & `Masuk`.
-- `/team` — landing page "Untuk Tim": value prop untuk team lead/HR, CTA `Daftar Tim` & `Masuk`.
-- `/auth` — login + signup terpadu, dengan pilihan role saat signup (Coach atau Team Lead). Email/password + Google.
-
----
-
-## 3. Authentication & Roles
-
-- Aktifkan email/password + Google sign-in via Lovable Cloud.
-- Saat signup user pilih role: `coach` atau `team_lead`.
-- Setelah login → redirect ke dashboard yang sesuai (`/coach/dashboard` atau `/team/dashboard`).
+**Fix:** Copy URL hasil yang shareable: `${origin}/test/result?w=${windowId}` (windowId diambil dari `sessionStorage.getItem("johari.windowId")`). Tambahkan juga tombol "Kirim via WhatsApp" agar konsisten dengan halaman Share.
 
 ---
 
-## 4. Coach Dashboard (`/coach/dashboard`)
+### File yang berubah
+- `src/data/adjectives.ts` — isi `sub_en` untuk 56 entry.
+- `supabase/functions/_shared/transactional-email-templates/johari-window-ready.tsx` — template baru (ID/EN, branding orange).
+- `supabase/functions/_shared/transactional-email-templates/registry.ts` — daftarkan template.
+- `src/pages/test/DataDiri.tsx` — invoke `send-transactional-email` setelah create window.
+- `src/pages/test/Profile.tsx` — perbaiki link share + tombol WA.
 
-Kemampuan:
-- **Daftar mentee**: list semua mentee yang ditambahkan coach + status (belum mulai / self words selesai / peer feedback masuk / siap review).
-- **Tambah mentee**: form (nama, email, WA opsional) → otomatis generate Johari window, kirim link ke mentee untuk pilih kata + share ke peer.
-- **Detail mentee** (`/coach/mentee/:id`):
-  - 4 panel Johari (Open/Blind/Hidden/Unknown).
-  - Profil bakat (Potensi Utama & Pendukung) — pakai logic `computeArchetypes`.
-  - Daftar peer responses + ringkasan kata terbanyak.
-  - **Mode "Go-through"**: tampilan presentasi step-by-step yang coach bisa share-screen saat sesi 1-on-1 dengan mentee (intro → self words → peer words → 4 panel → archetype → next steps).
-  - Catatan sesi (private, hanya coach yang lihat).
-
----
-
-## 5. Team Dashboard (`/team/dashboard`)
-
-Kemampuan:
-- **Daftar tim** yang dimiliki team_lead (mis. "Engineering Q1", "Design Team").
-- **Buat tim baru**: nama tim + invite member (email).
-- **Detail tim** (`/team/:id`):
-  - Member list dengan status pengisian.
-  - **Aggregate view**: arketipe dominan tim, distribusi kekuatan, gap (mis. banyak Analyst, sedikit Connector).
-  - Per-member drill-down (Johari window + arketipe individu).
-  - Mode go-through untuk team workshop.
-
----
-
-## 6. Skema database (migrasi baru)
-
-Tabel baru:
-- **`profiles`** — `user_id` (FK auth.users, unique), `display_name`, `avatar_url`. Auto-created via trigger `on_auth_user_created`.
-- **`user_roles`** — `user_id`, `role` (enum: `coach`, `team_lead`, `admin`). **Wajib tabel terpisah** untuk hindari privilege escalation. Pakai `has_role()` security definer function.
-- **`coach_mentees`** — `coach_id` (FK auth.users), `window_id` (FK windows), `mentee_name`, `mentee_email`, `notes`, `status`.
-- **`teams`** — `owner_id` (FK auth.users), `name`, `description`.
-- **`team_members`** — `team_id` (FK teams), `window_id` (FK windows nullable), `member_email`, `member_name`, `joined_at`.
-
-Update tabel `windows`:
-- Tambah kolom `owner_type` (`self` | `coach` | `team`) dan `owner_id` (uuid nullable) supaya bisa difilter di RLS.
-
-RLS policies:
-- `profiles`: user lihat/update profilnya sendiri.
-- `user_roles`: user lihat rolenya sendiri; hanya admin yang bisa insert/update.
-- `coach_mentees`: hanya coach pemilik (`coach_id = auth.uid()` AND `has_role(auth.uid(), 'coach')`).
-- `teams` + `team_members`: hanya owner tim (`owner_id = auth.uid()` AND `has_role(auth.uid(), 'team_lead')`).
-- `windows`: tetap public insert (peserta umum); SELECT lewat RPC security-definer atau policy tambahan untuk coach/team owner.
-- `peer_responses`: tetap seperti sekarang (public insert, public select via RPC).
-
----
-
-## 7. Teknis singkat
-
-- React Router: tambah route `/coach`, `/team`, `/auth`, `/coach/dashboard`, `/coach/mentee/:id`, `/team/dashboard`, `/team/:id`.
-- Buat `ProtectedRoute` wrapper yang cek session + role via `has_role` RPC.
-- `useAuth` hook dengan `onAuthStateChange` listener (di-set BEFORE `getSession()`).
-- Reuse komponen yang sudah ada: `AdjectiveGrid`, `computePanels`, `computeArchetypes`, panel/profile UI dari `Result.tsx` & `Profile.tsx`.
-- Mode go-through = komponen step-controller baru (`<GoThroughDeck />`) dengan prev/next + keyboard nav.
-
----
-
-## 8. Yang TIDAK termasuk di plan ini (bisa fase berikutnya)
-
-- Billing / paywall untuk Coach Pro / Team Pro.
-- Email notifikasi otomatis ke mentee/team member (hanya copy-link share dulu).
-- Real-time collaboration di mode go-through.
-- Custom branding per coach/team.
-
----
-
-**Konfirmasi sebelum saya mulai build:**
-1. Auth: default email/password + Google sign-in — OK?
-2. Saat signup, user pilih role Coach atau Team Lead di form yang sama — OK? (Atau mau dua signup page terpisah?)
-3. Mentee/team member **tidak perlu akun** — mereka cuma terima link Johari seperti flow publik sekarang. OK?
+### Yang dibutuhkan dari kamu (setelah plan disetujui)
+1. **Update secret `BREVO_API_KEY`** dengan API key Brevo baru (tanpa IP allowlist).
+2. **Setup DNS** untuk domain `johariwindow.id` (dialog akan muncul, copy-paste records ke registrar kamu sekali saja).
