@@ -112,8 +112,12 @@ const Profile = () => {
         </button>
         <button
           onClick={() => {
-            navigator.clipboard.writeText(window.location.origin + "/");
-            toast.success(lang === "id" ? "Link disalin" : "Link copied");
+            const wid = sessionStorage.getItem("johari.windowId");
+            const url = wid
+              ? `${window.location.origin}/test/result?w=${wid}`
+              : window.location.origin + "/";
+            navigator.clipboard.writeText(url);
+            toast.success(lang === "id" ? "Link hasil disalin" : "Result link copied");
           }}
           className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-medium text-primary-foreground shadow-brand"
         >
