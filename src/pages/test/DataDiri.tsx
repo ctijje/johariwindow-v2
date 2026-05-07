@@ -120,14 +120,7 @@ const DataDiri = () => {
               onChange={(e) => setForm({ ...form, occupation: e.target.value })}
               className={`mt-1 w-full ${field}`} />
           </label>
-          <div className="grid grid-cols-2 gap-5">
-            <label className="block">
-              <span className="text-sm text-muted-foreground">{labels.age}</span>
-              <input type="number" min={10} max={120} value={form.age}
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-                className={`mt-1 w-full ${field}`} />
-            </label>
-            <label className="block">
+          <label className="block">
               <span className="text-sm text-muted-foreground">{labels.gender}</span>
               <select value={form.gender}
                 onChange={(e) => setForm({ ...form, gender: e.target.value })}
@@ -137,8 +130,7 @@ const DataDiri = () => {
                 <option value={lang === "id" ? "Laki-laki" : "Male"}>{lang === "id" ? "Laki-laki" : "Male"}</option>
                 <option value={lang === "id" ? "Lainnya" : "Other"}>{lang === "id" ? "Lainnya" : "Other"}</option>
               </select>
-            </label>
-          </div>
+          </label>
           <label className="block">
             <span className="text-sm text-muted-foreground">{labels.ref}</span>
             <input type="text" value={form.referralSource} placeholder={labels.refPh}
