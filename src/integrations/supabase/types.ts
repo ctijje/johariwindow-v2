@@ -143,7 +143,7 @@ export type Database = {
       }
       windows: {
         Row: {
-          age: number
+          age: number | null
           code: string
           created_at: string
           email: string
@@ -158,7 +158,7 @@ export type Database = {
           whatsapp: string
         }
         Insert: {
-          age: number
+          age?: number | null
           code: string
           created_at?: string
           email: string
@@ -173,7 +173,7 @@ export type Database = {
           whatsapp: string
         }
         Update: {
-          age?: number
+          age?: number | null
           code?: string
           created_at?: string
           email?: string
