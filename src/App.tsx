@@ -10,6 +10,7 @@ import Words from "./pages/test/Words.tsx";
 import Share from "./pages/test/Share.tsx";
 import Result from "./pages/test/Result.tsx";
 import Profile from "./pages/test/Profile.tsx";
+import Story from "./pages/test/Story.tsx";
 import Peer from "./pages/test/Peer.tsx";
 import { LangProvider } from "./lib/lang.tsx";
 import { AuthProvider } from "./hooks/useAuth.tsx";
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/test/share" element={<Share />} />
               <Route path="/test/result" element={<Result />} />
               <Route path="/test/profile" element={<Profile />} />
+              <Route path="/test/story" element={<Story />} />
               <Route path="/peer/:code" element={<Peer />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
