@@ -1,0 +1,8 @@
+ALTER TABLE public.windows
+  DROP CONSTRAINT IF EXISTS age_range;
+
+ALTER TABLE public.windows
+  ALTER COLUMN age DROP NOT NULL;
+
+ALTER TABLE public.windows
+  ADD CONSTRAINT age_range CHECK (age IS NULL OR age BETWEEN 10 AND 120);
