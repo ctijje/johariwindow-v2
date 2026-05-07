@@ -211,6 +211,32 @@ export type Database = {
           id: string
         }[]
       }
+      get_client_window: {
+        Args: { _code: string }
+        Returns: {
+          code: string
+          id: string
+          name: string
+          owner_type: string
+          self_done: boolean
+        }[]
+      }
+      get_coach_roster: {
+        Args: never
+        Returns: {
+          code: string
+          created_at: string
+          mentee_email: string
+          mentee_id: string
+          mentee_name: string
+          mentee_whatsapp: string
+          notes: string
+          peer_count: number
+          self_done: boolean
+          status: string
+          window_id: string
+        }[]
+      }
       get_self_window: {
         Args: { _id: string }
         Returns: {
@@ -257,6 +283,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      submit_client_self: {
+        Args: { _code: string; _name?: string; _self_words: string[] }
+        Returns: string
       }
     }
     Enums: {
