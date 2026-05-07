@@ -111,6 +111,23 @@ const CoachDashboard = () => {
         status: "invited",
       });
       if (mErr) { toast.error(mErr.message); return; }
+      // Sync ke Brevo (kontak + link self & peer)
+      if (form.email.trim()) {
+        const origin = window.location.origin;
+        supabase.functions.invoke("brevo-add-contact", {
+          body: {
+            email: form.email.trim(),
+            name: form.name.trim(),
+            whatsapp: form.whatsapp.trim() || "",
+            occupation: "",
+            gender: "",
+            referralSource: "coach",
+            code,
+            resultUrl: `${origin}/client/${code}`,
+            peerUrl: `${origin}/peer/${code}`,
+          },
+        }).catch((err) => console.warn("brevo sync failed", err));
+      }
       toast.success(lang === "id" ? "Klien ditambahkan" : "Client added");
       setForm({ name: "", email: "", whatsapp: "" });
       setShowForm(false);
