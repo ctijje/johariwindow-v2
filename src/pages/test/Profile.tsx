@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Share2 } from "lucide-react";
+import { ArrowLeft, Share2, Sparkles } from "lucide-react";
 import { TestShell, StepKicker } from "@/components/test/TestShell";
 import { useLang } from "@/lib/lang";
 import { supabase } from "@/integrations/supabase/client";
@@ -110,6 +110,14 @@ const Profile = () => {
         <button onClick={() => nav("/test/result")} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> {lang === "id" ? "Kembali" : "Back"}
         </button>
+        <div className="flex flex-wrap items-center gap-2">
+        <button
+          onClick={() => nav("/test/story")}
+          className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium hover:border-primary hover:text-primary"
+        >
+          <Sparkles className="h-4 w-4" />
+          {lang === "id" ? "Versi story" : "Story version"}
+        </button>
         <button
           onClick={() => {
             const wid = sessionStorage.getItem("johari.windowId");
@@ -124,6 +132,7 @@ const Profile = () => {
           <Share2 className="h-4 w-4" />
           {lang === "id" ? "Bagikan hasil" : "Share results"}
         </button>
+        </div>
       </div>
     </TestShell>
   );
