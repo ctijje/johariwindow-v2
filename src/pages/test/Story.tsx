@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Copy, Download, Share2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { computePanels, type PanelKey } from "@/lib/johari";
+import { computePanels, computeArchetypes, type PanelKey } from "@/lib/johari";
 import { useLang } from "@/lib/lang";
 import { toast } from "sonner";
 
@@ -90,6 +90,7 @@ const Story = () => {
   const { lang } = useLang();
   const [name, setName] = useState("");
   const [dominant, setDominant] = useState<PanelKey | null>(null);
+  const [primary, setPrimary] = useState<{ name_id: string; name_en: string } | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -100,7 +101,10 @@ const Story = () => {
       const { data: peers } = await supabase.from("peer_responses").select("words").eq("window_id", id);
       if (!w?.[0]) return;
       setName(w[0].name ?? "");
-      const panels = computePanels(w[0].self_words ?? [], (peers ?? []).map((p: any) => p.words));
+      const peerWords = (peers ?? []).map((p: any) => p.words);
+      const panels = computePanels(w[0].self_words ?? [], peerWords);
+      const arche = computeArchetypes(w[0].self_words ?? [], peerWords);
+      setPrimary(arche.primary);
       const counts: [PanelKey, number][] = [
         ["open", panels.open.length],
         ["blind", panels.blind.length],
@@ -168,28 +172,44 @@ const Story = () => {
             <line x1="60" y1="80" x2="140" y2="80" />
           </svg>
 
-          <div className="relative flex h-full flex-col items-center px-7 pt-[26%] text-center">
+          {/* brand */}
+          <div className="absolute left-0 right-0 top-4 text-center font-mono text-[11px] tracking-[0.32em] text-white/85">
+            johariwindow.id
+          </div>
+
+          <div className="relative flex h-full flex-col items-center px-7 pt-[22%] text-center">
             <span className="rounded-full border border-white/40 bg-white/10 px-3 py-1 font-mono text-[10px] tracking-[0.2em]">
               {theme.kicker}
             </span>
 
-            <h1 className="mt-5 text-[44px] font-black leading-[0.95] tracking-tight drop-shadow-[0_2px_0_rgba(0,0,0,0.35)]">
+            <h1 className="mt-4 text-[44px] font-black leading-[0.95] tracking-tight drop-shadow-[0_2px_0_rgba(0,0,0,0.35)]">
               {(lang === "id" ? theme.title_id : theme.title_en).split(" ").map((w, i) => (
                 <span key={i} className="block">{w}</span>
               ))}
             </h1>
 
-            <div className="mt-3 font-serif text-base italic text-white/80">{theme.tags}</div>
+            <div className="mt-2 font-serif text-base italic text-white/80">{theme.tags}</div>
 
-            <p className="mt-4 max-w-[85%] text-[15px] leading-snug text-white/95">
+            <p className="mt-3 max-w-[85%] text-[14px] leading-snug text-white/95">
               {lang === "id" ? theme.desc_id : theme.desc_en}
             </p>
 
-            <div className="mt-5 rounded-full border border-white/30 bg-white/10 px-5 py-2 font-mono text-xs">
+            <div className="mt-4 max-w-[85%] truncate rounded-full border border-white/30 bg-white/10 px-5 py-2 font-mono text-xs">
               ✦ {name || (lang === "id" ? "tulis nama kamu di sini" : "your name here")} ✦
             </div>
 
-            <div className="mt-4 w-full border-t border-white/30 pt-2 font-mono text-[10px] tracking-[0.18em] text-white/80">
+            {primary && (
+              <div className="mt-3 flex flex-col items-center">
+                <div className="font-mono text-[9px] tracking-[0.25em] text-white/70">
+                  {lang === "id" ? "POTENSI UTAMA" : "PRIMARY POTENTIAL"}
+                </div>
+                <div className="mt-1 text-[15px] font-bold" style={{ color: theme.cta }}>
+                  {lang === "id" ? primary.name_id : primary.name_en}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-3 w-full border-t border-white/30 pt-2 font-mono text-[10px] tracking-[0.18em] text-white/80">
               {lang === "id" ? theme.axis_id : theme.axis_en}
             </div>
 
