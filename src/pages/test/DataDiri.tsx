@@ -54,7 +54,7 @@ const DataDiri = () => {
         _email: parsed.data.email,
         _whatsapp: parsed.data.whatsapp,
         _occupation: parsed.data.occupation || "",
-        _age: 0,
+        _age: null,
         _gender: parsed.data.gender || "",
         _self_words: selfWords,
         _code: code,
