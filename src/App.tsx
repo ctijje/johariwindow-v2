@@ -12,6 +12,7 @@ import Result from "./pages/test/Result.tsx";
 import Profile from "./pages/test/Profile.tsx";
 import Story from "./pages/test/Story.tsx";
 import Peer from "./pages/test/Peer.tsx";
+import ClientSelf from "./pages/test/ClientSelf.tsx";
 import { LangProvider } from "./lib/lang.tsx";
 import { AuthProvider } from "./hooks/useAuth.tsx";
 import Auth from "./pages/Auth.tsx";
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/test/profile" element={<Profile />} />
               <Route path="/test/story" element={<Story />} />
               <Route path="/peer/:code" element={<Peer />} />
+              <Route path="/client/:code" element={<ClientSelf />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
               <Route path="/pricing" element={<Pricing />} />
