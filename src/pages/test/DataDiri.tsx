@@ -12,7 +12,6 @@ const schema = z.object({
   email: z.string().trim().email().max(255),
   whatsapp: z.string().trim().min(5).max(32),
   occupation: z.string().trim().max(120).optional().or(z.literal("")),
-  age: z.union([z.coerce.number().int().min(10).max(120), z.literal("")]).optional(),
   gender: z.string().trim().max(40).optional().or(z.literal("")),
   referralSource: z.string().trim().max(120).optional().or(z.literal("")),
 });
@@ -28,7 +27,6 @@ const DataDiri = () => {
     email: draft.email ?? "",
     whatsapp: draft.whatsapp ?? "",
     occupation: draft.occupation ?? "",
-    age: draft.age ?? "",
     gender: draft.gender ?? "",
     referralSource: draft.referralSource ?? "",
   });
@@ -36,9 +34,9 @@ const DataDiri = () => {
 
   const labels = lang === "id"
     ? { title: "Data diri", lead: "Informasi ini digunakan untuk mengirimkan hasil kepadamu dan tidak akan dibagikan ke pihak lain.",
-        name: "Nama lengkap", email: "Email", wa: "Nomor WhatsApp", occ: "Pekerjaan saat ini", age: "Usia", gender: "Jenis kelamin", ref: "Tahu darimana?", refPh: "Mis. Instagram, teman, Google…", next: "Lanjut →", back: "Kembali" }
+        name: "Nama lengkap", email: "Email", wa: "Nomor WhatsApp", occ: "Pekerjaan saat ini", gender: "Jenis kelamin", ref: "Tahu darimana?", refPh: "Mis. Instagram, teman, Google…", next: "Lanjut →", back: "Kembali" }
     : { title: "About you", lead: "This information is used to send your results to you and will not be shared.",
-        name: "Full name", email: "Email", wa: "WhatsApp number", occ: "Current occupation", age: "Age", gender: "Gender", ref: "How did you hear about us?", refPh: "e.g. Instagram, a friend, Google…", next: "Next →", back: "Back" };
+        name: "Full name", email: "Email", wa: "WhatsApp number", occ: "Current occupation", gender: "Gender", ref: "How did you hear about us?", refPh: "e.g. Instagram, a friend, Google…", next: "Next →", back: "Back" };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +54,7 @@ const DataDiri = () => {
         _email: parsed.data.email,
         _whatsapp: parsed.data.whatsapp,
         _occupation: parsed.data.occupation || "",
-        _age: parsed.data.age ? Number(parsed.data.age) : 0,
+        _age: 0,
         _gender: parsed.data.gender || "",
         _self_words: selfWords,
         _code: code,
@@ -75,7 +73,6 @@ const DataDiri = () => {
             name: parsed.data.name,
             whatsapp: parsed.data.whatsapp,
             occupation: parsed.data.occupation || "",
-            age: parsed.data.age ? Number(parsed.data.age) : undefined,
             gender: parsed.data.gender || "",
             referralSource: parsed.data.referralSource || "",
             code: data[0].code,
@@ -123,14 +120,7 @@ const DataDiri = () => {
               onChange={(e) => setForm({ ...form, occupation: e.target.value })}
               className={`mt-1 w-full ${field}`} />
           </label>
-          <div className="grid grid-cols-2 gap-5">
-            <label className="block">
-              <span className="text-sm text-muted-foreground">{labels.age}</span>
-              <input type="number" min={10} max={120} value={form.age}
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-                className={`mt-1 w-full ${field}`} />
-            </label>
-            <label className="block">
+          <label className="block">
               <span className="text-sm text-muted-foreground">{labels.gender}</span>
               <select value={form.gender}
                 onChange={(e) => setForm({ ...form, gender: e.target.value })}
@@ -140,8 +130,7 @@ const DataDiri = () => {
                 <option value={lang === "id" ? "Laki-laki" : "Male"}>{lang === "id" ? "Laki-laki" : "Male"}</option>
                 <option value={lang === "id" ? "Lainnya" : "Other"}>{lang === "id" ? "Lainnya" : "Other"}</option>
               </select>
-            </label>
-          </div>
+          </label>
           <label className="block">
             <span className="text-sm text-muted-foreground">{labels.ref}</span>
             <input type="text" value={form.referralSource} placeholder={labels.refPh}

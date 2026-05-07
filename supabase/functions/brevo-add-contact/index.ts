@@ -29,11 +29,25 @@ Deno.serve(async (req) => {
     const [firstName, ...rest] = String(name ?? "").trim().split(/\s+/);
     const lastName = rest.join(" ");
 
+    // Normalize phone to E.164 (Brevo requires it for SMS/WHATSAPP attributes).
+    // Default country: Indonesia (+62) — strip leading 0, spaces, dashes.
+    const normalizePhone = (raw: unknown): string | undefined => {
+      if (!raw) return undefined;
+      let s = String(raw).replace(/[^\d+]/g, "");
+      if (!s) return undefined;
+      if (s.startsWith("+")) return s;
+      if (s.startsWith("62")) return "+" + s;
+      if (s.startsWith("0")) return "+62" + s.slice(1);
+      if (s.startsWith("8")) return "+62" + s;
+      return "+" + s;
+    };
+    const phoneE164 = normalizePhone(whatsapp);
+
     const attributes: Record<string, unknown> = {
       FIRSTNAME: firstName || undefined,
       LASTNAME: lastName || undefined,
-      SMS: whatsapp || undefined,
-      WHATSAPP: whatsapp || undefined,
+      SMS: phoneE164,
+      WHATSAPP: phoneE164,
       OCCUPATION: occupation || undefined,
       AGE: age ? Number(age) : undefined,
       GENDER: gender || undefined,
