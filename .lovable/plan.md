@@ -1,20 +1,18 @@
-## Tambahan di kartu story (`src/pages/test/Story.tsx`)
+## Ganti Favicon dengan Logo Header
 
-1. **Header brand "johariwindow.id"**
-   - Tambahkan baris kecil di paling atas kartu (di atas chip kicker), font mono, tracking lebar, opacity ~80%, warna putih.
-   - Posisikan dengan padding atas yang aman dari area "safe zone" Instagram Story (dikurangi sedikit dari `pt-[26%]` agar tidak berdesakan).
+Logo di header (`DashboardShell.tsx` dan `Index.tsx`) adalah komponen CSS berbasis 2×2 grid dengan warna brand gradient merah-oranye. Saat ini favicon masih default Lovable (`/favicon.ico`).
 
-2. **Potensi utama di bawah nama**
-   - Hitung primary archetype dengan `computeArchetypes(self_words, peer_words)` dari `@/lib/johari` (sudah ada).
-   - Simpan di state `primary` saat fetch data window + peers.
-   - Render di bawah pill nama: label kecil "POTENSI UTAMA / PRIMARY POTENTIAL" + nama arketipe (mis. "Kreator", "Pemimpin", dll) menggunakan `name_id` / `name_en` dari objek archetype.
-   - Style: chip atau dua baris teks pendek, warna mengikuti `theme.cta` agar serasi dengan tema panel dominan.
+### Yang akan dikerjakan
 
-3. **Penyesuaian kecil layout**
-   - Kurangi sedikit `mt-*` antar elemen agar tetap muat di rasio 9:16 setelah ada 2 elemen baru.
-   - Pastikan teks tidak overflow saat nama panjang (truncate / max-width).
+1. **Buat favicon SVG** (`public/favicon.svg`) — replika visual dari logo 2×2 grid header:
+   - Top-left: gradient `#ff3131` → `#ff914d` (solid fill)
+   - Top-right: stroke `#ff3131` 70% opacity (border)
+   - Bottom-left: stroke `#ff914d` (border)
+   - Bottom-right: fill `#ff914d` 40% opacity
+   - Ukuran 32×32px dengan rounded corners
 
-### Catatan teknis
-- Tidak perlu DB/edge function baru; semua data sudah tersedia.
-- `html2canvas` sudah terpasang, jadi hasil download PNG otomatis ikut elemen baru.
-- Tidak ada perubahan di file lain.
+2. **Hapus** `public/favicon.ico` (supaya browser tidak request favicon lama)
+
+3. **Update** `index.html` — ganti `<link rel="icon" ...>` ke `/favicon.svg`
+
+Hasil: favicon di tab browser akan menampilkan ikon grid 2×2 brand yang sama dengan logo di header aplikasi.
