@@ -3,8 +3,8 @@ import { ArrowRight, Check, MessageCircle } from "lucide-react";
 import { useLang } from "@/lib/lang";
 import Footer from "@/components/Footer";
 
-const STARTER_LINK = "https://digitalskillsstudio.myscalev.com/johari-window-coach-starter";
-const GROWTH_LINK = "https://digitalskillsstudio.myscalev.com/johari-window-coach-growth";
+const STARTER_LINK = "https://pro.johariwindow.id/coach-starter";
+const GROWTH_LINK = "https://pro.johariwindow.id/coach-growth";
 const WHATSAPP_LINK = "https://wa.me/628561230413";
 
 const Pricing = () => {
