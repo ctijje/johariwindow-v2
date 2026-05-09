@@ -18,7 +18,7 @@ const Profile = () => {
     if (!id) { nav("/test"); return; }
     (async () => {
       const { data: w } = await supabase.rpc("get_self_window", { _id: id });
-      const { data: peers } = await supabase.from("peer_responses").select("words").eq("window_id", id);
+      const { data: peers } = await supabase.rpc("get_peer_words", { _window_id: id });
       if (!w?.[0]) return;
       const result = computeArchetypes(w[0].self_words ?? [], (peers ?? []).map((p: any) => p.words));
       setPrimary(result.primary);
