@@ -288,6 +288,10 @@ export type Database = {
         Args: { _code: string; _name?: string; _self_words: string[] }
         Returns: string
       }
+      submit_peer_response: {
+        Args: { _code: string; _peer_name: string; _words: string[] }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "coach" | "team_lead"
