@@ -1,0 +1,2 @@
+ALTER TABLE public.windows DROP CONSTRAINT IF EXISTS whatsapp_len;
+ALTER TABLE public.windows ADD CONSTRAINT whatsapp_len CHECK (whatsapp = '' OR (char_length(whatsapp) >= 5 AND char_length(whatsapp) <= 32));
