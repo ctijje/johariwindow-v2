@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -17,34 +17,40 @@ const signupSchema = z.object({
 const Auth = () => {
   const { lang } = useLang();
   const nav = useNavigate();
+  const [params] = useSearchParams();
+  const next = params.get("next");
+  const asIndividual = !!next;
   const { session, roles, loading } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
-  // Auto-assign coach role if missing, then redirect
   useEffect(() => {
     if (loading || !session) return;
     (async () => {
-      if (!roles.includes("coach")) {
+      if (!asIndividual && !roles.includes("coach")) {
         const { error } = await supabase.from("user_roles").insert({ user_id: session.user.id, role: "coach" });
         if (error && !error.message.includes("duplicate")) { toast.error(error.message); return; }
       }
-      nav("/coach/dashboard", { replace: true });
+      nav(next || "/coach/dashboard", { replace: true });
     })();
-  }, [loading, session, roles, nav]);
+  }, [loading, session, roles, nav, next, asIndividual]);
 
   const t = lang === "id" ? {
-    title: "Masuk untuk Coach",
-    sub: "Khusus Coach. Peserta umum bisa langsung mulai tanpa daftar.",
+    title: asIndividual ? "Masuk untuk simpan hasilmu" : "Masuk untuk Coach",
+    sub: asIndividual
+      ? "Hasil Johari Window butuh feedback peer. Login agar hasilmu tersimpan dan bisa dibuka kapan saja, di perangkat manapun."
+      : "Khusus Coach. Peserta umum bisa langsung mulai tanpa daftar.",
     signin: "Masuk", signup: "Daftar",
     name: "Nama lengkap", email: "Email", password: "Kata sandi",
     google: "Lanjut dengan Google",
     or: "atau", noAcc: "Belum punya akun?", hasAcc: "Sudah punya akun?",
     backHome: "Kembali ke beranda",
   } : {
-    title: "Sign in for Coaches",
-    sub: "For Coaches only. Individual participants can start without an account.",
+    title: asIndividual ? "Sign in to save your result" : "Sign in for Coaches",
+    sub: asIndividual
+      ? "Your Johari Window needs peer feedback. Sign in so your result is saved and you can return anytime, on any device."
+      : "For Coaches only. Individual participants can start without an account.",
     signin: "Sign in", signup: "Create account",
     name: "Full name", email: "Email", password: "Password",
     google: "Continue with Google",
