@@ -19,8 +19,8 @@ const Pricing = () => {
     backHome: "← Kembali",
     tiers: [
       { name: "Gratis", price: "Rp 0", desc: "Untuk individu. Akses penuh ke Johari Window pribadi.", features: ["1 jendela pribadi", "Undang peer tanpa batas", "Profil bakat & arketipe"], cta: "Mulai gratis", href: "/test", primary: false, highlight: false },
-      { name: "Coach Starter", price: "Rp 99.000", desc: "1–49 anggota tim/mentee.", features: ["Hingga 49 mentee/anggota", "Dashboard coach", "Mode go-through 1-on-1", "Catatan sesi privat"], cta: "Pilih paket", href: STARTER_LINK, primary: true, highlight: true },
-      { name: "Coach Growth", price: "Rp 199.000", desc: "Mulai dari 50 anggota.", features: ["50+ mentee/anggota", "Semua fitur Starter", "Agregat kekuatan tim"], cta: "Pilih paket", href: GROWTH_LINK, primary: false, highlight: false },
+      { name: "Coach Starter", price: "Rp 99.000", desc: "1–30 anggota tim/mentee.", features: ["Hingga 30 mentee/anggota", "Dashboard coach", "Mode go-through 1-on-1", "Catatan sesi privat"], cta: "Pilih paket", href: STARTER_LINK, primary: true, highlight: true },
+      { name: "Coach Growth", price: "Rp 199.000", desc: "Hingga 60 anggota tim/mentee.", features: ["Hingga 60 mentee/anggota", "Semua fitur Starter", "Agregat kekuatan tim"], cta: "Pilih paket", href: GROWTH_LINK, primary: false, highlight: false },
     ],
     enterprise: { name: "Butuh paket khusus?", desc: "Custom paket untuk organisasi besar. Hubungi kami via WhatsApp.", cta: "Hubungi via WhatsApp" },
   } : {
@@ -33,8 +33,8 @@ const Pricing = () => {
     backHome: "← Back",
     tiers: [
       { name: "Free", price: "Rp 0", desc: "For individuals. Full access to your personal Johari Window.", features: ["1 personal window", "Unlimited peer invites", "Talent profile & archetypes"], cta: "Start free", href: "/test", primary: false, highlight: false },
-      { name: "Coach Starter", price: "Rp 99,000", desc: "1–49 mentees/members.", features: ["Up to 49 mentees", "Coach dashboard", "1-on-1 go-through mode", "Private session notes"], cta: "Choose plan", href: STARTER_LINK, primary: true, highlight: true },
-      { name: "Coach Growth", price: "Rp 199,000", desc: "50+ members.", features: ["50+ mentees", "All Starter features", "Team strengths aggregate"], cta: "Choose plan", href: GROWTH_LINK, primary: false, highlight: false },
+      { name: "Coach Starter", price: "Rp 99,000", desc: "1–30 mentees/members.", features: ["Up to 30 mentees", "Coach dashboard", "1-on-1 go-through mode", "Private session notes"], cta: "Choose plan", href: STARTER_LINK, primary: true, highlight: true },
+      { name: "Coach Growth", price: "Rp 199,000", desc: "Up to 60 members.", features: ["Up to 60 mentees", "All Starter features", "Team strengths aggregate"], cta: "Choose plan", href: GROWTH_LINK, primary: false, highlight: false },
     ],
     enterprise: { name: "Need a custom plan?", desc: "Custom plans for larger organizations. Reach us on WhatsApp.", cta: "Contact via WhatsApp" },
   };
