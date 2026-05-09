@@ -6,6 +6,7 @@ import { TestShell, StepKicker } from "@/components/test/TestShell";
 import { AdjectiveGrid } from "@/components/test/AdjectiveGrid";
 import { useLang } from "@/lib/lang";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 import { generateCode } from "@/lib/johari";
 
@@ -21,7 +22,7 @@ const schema = z.object({
 const Words = () => {
   const { lang } = useLang();
   const nav = useNavigate();
-  const { session, loading: authLoading } = useAuth();
+  const { session, loading: authLoading, signOut } = useAuth();
 
   const [selected, setSelected] = useState<string[]>(
     JSON.parse(sessionStorage.getItem("johari.selfWords") || "[]")
@@ -55,11 +56,15 @@ const Words = () => {
         h1: "Pilih kata yang paling mencerminkan dirimu",
         lead: "Pilih kata yang paling sesuai dan menggambarkan kamu, bukan yang kamu inginkan, tapi yang memang paling menggambarkan kamu. Pilih 5–20 kata.",
         formTitle: "Data diri",
-        formLead: "Informasi ini digunakan untuk mengirim hasil dan link feedback ke kamu.",
+        formLead: "Buat akun supaya hasilmu tersimpan dan bisa dibuka kapan saja.",
         name: "Nama lengkap",
         email: "Email",
         password: "Password",
         passwordHint: "Minimal 8 karakter. Akun otomatis dibuat dengan email & password ini agar kamu bisa kembali melihat hasil kapan saja.",
+        google: "Lanjut dengan Google",
+        orEmail: "atau pakai email",
+        signedAs: "Masuk sebagai",
+        useAnother: "Pakai akun lain",
         wa: "Nomor WhatsApp",
         gender: "Jenis kelamin",
         age: "Usia",
@@ -74,11 +79,15 @@ const Words = () => {
         h1: "Pick the words that reflect you most",
         lead: "Pick words that genuinely describe you — not what you wish you were. Choose 5–20.",
         formTitle: "Your details",
-        formLead: "We use this to send your result and feedback links to you.",
+        formLead: "Create an account so your result is saved and you can come back anytime.",
         name: "Full name",
         email: "Email",
         password: "Password",
         passwordHint: "At least 8 characters. We'll create your account with this email & password so you can come back to see your result anytime.",
+        google: "Continue with Google",
+        orEmail: "or use email",
+        signedAs: "Signed in as",
+        useAnother: "Use another account",
         wa: "WhatsApp number",
         gender: "Gender",
         age: "Age",
@@ -88,6 +97,19 @@ const Words = () => {
         back: "Back",
         wordsHint: "Pick at least 5 words to continue.",
       };
+
+  const handleGoogle = async () => {
+    if (selected.length < 5 || selected.length > 20) {
+      toast.error(labels.wordsHint);
+      return;
+    }
+    sessionStorage.setItem("johari.selfWords", JSON.stringify(selected));
+    const { password: _pw, ...safe } = form;
+    sessionStorage.setItem("johari.profile", JSON.stringify(safe));
+    const redirect = `${window.location.origin}/test`;
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: redirect });
+    if (result.error) toast.error(result.error.message ?? "Google sign-in failed");
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
