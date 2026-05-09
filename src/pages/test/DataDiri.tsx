@@ -23,12 +23,6 @@ const DataDiri = () => {
   const { session, loading: authLoading } = useAuth();
   const draft = JSON.parse(sessionStorage.getItem("johari.profile") || "{}");
   const selfWords: string[] = JSON.parse(sessionStorage.getItem("johari.selfWords") || "[]");
-  if (!selfWords.length) { nav("/test"); return null; }
-  useEffect(() => {
-    if (authLoading) return;
-    if (!session) nav("/auth?next=/test/data", { replace: true });
-  }, [authLoading, session, nav]);
-  if (authLoading || !session) return <TestShell><div className="text-muted-foreground">Loading…</div></TestShell>;
   const [form, setForm] = useState({
     name: draft.name ?? "",
     email: draft.email ?? "",
@@ -38,6 +32,14 @@ const DataDiri = () => {
     referralSource: draft.referralSource ?? "",
   });
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!selfWords.length) { nav("/test", { replace: true }); return; }
+    if (authLoading) return;
+    if (!session) nav("/auth?next=/test/data", { replace: true });
+  }, [authLoading, session, nav, selfWords.length]);
+  if (!selfWords.length || authLoading || !session) {
+    return <TestShell><div className="text-muted-foreground">Loading…</div></TestShell>;
+  }
 
   const labels = lang === "id"
     ? { title: "Data diri", lead: "Informasi ini digunakan untuk mengirimkan hasil kepadamu dan tidak akan dibagikan ke pihak lain.",
