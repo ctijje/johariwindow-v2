@@ -10,14 +10,15 @@ import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 import { generateCode } from "@/lib/johari";
 
-const schema = z.object({
+const baseSchema = {
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
-  password: z.string().min(8).max(72),
   whatsapp: z.string().trim().max(32).optional().or(z.literal("")),
   gender: z.string().trim().max(40).optional().or(z.literal("")),
   age: z.string().trim().max(3).optional().or(z.literal("")),
-});
+};
+const schemaWithPassword = z.object({ ...baseSchema, password: z.string().min(8).max(72) });
+const schemaNoPassword = z.object({ ...baseSchema, password: z.string().optional().or(z.literal("")) });
 
 const Words = () => {
   const { lang } = useLang();
@@ -117,9 +118,14 @@ const Words = () => {
       toast.error(labels.wordsHint);
       return;
     }
+    const schema = session ? schemaNoPassword : schemaWithPassword;
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
-      toast.error(lang === "id" ? "Nama, email valid, dan password (min 8 karakter) wajib diisi" : "Name, a valid email, and password (min 8 chars) are required");
+      toast.error(
+        session
+          ? (lang === "id" ? "Nama dan email valid wajib diisi" : "Name and a valid email are required")
+          : (lang === "id" ? "Nama, email valid, dan password (min 8 karakter) wajib diisi" : "Name, a valid email, and password (min 8 chars) are required")
+      );
       return;
     }
 
