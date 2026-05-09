@@ -6,6 +6,7 @@ import { useLang } from "@/lib/lang";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { WindowView } from "@/components/WindowView";
 
 const Share = () => {
   const { lang } = useLang();
@@ -41,20 +42,30 @@ const Share = () => {
 
   return (
     <TestShell>
-      <StepKicker step={3} label={lang === "id" ? "Bagikan untuk mendapatkan feedback" : "Share to get feedback"} />
+      <StepKicker step={2} total={3} label={lang === "id" ? "Profilmu & bagikan untuk feedback" : "Your profile & share for feedback"} />
       <h1 className="font-serif text-4xl md:text-5xl">
-        {lang === "id" ? "Bagikan untuk mendapatkan feedback" : "Share to get feedback"}
+        {lang === "id" ? "Johari Window kamu sudah dibuat" : "Your Johari Window is ready"}
       </h1>
-      <p className="mt-2 italic text-muted-foreground">
-        {lang === "id"
-          ? "*Hasil lebih akurat dengan lebih banyak peer yang mengisi feedback."
-          : "*More accurate results with more peers filling out feedback."}
-      </p>
       <p className="mt-2 text-muted-foreground">
         {lang === "id"
           ? "Pilih orang yang mengenal kamu dengan baik — teman, rekan kerja, atau mentor. Mereka akan memilih kata yang mereka lihat ada dalam dirimu."
           : "Pick people who know you well — friends, coworkers, mentors. They'll pick words they see in you."}
       </p>
+
+      {/* Johari preview */}
+      <div className="mt-8 rounded-3xl border border-border/70 bg-card p-6 md:p-8">
+        <div className="mb-4 font-mono text-[10px] tracking-widest text-muted-foreground">
+          {lang === "id" ? "JENDELAMU SEKARANG" : "YOUR WINDOW NOW"}
+        </div>
+        <WindowView windowId={id} />
+        {peerCount === 0 && (
+          <div className="mt-5 rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">
+            {lang === "id"
+              ? "Feedback dari peer belum ada. Tambahkan minimal 1 peer agar panel Blind Spot, Open, dan Unknown ikut terisi dan hasilmu jadi lebih kaya."
+              : "No peer feedback yet. Add at least 1 peer so the Blind Spot, Open, and Unknown panes also fill in and your result becomes richer."}
+          </div>
+        )}
+      </div>
 
       <div className="mt-8 rounded-3xl bg-accent p-6 md:p-8">
         <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
@@ -133,21 +144,21 @@ const Share = () => {
         </div>
         <p className="mt-4 text-xs text-muted-foreground">
           {lang === "id"
-            ? "Hasil dan semua jendela Johari kamu baru terbuka setelah minimal 1 peer mengisi feedback. Bagikan link di atas — kamu bisa kembali ke halaman ini kapan saja."
-            : "Your results and all Johari panes only unlock after at least 1 peer submits feedback. Share the link above — you can return to this page anytime."}
+            ? "Profil bakat & versi story baru terbuka setelah minimal 1 peer mengisi feedback. Bagikan link di atas — kamu bisa kembali ke halaman ini kapan saja."
+            : "Your talent profile & story version only unlock after at least 1 peer submits feedback. Share the link above — you can return to this page anytime."}
         </p>
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <button onClick={() => nav("/test/data")} className="text-sm text-muted-foreground hover:text-foreground">
+        <button onClick={() => nav("/test")} className="text-sm text-muted-foreground hover:text-foreground">
           {lang === "id" ? "Kembali" : "Back"}
         </button>
         <button
           disabled={peerCount === 0}
-          onClick={() => nav("/test/result")}
+          onClick={() => nav("/test/profile")}
           className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 font-medium text-primary-foreground shadow-brand disabled:opacity-40"
         >
-          {lang === "id" ? "Lihat hasil →" : "See results →"}
+          {lang === "id" ? "Lihat profil bakat →" : "See talent profile →"}
         </button>
       </div>
     </TestShell>
