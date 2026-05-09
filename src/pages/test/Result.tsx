@@ -35,7 +35,7 @@ const Result = () => {
         setError(lang === "id" ? "Hasil tidak ditemukan atau kamu belum punya akses." : "Result not found or you don't have access.");
         return;
       }
-      const { data: peers } = await supabase.from("peer_responses").select("words").eq("window_id", id);
+      const { data: peers } = await supabase.rpc("get_peer_words", { _window_id: id });
       setName(w[0].name);
       setPeerCount(peers?.length ?? 0);
       setPanels(computePanels(w[0].self_words ?? [], (peers ?? []).map((p: any) => p.words)));
