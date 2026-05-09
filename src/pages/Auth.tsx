@@ -59,7 +59,8 @@ const Auth = () => {
   };
 
   const handleGoogle = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/auth" });
+    const redirect = window.location.origin + (next ? `/auth?next=${encodeURIComponent(next)}` : "/auth");
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: redirect });
     if (result.error) toast.error(result.error.message ?? "Google sign-in failed");
   };
 
@@ -74,14 +75,16 @@ const Auth = () => {
           email: form.email,
           password: form.password,
           options: {
-            emailRedirectTo: window.location.origin + "/auth",
-            data: { display_name: form.name, intended_role: "coach" },
+            emailRedirectTo: window.location.origin + (next ? `/auth?next=${encodeURIComponent(next)}` : "/auth"),
+            data: { display_name: form.name, intended_role: asIndividual ? "individual" : "coach" },
           },
         });
         if (error) { toast.error(error.message); return; }
         if (data.session) {
-          const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.session.user.id, role: "coach" });
-          if (rErr && !rErr.message.includes("duplicate")) toast.error(rErr.message);
+          if (!asIndividual) {
+            const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.session.user.id, role: "coach" });
+            if (rErr && !rErr.message.includes("duplicate")) toast.error(rErr.message);
+          }
           toast.success(lang === "id" ? "Akun dibuat" : "Account created");
         } else {
           toast.success(lang === "id" ? "Cek email untuk konfirmasi" : "Check your email to confirm");
