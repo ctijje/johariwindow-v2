@@ -14,7 +14,7 @@ export const WindowView = ({ windowId }: Props) => {
   useEffect(() => {
     (async () => {
       const { data: w } = await supabase.rpc("get_window_full", { _id: windowId });
-      const { data: peers } = await supabase.from("peer_responses").select("words").eq("window_id", windowId);
+      const { data: peers } = await supabase.rpc("get_peer_words", { _window_id: windowId });
       if (!w?.[0]) return;
       setData({
         name: w[0].name,
