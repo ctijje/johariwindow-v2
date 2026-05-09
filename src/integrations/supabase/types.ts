@@ -292,6 +292,7 @@ export type Database = {
         Args: { _code: string; _peer_name: string; _words: string[] }
         Returns: string
       }
+      window_exists: { Args: { _window_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "coach" | "team_lead"
