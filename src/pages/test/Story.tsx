@@ -35,7 +35,7 @@ const THEMES: Record<PanelKey, Theme> = {
     axis_id: "DIRI SENDIRI TAHU  ·  ORANG LAIN TAHU",
     axis_en: "YOU KNOW  ·  OTHERS KNOW",
     cta: "#a5b4ff",
-    ctaText: "Kamu yang mana? Coba quiznya!",
+    ctaText: "Self awareness exercise with Johari Window.",
     cell: 0,
   },
   blind: {
@@ -50,7 +50,7 @@ const THEMES: Record<PanelKey, Theme> = {
     axis_id: "DIRI SENDIRI TAK TAHU  ·  ORANG LAIN TAHU",
     axis_en: "YOU DON'T KNOW  ·  OTHERS KNOW",
     cta: "#fcd9b6",
-    ctaText: "Kamu yang mana? Coba quiznya!",
+    ctaText: "Self awareness exercise with Johari Window.",
     cell: 1,
   },
   hidden: {
@@ -65,7 +65,7 @@ const THEMES: Record<PanelKey, Theme> = {
     axis_id: "DIRI SENDIRI TAHU  ·  ORANG LAIN TAK TAHU",
     axis_en: "YOU KNOW  ·  OTHERS DON'T",
     cta: "#5eead4",
-    ctaText: "Kamu yang mana? Coba quiznya!",
+    ctaText: "Self awareness exercise with Johari Window.",
     cell: 2,
   },
   unknown: {
@@ -80,7 +80,7 @@ const THEMES: Record<PanelKey, Theme> = {
     axis_id: "DIRI SENDIRI TAK TAHU  ·  ORANG LAIN TAK TAHU",
     axis_en: "YOU DON'T KNOW  ·  OTHERS DON'T",
     cta: "#fbcfe8",
-    ctaText: "Kamu yang mana? Coba quiznya!",
+    ctaText: "Self awareness exercise with Johari Window.",
     cell: 3,
   },
 };
@@ -228,7 +228,7 @@ const Story = () => {
               <div className="mt-5 border-t border-white/30 pt-3 text-sm font-bold" style={{ color: theme.cta }}>
                 {theme.ctaText}
               </div>
-              <div className="mt-2 font-mono text-[10px] tracking-[0.25em] text-white/80">QUIZ JOHARI WINDOW</div>
+              <div className="mt-2 font-mono text-[10px] tracking-[0.25em] text-white/80">Coba gratis di johariwindow.id</div>
             </div>
           </div>
         </div>
