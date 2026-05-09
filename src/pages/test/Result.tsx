@@ -40,7 +40,7 @@ const Result = () => {
       setPeerCount(peers?.length ?? 0);
       setPanels(computePanels(w[0].self_words ?? [], (peers ?? []).map((p: any) => p.words)));
     })();
-  }, [nav]);
+  }, [nav, lang]);
 
   if (error) return (
     <TestShell>
