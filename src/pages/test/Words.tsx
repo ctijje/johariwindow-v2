@@ -51,6 +51,19 @@ const Words = () => {
     sessionStorage.setItem("johari.profile", JSON.stringify(safe));
   }, [form]);
 
+  // Auto-fill name & email from session (e.g. after Google sign-in)
+  useEffect(() => {
+    if (!session?.user) return;
+    const meta: any = session.user.user_metadata || {};
+    const sessionName = meta.display_name || meta.full_name || meta.name || "";
+    const sessionEmail = session.user.email || "";
+    setForm((f) => ({
+      ...f,
+      name: f.name?.trim() ? f.name : sessionName,
+      email: f.email?.trim() ? f.email : sessionEmail,
+    }));
+  }, [session]);
+
   const labels = lang === "id"
     ? {
         kicker: "Pilih kata & isi data",
