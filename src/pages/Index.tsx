@@ -101,7 +101,7 @@ const t = {
     },
   },
   en: {
-    nav: { how: "How it works", why: "Why Johari", coach: "For Coaches", pricing: "Pricing", signin: "Sign in", cta: "Start free" },
+    nav: { how: "How it works", why: "Why Johari", coach: "For Coaches", pricing: "Pricing", signin: "Sign in", signinCoach: "Sign in as Coach", signinIndividual: "Sign in as Individual", cta: "Start free" },
     hero: {
       h1: "Johari Window",
       h2: "Discover how you see yourself, and how others see you, through the Johari Window approach.",
@@ -250,9 +250,19 @@ const Index = () => {
               <Globe className="h-3.5 w-3.5" />
               {lang === "id" ? "ID" : "EN"}
             </button>
-            <Link to="/auth" className="hidden rounded-full border border-border px-5 py-2.5 text-sm transition hover:border-foreground sm:block">
-              {c.nav.signin}
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="hidden rounded-full border border-border px-5 py-2.5 text-sm transition hover:border-foreground sm:block">
+                {c.nav.signin}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64">
+                <DropdownMenuItem asChild>
+                  <Link to="/auth">{c.nav.signinCoach}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/auth?next=/test/result">{c.nav.signinIndividual}</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Link to="/test" className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-brand transition hover:scale-[1.02]">
               {c.nav.cta}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
