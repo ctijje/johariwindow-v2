@@ -237,6 +237,15 @@ export type Database = {
           window_id: string
         }[]
       }
+      get_my_windows: {
+        Args: never
+        Returns: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+        }[]
+      }
       get_self_window: {
         Args: { _id: string }
         Returns: {
