@@ -131,6 +131,11 @@ const Share = () => {
             {lang === "id" ? "Kirim via WA" : "Send via WhatsApp"}
           </a>
         </div>
+        <p className="mt-4 text-xs text-muted-foreground">
+          {lang === "id"
+            ? "Hasil dan semua jendela Johari kamu baru terbuka setelah minimal 1 peer mengisi feedback. Bagikan link di atas — kamu bisa kembali ke halaman ini kapan saja."
+            : "Your results and all Johari panes only unlock after at least 1 peer submits feedback. Share the link above — you can return to this page anytime."}
+        </p>
       </div>
 
       <div className="mt-8 flex items-center justify-between">
