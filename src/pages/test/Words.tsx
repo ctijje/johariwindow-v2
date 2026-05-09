@@ -12,6 +12,7 @@ import { generateCode } from "@/lib/johari";
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
+  password: z.string().min(8).max(72),
   whatsapp: z.string().trim().max(32).optional().or(z.literal("")),
   gender: z.string().trim().max(40).optional().or(z.literal("")),
   age: z.string().trim().max(3).optional().or(z.literal("")),
@@ -29,6 +30,7 @@ const Words = () => {
   const [form, setForm] = useState({
     name: draft.name ?? "",
     email: draft.email ?? "",
+    password: "",
     whatsapp: draft.whatsapp ?? "",
     gender: draft.gender ?? "",
     age: draft.age ?? "",
@@ -43,7 +45,8 @@ const Words = () => {
     sessionStorage.setItem("johari.selfWords", JSON.stringify(selected));
   }, [selected]);
   useEffect(() => {
-    sessionStorage.setItem("johari.profile", JSON.stringify(form));
+    const { password: _pw, ...safe } = form;
+    sessionStorage.setItem("johari.profile", JSON.stringify(safe));
   }, [form]);
 
   const labels = lang === "id"
@@ -55,6 +58,8 @@ const Words = () => {
         formLead: "Informasi ini digunakan untuk mengirim hasil dan link feedback ke kamu.",
         name: "Nama lengkap",
         email: "Email",
+        password: "Password",
+        passwordHint: "Minimal 8 karakter. Akun otomatis dibuat dengan email & password ini agar kamu bisa kembali melihat hasil kapan saja.",
         wa: "Nomor WhatsApp",
         gender: "Jenis kelamin",
         age: "Usia",
@@ -72,6 +77,8 @@ const Words = () => {
         formLead: "We use this to send your result and feedback links to you.",
         name: "Full name",
         email: "Email",
+        password: "Password",
+        passwordHint: "At least 8 characters. We'll create your account with this email & password so you can come back to see your result anytime.",
         wa: "WhatsApp number",
         gender: "Gender",
         age: "Age",
@@ -90,20 +97,63 @@ const Words = () => {
     }
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
-      toast.error(lang === "id" ? "Nama dan email wajib diisi dengan benar" : "Name and a valid email are required");
+      toast.error(lang === "id" ? "Nama, email valid, dan password (min 8 karakter) wajib diisi" : "Name, a valid email, and password (min 8 chars) are required");
       return;
     }
 
     sessionStorage.setItem("johari.selfWords", JSON.stringify(selected));
-    sessionStorage.setItem("johari.profile", JSON.stringify(parsed.data));
+    const { password: _pw, ...safeProfile } = parsed.data;
+    sessionStorage.setItem("johari.profile", JSON.stringify(safeProfile));
 
     if (authLoading) return;
-    if (!session) {
-      nav("/auth?next=/test");
-      return;
-    }
 
     setLoading(true);
+
+    // If not logged in, create the account inline (sign up + sign in)
+    if (!session) {
+      const redirectUrl = `${window.location.origin}/test/share`;
+      const { error: signUpErr } = await supabase.auth.signUp({
+        email: parsed.data.email,
+        password: parsed.data.password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: { display_name: parsed.data.name },
+        },
+      });
+      if (signUpErr) {
+        const msg = signUpErr.message.toLowerCase();
+        if (msg.includes("registered") || msg.includes("exists") || msg.includes("already")) {
+          // Account exists — try sign in with provided password
+          const { error: signInErr } = await supabase.auth.signInWithPassword({
+            email: parsed.data.email,
+            password: parsed.data.password,
+          });
+          if (signInErr) {
+            toast.error(lang === "id"
+              ? "Email ini sudah terdaftar. Password salah — coba password lain atau masuk lewat halaman login."
+              : "This email is already registered. Wrong password — try another or sign in via the login page.");
+            setLoading(false);
+            return;
+          }
+        } else {
+          toast.error(signUpErr.message);
+          setLoading(false);
+          return;
+        }
+      } else {
+        // Ensure session is active (auto-confirm enabled)
+        const { error: signInErr } = await supabase.auth.signInWithPassword({
+          email: parsed.data.email,
+          password: parsed.data.password,
+        });
+        if (signInErr) {
+          toast.error(signInErr.message);
+          setLoading(false);
+          return;
+        }
+      }
+    }
+
     const ageNum = parsed.data.age ? parseInt(parsed.data.age, 10) : null;
     for (let attempt = 0; attempt < 5; attempt++) {
       const code = generateCode();
@@ -151,7 +201,7 @@ const Words = () => {
   };
 
   const field = "rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary";
-  const canSubmit = selected.length >= 5 && selected.length <= 20 && form.name.trim() && form.email.trim();
+  const canSubmit = selected.length >= 5 && selected.length <= 20 && form.name.trim() && form.email.trim() && (session ? true : form.password.length >= 8);
 
   return (
     <TestShell>
@@ -184,6 +234,18 @@ const Words = () => {
               className={`mt-1 w-full ${field}`}
             />
           </label>
+          {!session && (
+            <label className="block">
+              <span className="text-sm text-muted-foreground">{labels.password} *</span>
+              <input
+                required type="password" minLength={8} value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                className={`mt-1 w-full ${field}`}
+                autoComplete="new-password"
+              />
+              <span className="mt-1 block text-xs text-muted-foreground">{labels.passwordHint}</span>
+            </label>
+          )}
           <label className="block">
             <span className="text-sm text-muted-foreground">{labels.wa} <span className="opacity-70">{labels.optional}</span></span>
             <input
