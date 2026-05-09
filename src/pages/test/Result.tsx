@@ -13,23 +13,49 @@ const Result = () => {
   const [name, setName] = useState("");
   const [panels, setPanels] = useState<ReturnType<typeof computePanels> | null>(null);
   const [peerCount, setPeerCount] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlId = params.get("w");
-    const id = urlId || sessionStorage.getItem("johari.windowId");
     if (urlId) sessionStorage.setItem("johari.windowId", urlId);
-    if (!id) { nav("/test"); return; }
     (async () => {
-      const { data: w } = await supabase.rpc("get_self_window", { _id: id });
+      let id = urlId || sessionStorage.getItem("johari.windowId");
+      // Fallback: if no id, try latest window owned by logged-in user
+      if (!id) {
+        const { data: mine } = await supabase.rpc("get_my_windows");
+        if (mine && mine[0]) {
+          id = mine[0].id;
+          sessionStorage.setItem("johari.windowId", id);
+        }
+      }
+      if (!id) { setError(lang === "id" ? "Hasil tidak ditemukan. Mulai test terlebih dahulu." : "No result found. Please start the test first."); return; }
+      const { data: w, error: wErr } = await supabase.rpc("get_self_window", { _id: id });
+      if (wErr || !w?.[0]) {
+        setError(lang === "id" ? "Hasil tidak ditemukan atau kamu belum punya akses." : "Result not found or you don't have access.");
+        return;
+      }
       const { data: peers } = await supabase.from("peer_responses").select("words").eq("window_id", id);
-      if (!w?.[0]) return;
       setName(w[0].name);
       setPeerCount(peers?.length ?? 0);
       setPanels(computePanels(w[0].self_words ?? [], (peers ?? []).map((p: any) => p.words)));
     })();
   }, [nav]);
 
+  if (error) return (
+    <TestShell>
+      <h1 className="font-serif text-3xl">{lang === "id" ? "Belum ada hasil" : "No result yet"}</h1>
+      <p className="mt-3 text-muted-foreground">{error}</p>
+      <div className="mt-6 flex gap-3">
+        <button onClick={() => nav("/test")} className="rounded-full bg-gradient-brand px-6 py-3 text-sm font-medium text-primary-foreground shadow-brand">
+          {lang === "id" ? "Mulai test" : "Start test"}
+        </button>
+        <button onClick={() => nav("/auth?next=/test/result")} className="rounded-full border border-border px-6 py-3 text-sm font-medium hover:border-foreground">
+          {lang === "id" ? "Masuk akun" : "Sign in"}
+        </button>
+      </div>
+    </TestShell>
+  );
   if (!panels) return <TestShell><div className="text-muted-foreground">Loading…</div></TestShell>;
 
   const labels = lang === "id"
