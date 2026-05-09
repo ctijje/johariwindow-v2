@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { TestShell, StepKicker } from "@/components/test/TestShell";
@@ -6,6 +6,7 @@ import { useLang } from "@/lib/lang";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { generateCode } from "@/lib/johari";
+import { useAuth } from "@/hooks/useAuth";
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -19,9 +20,9 @@ const schema = z.object({
 const DataDiri = () => {
   const { lang } = useLang();
   const nav = useNavigate();
+  const { session, loading: authLoading } = useAuth();
   const draft = JSON.parse(sessionStorage.getItem("johari.profile") || "{}");
   const selfWords: string[] = JSON.parse(sessionStorage.getItem("johari.selfWords") || "[]");
-  if (!selfWords.length) { nav("/test"); return null; }
   const [form, setForm] = useState({
     name: draft.name ?? "",
     email: draft.email ?? "",
@@ -31,6 +32,14 @@ const DataDiri = () => {
     referralSource: draft.referralSource ?? "",
   });
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!selfWords.length) { nav("/test", { replace: true }); return; }
+    if (authLoading) return;
+    if (!session) nav("/auth?next=/test/data", { replace: true });
+  }, [authLoading, session, nav, selfWords.length]);
+  if (!selfWords.length || authLoading || !session) {
+    return <TestShell><div className="text-muted-foreground">Loading…</div></TestShell>;
+  }
 
   const labels = lang === "id"
     ? { title: "Data diri", lead: "Informasi ini digunakan untuk mengirimkan hasil kepadamu dan tidak akan dibagikan ke pihak lain.",
