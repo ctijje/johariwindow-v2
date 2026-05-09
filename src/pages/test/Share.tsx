@@ -19,7 +19,7 @@ const Share = () => {
   useEffect(() => {
     if (!id) { nav("/test"); return; }
     const load = async () => {
-      const { data } = await supabase.from("peer_responses").select("peer_name, words").eq("window_id", id);
+      const { data } = await supabase.rpc("get_peer_responses_owner", { _window_id: id });
       setPeerCount(data?.length ?? 0);
       setPeerNames((data ?? []).map((d: any) => d.peer_name || (lang === "id" ? "Anonim" : "Anonymous")));
     };
