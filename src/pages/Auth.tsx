@@ -29,8 +29,8 @@ const Auth = () => {
     if (loading || !session) return;
     (async () => {
       if (!asIndividual && !roles.includes("coach")) {
-        const { error } = await supabase.from("user_roles").insert({ user_id: session.user.id, role: "coach" });
-        if (error && !error.message.includes("duplicate")) { toast.error(error.message); return; }
+        const { error } = await supabase.rpc("claim_coach_role");
+        if (error) { toast.error(error.message); return; }
       }
       nav(next || "/coach/dashboard", { replace: true });
     })();
@@ -82,8 +82,8 @@ const Auth = () => {
         if (error) { toast.error(error.message); return; }
         if (data.session) {
           if (!asIndividual) {
-            const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.session.user.id, role: "coach" });
-            if (rErr && !rErr.message.includes("duplicate")) toast.error(rErr.message);
+            const { error: rErr } = await supabase.rpc("claim_coach_role");
+            if (rErr) toast.error(rErr.message);
           }
           toast.success(lang === "id" ? "Akun dibuat" : "Account created");
         } else {

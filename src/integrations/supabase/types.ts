@@ -194,6 +194,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_coach_role: { Args: never; Returns: undefined }
       create_window: {
         Args: {
           _age: number
@@ -244,6 +245,20 @@ export type Database = {
           created_at: string
           id: string
           name: string
+        }[]
+      }
+      get_peer_responses_owner: {
+        Args: { _window_id: string }
+        Returns: {
+          created_at: string
+          peer_name: string
+          words: string[]
+        }[]
+      }
+      get_peer_words: {
+        Args: { _window_id: string }
+        Returns: {
+          words: string[]
         }[]
       }
       get_self_window: {
