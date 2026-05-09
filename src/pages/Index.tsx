@@ -96,7 +96,12 @@ const t = {
           { label: "Sains di Baliknya", href: "/science" },
           { label: "Blog", href: "#" },
         ],
-        company: ["Tentang", "Privasi", "Syarat", "Kontak"],
+        company: [
+          { label: "Tentang", href: "#" },
+          { label: "Privasi", href: "#" },
+          { label: "Syarat", href: "#" },
+          { label: "Kontak", href: "mailto:hello@johariwindow.id" },
+        ],
       },
     },
   },
@@ -181,7 +186,12 @@ const t = {
           { label: "The science", href: "/science" },
           { label: "Blog", href: "#" },
         ],
-        company: ["About", "Privacy", "Terms", "Contact"],
+        company: [
+          { label: "About", href: "#" },
+          { label: "Privacy", href: "#" },
+          { label: "Terms", href: "#" },
+          { label: "Contact", href: "mailto:hello@johariwindow.id" },
+        ],
       },
     },
   },
@@ -555,7 +565,10 @@ const Index = () => {
             ))}
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-8 md:flex-row md:items-center">
-          <p className="font-mono text-xs text-muted-foreground">© 2026 Johari Window · A RANCA.id Product</p>
+          <p className="font-mono text-xs text-muted-foreground">
+            © 2026 Johari Window · Built by{" "}
+            <a href="https://ranca.id" target="_blank" rel="noreferrer" className="hover:text-primary">Ranca.id</a>
+          </p>
             <p className="font-mono text-xs text-muted-foreground">johariwindow.id</p>
           </div>
         </div>
