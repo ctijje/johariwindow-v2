@@ -36,7 +36,7 @@ const CoachDashboard = () => {
   const [filter, setFilter] = useState<Filter>("all");
 
   const t = lang === "id" ? {
-    title: "Dashboard Coach", h1: "Roster klien", lead: "Pantau status assessment dan kelola peer feedback klienmu.",
+    title: "Dashboard Coach", h1: "Dashboard klien", lead: "Pantau status assessment dan kelola peer feedback klienmu.",
     add: "Tambah klien", empty: "Belum ada klien. Tambah klien pertamamu.",
     name: "Nama klien", email: "Email (opsional)", wa: "WhatsApp (opsional)",
     cancel: "Batal", save: "Tambahkan",
@@ -47,7 +47,7 @@ const CoachDashboard = () => {
     selfFilled: "Self terisi", needPeers: "Butuh peer",
     statTotal: "Total klien", statSelf: "Self selesai", statComplete: "Lengkap (≥1 peer)",
   } : {
-    title: "Coach Dashboard", h1: "Client roster", lead: "Track assessment status and manage peer feedback for your clients.",
+    title: "Coach Dashboard", h1: "Client dashboard", lead: "Track assessment status and manage peer feedback for your clients.",
     add: "Add client", empty: "No clients yet. Add your first client.",
     name: "Client name", email: "Email (optional)", wa: "WhatsApp (optional)",
     cancel: "Cancel", save: "Add",
@@ -92,7 +92,7 @@ const CoachDashboard = () => {
         .insert({
           name: form.name.trim(),
           email: form.email.trim() || `client-${code}@johariwindow.id`,
-          whatsapp: form.whatsapp.trim() || "-",
+          whatsapp: form.whatsapp.trim() || "",
           occupation: "-", age: null, gender: "-",
           self_words: [],
           code,
