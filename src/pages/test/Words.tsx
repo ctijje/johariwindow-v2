@@ -6,6 +6,7 @@ import { TestShell, StepKicker } from "@/components/test/TestShell";
 import { AdjectiveGrid } from "@/components/test/AdjectiveGrid";
 import { useLang } from "@/lib/lang";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/hooks/useAuth";
 import { generateCode } from "@/lib/johari";
 
@@ -21,7 +22,7 @@ const schema = z.object({
 const Words = () => {
   const { lang } = useLang();
   const nav = useNavigate();
-  const { session, loading: authLoading } = useAuth();
+  const { session, loading: authLoading, signOut } = useAuth();
 
   const [selected, setSelected] = useState<string[]>(
     JSON.parse(sessionStorage.getItem("johari.selfWords") || "[]")
@@ -55,11 +56,15 @@ const Words = () => {
         h1: "Pilih kata yang paling mencerminkan dirimu",
         lead: "Pilih kata yang paling sesuai dan menggambarkan kamu, bukan yang kamu inginkan, tapi yang memang paling menggambarkan kamu. Pilih 5–20 kata.",
         formTitle: "Data diri",
-        formLead: "Informasi ini digunakan untuk mengirim hasil dan link feedback ke kamu.",
+        formLead: "Buat akun supaya hasilmu tersimpan dan bisa dibuka kapan saja.",
         name: "Nama lengkap",
         email: "Email",
         password: "Password",
         passwordHint: "Minimal 8 karakter. Akun otomatis dibuat dengan email & password ini agar kamu bisa kembali melihat hasil kapan saja.",
+        google: "Lanjut dengan Google",
+        orEmail: "atau pakai email",
+        signedAs: "Masuk sebagai",
+        useAnother: "Pakai akun lain",
         wa: "Nomor WhatsApp",
         gender: "Jenis kelamin",
         age: "Usia",
@@ -74,11 +79,15 @@ const Words = () => {
         h1: "Pick the words that reflect you most",
         lead: "Pick words that genuinely describe you — not what you wish you were. Choose 5–20.",
         formTitle: "Your details",
-        formLead: "We use this to send your result and feedback links to you.",
+        formLead: "Create an account so your result is saved and you can come back anytime.",
         name: "Full name",
         email: "Email",
         password: "Password",
         passwordHint: "At least 8 characters. We'll create your account with this email & password so you can come back to see your result anytime.",
+        google: "Continue with Google",
+        orEmail: "or use email",
+        signedAs: "Signed in as",
+        useAnother: "Use another account",
         wa: "WhatsApp number",
         gender: "Gender",
         age: "Age",
@@ -88,6 +97,19 @@ const Words = () => {
         back: "Back",
         wordsHint: "Pick at least 5 words to continue.",
       };
+
+  const handleGoogle = async () => {
+    if (selected.length < 5 || selected.length > 20) {
+      toast.error(labels.wordsHint);
+      return;
+    }
+    sessionStorage.setItem("johari.selfWords", JSON.stringify(selected));
+    const { password: _pw, ...safe } = form;
+    sessionStorage.setItem("johari.profile", JSON.stringify(safe));
+    const redirect = `${window.location.origin}/test`;
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: redirect });
+    if (result.error) toast.error(result.error.message ?? "Google sign-in failed");
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,6 +238,38 @@ const Words = () => {
       <form onSubmit={submit} className="mt-10 rounded-3xl border border-border p-6 md:p-8">
         <h2 className="font-serif text-2xl">{labels.formTitle}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{labels.formLead}</p>
+
+        {session ? (
+          <div className="mt-5 flex items-center justify-between rounded-xl bg-accent/60 px-4 py-3 text-sm">
+            <span className="text-muted-foreground">
+              {labels.signedAs}: <span className="font-medium text-foreground">{session.user.email}</span>
+            </span>
+            <button type="button" onClick={() => signOut()} className="text-xs text-primary hover:underline">
+              {labels.useAnother}
+            </button>
+          </div>
+        ) : (
+          <div className="mt-5 space-y-3">
+            <button
+              type="button"
+              onClick={handleGoogle}
+              className="flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium transition hover:border-foreground"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.1A6.97 6.97 0 0 1 5.46 12c0-.73.13-1.44.36-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.93l3.66-2.83z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.07.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.83C6.71 7.31 9.14 5.38 12 5.38z"/>
+              </svg>
+              {labels.google}
+            </button>
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-xs uppercase tracking-widest text-muted-foreground">{labels.orEmail}</span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+          </div>
+        )}
 
         <div className="mt-6 space-y-5">
           <label className="block">
