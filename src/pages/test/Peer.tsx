@@ -28,10 +28,10 @@ const Peer = () => {
   const submit = async () => {
     if (!windowData || selected.length < 5 || selected.length > 20) return;
     setLoading(true);
-    const { error } = await supabase.from("peer_responses").insert({
-      window_id: windowData.id,
-      peer_name: peerName.trim() || null,
-      words: selected,
+    const { error } = await supabase.rpc("submit_peer_response", {
+      _code: code.toUpperCase(),
+      _peer_name: peerName.trim() || null,
+      _words: selected,
     });
     setLoading(false);
     if (error) { toast.error(error.message); return; }
