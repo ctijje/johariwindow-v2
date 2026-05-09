@@ -228,7 +228,7 @@ const Story = () => {
               <div className="mt-5 border-t border-white/30 pt-3 text-sm font-bold" style={{ color: theme.cta }}>
                 {theme.ctaText}
               </div>
-              <div className="mt-2 font-mono text-[10px] tracking-[0.25em] text-white/80">Coba gratis di johariwindow.id</div>
+              <div className="mt-2 font-mono text-[10px] tracking-[0.25em] text-white/80">Johariwindow.id</div>
             </div>
           </div>
         </div>
