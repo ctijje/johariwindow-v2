@@ -5,12 +5,18 @@ import { cn } from "@/lib/utils";
 import johariDoodle from "@/assets/johari-window-doodle.png";
 import { Link } from "react-router-dom";
 import { useLang } from "@/lib/lang";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Lang = "id" | "en";
 
 const t = {
   id: {
-    nav: { how: "Cara Kerja", why: "Kenapa Johari", coach: "Untuk Coach", pricing: "Harga", signin: "Masuk", cta: "Mulai Gratis" },
+    nav: { how: "Cara Kerja", why: "Kenapa Johari", coach: "Untuk Coach", pricing: "Harga", signin: "Masuk", signinCoach: "Masuk sebagai Coach", signinIndividual: "Masuk sebagai Pengguna Individual", cta: "Mulai Gratis" },
     hero: {
       h1: "Johari Window",
       h2: "Temukan bagaimana kamu melihat diri kamu, dan bagaimana orang lain melihat kamu melalui pendekatan Johari Window.",
