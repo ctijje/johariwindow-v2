@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle2, XCircle, Clock, Shield, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,15 +17,15 @@ const AdminClaims = () => {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
 
-  const load = async () => {
+  const load = useCallback(async () => {
     let q = supabase.from("coach_payment_claims").select("*").order("created_at", { ascending: false });
     if (filter === "pending") q = q.eq("status", "pending");
     const { data, error } = await q;
     if (error) { toast.error(error.message); return; }
     setClaims(data ?? []);
-  };
+  }, [filter]);
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [filter]);
+  useEffect(() => { load(); }, [load]);
 
   const approve = async (claim: Claim) => {
     setBusyId(claim.id);
