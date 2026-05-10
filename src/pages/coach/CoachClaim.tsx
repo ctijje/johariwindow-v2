@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Clock, XCircle, KeyRound } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, XCircle, KeyRound, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -10,7 +10,6 @@ type Claim = {
   id: string;
   email: string;
   plan: "starter" | "growth";
-  lynk_order_ref: string | null;
   proof_url: string | null;
   note: string | null;
   status: "pending" | "approved" | "rejected";
@@ -24,11 +23,11 @@ const CoachClaim = () => {
   const navigate = useNavigate();
   const [claims, setClaims] = useState<Claim[]>([]);
   const [busy, setBusy] = useState(false);
+  const [proofFile, setProofFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     email: "",
     plan: "starter" as "starter" | "growth",
-    lynk_order_ref: "",
-    proof_url: "",
     note: "",
   });
 
@@ -52,20 +51,38 @@ const CoachClaim = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!session) { navigate("/auth"); return; }
-    if (!form.email.trim() || !form.lynk_order_ref.trim()) {
-      toast.error("Email & nomor order wajib diisi");
+    if (!form.email.trim()) {
+      toast.error("Email wajib diisi");
+      return;
+    }
+    if (!proofFile) {
+      toast.error("Upload screenshot bukti bayar dulu");
+      return;
+    }
+    if (proofFile.size > 5 * 1024 * 1024) {
+      toast.error("Ukuran file maksimal 5MB");
+      return;
+    }
+    if (!proofFile.type.startsWith("image/")) {
+      toast.error("File harus berupa gambar");
       return;
     }
     setBusy(true);
     try {
+      const ext = proofFile.name.split(".").pop()?.toLowerCase() || "png";
+      const path = `${user!.id}/${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("payment-proofs")
+        .upload(path, proofFile, { contentType: proofFile.type, upsert: false });
+      if (upErr) { toast.error("Upload gagal: " + upErr.message); return; }
+
       const { data, error } = await supabase
         .from("coach_payment_claims" as any)
         .insert({
           user_id: user!.id,
           email: form.email.trim(),
           plan: form.plan,
-          lynk_order_ref: form.lynk_order_ref.trim(),
-          proof_url: form.proof_url.trim() || null,
+          proof_url: path,
           note: form.note.trim() || null,
         })
         .select()
@@ -81,7 +98,6 @@ const CoachClaim = () => {
           templateData: {
             email: claim.email,
             plan: claim.plan,
-            lynkOrderRef: claim.lynk_order_ref,
             proofUrl: claim.proof_url,
             note: claim.note,
             claimId: claim.id,
@@ -89,7 +105,9 @@ const CoachClaim = () => {
         },
       }).catch(() => {});
       toast.success("Klaim terkirim. Tunggu konfirmasi dari admin.");
-      setForm((f) => ({ ...f, lynk_order_ref: "", proof_url: "", note: "" }));
+      setForm((f) => ({ ...f, note: "" }));
+      setProofFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       await loadClaims();
     } finally {
       setBusy(false);
@@ -138,16 +156,18 @@ const CoachClaim = () => {
             </select>
           </div>
           <div>
-            <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Nomor order lynk.id</label>
-            <input value={form.lynk_order_ref} onChange={(e) => setForm({ ...form, lynk_order_ref: e.target.value })}
-              placeholder="contoh: LYNK-12345"
-              className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 outline-none focus:border-primary" />
-          </div>
-          <div>
-            <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">URL bukti (opsional)</label>
-            <input value={form.proof_url} onChange={(e) => setForm({ ...form, proof_url: e.target.value })}
-              placeholder="link Drive / Imgur / screenshot"
-              className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 outline-none focus:border-primary" />
+            <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Screenshot bukti bayar</label>
+            <div className="mt-1 flex items-center gap-3 rounded-xl border border-dashed border-border bg-background px-4 py-3">
+              <Upload className="h-4 w-4 text-muted-foreground" />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={(e) => setProofFile(e.target.files?.[0] ?? null)}
+                className="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-primary hover:file:bg-accent/80"
+              />
+            </div>
+            <p className="mt-1 text-[11px] text-muted-foreground">JPG/PNG, maksimal 5MB</p>
           </div>
           <div>
             <label className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Catatan (opsional)</label>
@@ -192,7 +212,6 @@ const ClaimCard = ({ claim }: { claim: Claim }) => {
         <div className="flex items-center gap-2 text-destructive">
           <XCircle className="h-5 w-5" /> <span className="font-mono text-xs uppercase tracking-widest">DITOLAK</span>
         </div>
-        <div className="mt-2 text-sm text-muted-foreground">Order: {claim.lynk_order_ref}</div>
         {claim.admin_note && <div className="mt-2 text-sm">Alasan: {claim.admin_note}</div>}
       </div>
     );
@@ -202,7 +221,7 @@ const ClaimCard = ({ claim }: { claim: Claim }) => {
       <div className="flex items-center gap-2 text-amber-700">
         <Clock className="h-5 w-5" /> <span className="font-mono text-xs uppercase tracking-widest">MENUNGGU APPROVAL</span>
       </div>
-      <div className="mt-2 text-sm text-muted-foreground">Paket: {claim.plan} • Order: {claim.lynk_order_ref}</div>
+      <div className="mt-2 text-sm text-muted-foreground">Paket: {claim.plan}</div>
     </div>
   );
 };

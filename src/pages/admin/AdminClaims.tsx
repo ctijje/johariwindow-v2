@@ -105,8 +105,12 @@ const AdminClaims = () => {
               </div>
               <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-muted-foreground">
                 <div><span className="font-mono text-[11px] uppercase tracking-widest">Paket</span><br />{c.plan}</div>
-                <div><span className="font-mono text-[11px] uppercase tracking-widest">Order</span><br />{c.lynk_order_ref ?? "-"}</div>
-                {c.proof_url && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Bukti</span><br /><a href={c.proof_url} target="_blank" rel="noreferrer" className="break-all text-primary underline">{c.proof_url}</a></div>}
+                {c.proof_url && (
+                  <div className="col-span-2">
+                    <span className="font-mono text-[11px] uppercase tracking-widest">Bukti bayar</span><br />
+                    <ProofLink path={c.proof_url} />
+                  </div>
+                )}
                 {c.note && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Catatan user</span><br />{c.note}</div>}
                 {c.access_code && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Code</span><br /><span className="font-mono text-primary">{c.access_code}</span></div>}
                 {c.admin_note && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Catatan admin</span><br />{c.admin_note}</div>}
@@ -138,6 +142,27 @@ const AdminClaims = () => {
       </div>
       <Footer />
     </div>
+  );
+};
+
+const ProofLink = ({ path }: { path: string }) => {
+  const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const open = async () => {
+    if (url) { window.open(url, "_blank"); return; }
+    setLoading(true);
+    const { data, error } = await supabase.storage
+      .from("payment-proofs")
+      .createSignedUrl(path, 60 * 10);
+    setLoading(false);
+    if (error || !data?.signedUrl) { toast.error("Gagal buka bukti"); return; }
+    setUrl(data.signedUrl);
+    window.open(data.signedUrl, "_blank");
+  };
+  return (
+    <button onClick={open} disabled={loading} className="text-primary underline disabled:opacity-50">
+      {loading ? "Memuat..." : "Lihat screenshot"}
+    </button>
   );
 };
 
