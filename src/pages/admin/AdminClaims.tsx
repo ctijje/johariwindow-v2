@@ -105,8 +105,12 @@ const AdminClaims = () => {
               </div>
               <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-muted-foreground">
                 <div><span className="font-mono text-[11px] uppercase tracking-widest">Paket</span><br />{c.plan}</div>
-                <div><span className="font-mono text-[11px] uppercase tracking-widest">Order</span><br />{c.lynk_order_ref ?? "-"}</div>
-                {c.proof_url && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Bukti</span><br /><a href={c.proof_url} target="_blank" rel="noreferrer" className="break-all text-primary underline">{c.proof_url}</a></div>}
+                {c.proof_url && (
+                  <div className="col-span-2">
+                    <span className="font-mono text-[11px] uppercase tracking-widest">Bukti bayar</span><br />
+                    <ProofLink path={c.proof_url} />
+                  </div>
+                )}
                 {c.note && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Catatan user</span><br />{c.note}</div>}
                 {c.access_code && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Code</span><br /><span className="font-mono text-primary">{c.access_code}</span></div>}
                 {c.admin_note && <div className="col-span-2"><span className="font-mono text-[11px] uppercase tracking-widest">Catatan admin</span><br />{c.admin_note}</div>}
