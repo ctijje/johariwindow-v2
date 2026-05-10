@@ -26,8 +26,10 @@ const CoachRedeem = () => {
     success: "Akses coach aktif!",
     already: "Akun ini sudah punya akses coach.",
     goDash: "Buka dashboard",
-    noCode: "Belum punya code? Hubungi kami untuk info pembayaran.",
-    contact: "Hubungi via WhatsApp",
+    noCode: "Belum punya code?",
+    noCodeAction: "Lihat paket & lakukan pembayaran",
+    noCodeAfter: ", lalu konfirmasi ke",
+    adminEmail: "admin.johariwindow.id@gmail.com",
   } : {
     kicker: "COACH ACCESS",
     h1: "Activate your coach dashboard",
@@ -39,8 +41,10 @@ const CoachRedeem = () => {
     success: "Coach access activated!",
     already: "This account already has coach access.",
     goDash: "Open dashboard",
-    noCode: "Don't have a code? Contact us for payment info.",
-    contact: "Contact via WhatsApp",
+    noCode: "Don't have a code?",
+    noCodeAction: "See pricing & complete payment",
+    noCodeAfter: ", then confirm to",
+    adminEmail: "admin.johariwindow.id@gmail.com",
   };
 
   useEffect(() => {
@@ -112,7 +116,9 @@ const CoachRedeem = () => {
 
         <p className="mt-8 text-sm text-muted-foreground">
           {t.noCode}{" "}
-          <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="font-medium text-foreground underline">{t.contact}</a>
+          <Link to="/pricing" className="font-medium text-foreground underline">{t.noCodeAction}</Link>
+          {t.noCodeAfter}{" "}
+          <a href={`mailto:${t.adminEmail}`} className="font-medium text-foreground underline">{t.adminEmail}</a>.
         </p>
       </div>
       <Footer />
