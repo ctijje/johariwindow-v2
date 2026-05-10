@@ -121,7 +121,7 @@ const CoachClaim = () => {
         <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary">
           <KeyRound className="h-3 w-3" /> KLAIM AKSES COACH
         </div>
-        <h1 className="mt-6 font-serif text-4xl md:text-5xl leading-[1.05]">Sudah bayar di lynk.id?</h1>
+        <h1 className="mt-6 font-serif text-4xl md:text-5xl leading-[1.05]">Konfirmasi Pembayaran</h1>
         <p className="mt-4 text-muted-foreground">
           Isi form di bawah untuk klaim akses coach. Setelah admin meng-approve, kamu akan menerima email berisi access code.
         </p>
