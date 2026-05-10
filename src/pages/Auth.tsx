@@ -40,7 +40,7 @@ const Auth = () => {
     title: asIndividual ? "Masuk untuk simpan hasilmu" : "Masuk untuk Coach",
     sub: asIndividual
       ? "Hasil Johari Window butuh feedback peer. Login agar hasilmu tersimpan dan bisa dibuka kapan saja, di perangkat manapun."
-      : "Khusus Coach. Peserta umum bisa langsung mulai tanpa daftar.",
+      : "Buat akun atau masuk dulu. Setelah itu kamu akan diminta memasukkan access code untuk membuka dashboard coach.",
     signin: "Masuk", signup: "Daftar",
     name: "Nama lengkap", email: "Email", password: "Kata sandi",
     google: "Lanjut dengan Google",
@@ -50,7 +50,7 @@ const Auth = () => {
     title: asIndividual ? "Sign in to save your result" : "Sign in for Coaches",
     sub: asIndividual
       ? "Your Johari Window needs peer feedback. Sign in so your result is saved and you can return anytime, on any device."
-      : "For Coaches only. Individual participants can start without an account.",
+      : "Create an account or sign in first. You'll then be asked for an access code to unlock the coach dashboard.",
     signin: "Sign in", signup: "Create account",
     name: "Full name", email: "Email", password: "Password",
     google: "Continue with Google",
