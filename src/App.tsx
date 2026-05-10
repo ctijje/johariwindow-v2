@@ -18,6 +18,7 @@ import { AuthProvider } from "./hooks/useAuth.tsx";
 import Auth from "./pages/Auth.tsx";
 import CoachLanding from "./pages/coach/CoachLanding.tsx";
 import CoachDashboard from "./pages/coach/CoachDashboard.tsx";
+import CoachRedeem from "./pages/coach/CoachRedeem.tsx";
 import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Science from "./pages/Science.tsx";
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="/client/:code" element={<ClientSelf />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
+              <Route path="/coach/redeem" element={<CoachRedeem />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/science" element={<Science />} />
               <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />

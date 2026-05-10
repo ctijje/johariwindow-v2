@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      coach_access_codes: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          note: string | null
+          used_at: string | null
+          used_by: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          note?: string | null
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          note?: string | null
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Relationships: []
+      }
       coach_mentees: {
         Row: {
           coach_id: string
@@ -444,6 +474,7 @@ export type Database = {
           read_ct: number
         }[]
       }
+      redeem_coach_code: { Args: { _code: string }; Returns: undefined }
       submit_client_self: {
         Args: { _code: string; _name?: string; _self_words: string[] }
         Returns: string
