@@ -27,13 +27,13 @@ const Auth = () => {
 
   useEffect(() => {
     if (loading || !session) return;
-    (async () => {
-      if (!asIndividual && !roles.includes("coach")) {
-        const { error } = await supabase.rpc("claim_coach_role");
-        if (error) { toast.error(error.message); return; }
-      }
-      nav(next || "/coach/dashboard", { replace: true });
-    })();
+    if (next) {
+      nav(next, { replace: true });
+    } else if (roles.includes("coach")) {
+      nav("/coach/dashboard", { replace: true });
+    } else {
+      nav("/coach/redeem", { replace: true });
+    }
   }, [loading, session, roles, nav, next, asIndividual]);
 
   const t = lang === "id" ? {
@@ -81,10 +81,6 @@ const Auth = () => {
         });
         if (error) { toast.error(error.message); return; }
         if (data.session) {
-          if (!asIndividual) {
-            const { error: rErr } = await supabase.rpc("claim_coach_role");
-            if (rErr) toast.error(rErr.message);
-          }
           toast.success(lang === "id" ? "Akun dibuat" : "Account created");
         } else {
           toast.success(lang === "id" ? "Cek email untuk konfirmasi" : "Check your email to confirm");
