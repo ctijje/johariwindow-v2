@@ -43,6 +43,9 @@ const CoachLanding = () => {
             {t.cta1} <ArrowRight className="h-4 w-4" />
           </Link>
           <Link to="/auth" className="rounded-full border border-border px-7 py-3.5 text-sm hover:border-foreground">{t.cta2}</Link>
+          <Link to="/coach/redeem" className="rounded-full border border-border px-7 py-3.5 text-sm hover:border-foreground">
+            {lang === "id" ? "Punya access code?" : "Have an access code?"}
+          </Link>
         </div>
 
         <div className="mt-20 grid gap-6 md:grid-cols-2">
