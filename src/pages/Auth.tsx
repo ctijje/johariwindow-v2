@@ -29,6 +29,8 @@ const Auth = () => {
     if (loading || !session) return;
     if (next) {
       nav(next, { replace: true });
+    } else if (roles.includes("admin")) {
+      nav("/admin/claims", { replace: true });
     } else if (roles.includes("coach")) {
       nav("/coach/dashboard", { replace: true });
     } else {
