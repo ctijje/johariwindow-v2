@@ -38,7 +38,7 @@ const CoachClaim = () => {
       .from("coach_payment_claims" as any)
       .select("*")
       .order("created_at", { ascending: false });
-    setClaims((data ?? []) as Claim[]);
+    setClaims(((data ?? []) as unknown) as Claim[]);
   };
 
   useEffect(() => {
