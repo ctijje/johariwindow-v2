@@ -145,6 +145,27 @@ const AdminClaims = () => {
   );
 };
 
+const ProofLink = ({ path }: { path: string }) => {
+  const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const open = async () => {
+    if (url) { window.open(url, "_blank"); return; }
+    setLoading(true);
+    const { data, error } = await supabase.storage
+      .from("payment-proofs")
+      .createSignedUrl(path, 60 * 10);
+    setLoading(false);
+    if (error || !data?.signedUrl) { toast.error("Gagal buka bukti"); return; }
+    setUrl(data.signedUrl);
+    window.open(data.signedUrl, "_blank");
+  };
+  return (
+    <button onClick={open} disabled={loading} className="text-primary underline disabled:opacity-50">
+      {loading ? "Memuat..." : "Lihat screenshot"}
+    </button>
+  );
+};
+
 const StatusBadge = ({ status }: { status: Claim["status"] }) => {
   const map = {
     pending: { icon: Clock, label: "PENDING", cls: "bg-amber-50 text-amber-900" },
