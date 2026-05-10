@@ -19,7 +19,8 @@ const Auth = () => {
   const nav = useNavigate();
   const [params] = useSearchParams();
   const next = params.get("next");
-  const asIndividual = !!next;
+  const isAdmin = params.get("admin") === "1";
+  const asIndividual = !!next && !isAdmin;
   const { session, roles, loading } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [busy, setBusy] = useState(false);
@@ -39,8 +40,10 @@ const Auth = () => {
   }, [loading, session, roles, nav, next, asIndividual]);
 
   const t = lang === "id" ? {
-    title: asIndividual ? "Masuk untuk simpan hasilmu" : "Masuk untuk Coach",
-    sub: asIndividual
+    title: isAdmin ? "Masuk Admin" : asIndividual ? "Masuk untuk simpan hasilmu" : "Masuk untuk Coach",
+    sub: isAdmin
+      ? "Khusus admin Johari Window. Setelah masuk kamu akan diarahkan ke dashboard approval klaim."
+      : asIndividual
       ? "Hasil Johari Window butuh feedback peer. Login agar hasilmu tersimpan dan bisa dibuka kapan saja, di perangkat manapun."
       : "Buat akun atau masuk dulu. Setelah itu kamu akan diminta memasukkan access code untuk membuka dashboard coach.",
     signin: "Masuk", signup: "Daftar",
@@ -49,8 +52,10 @@ const Auth = () => {
     or: "atau", noAcc: "Belum punya akun?", hasAcc: "Sudah punya akun?",
     backHome: "Kembali ke beranda",
   } : {
-    title: asIndividual ? "Sign in to save your result" : "Sign in for Coaches",
-    sub: asIndividual
+    title: isAdmin ? "Admin sign in" : asIndividual ? "Sign in to save your result" : "Sign in for Coaches",
+    sub: isAdmin
+      ? "Admin only. After signing in you'll be taken to the claims approval dashboard."
+      : asIndividual
       ? "Your Johari Window needs peer feedback. Sign in so your result is saved and you can return anytime, on any device."
       : "Create an account or sign in first. You'll then be asked for an access code to unlock the coach dashboard.",
     signin: "Sign in", signup: "Create account",
