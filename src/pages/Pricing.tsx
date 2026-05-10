@@ -82,6 +82,18 @@ const Pricing = () => {
             <MessageCircle className="h-4 w-4" /> {t.enterprise.cta}
           </a>
         </div>
+
+        <div className="mt-6 rounded-2xl border border-dashed border-border/70 bg-card/50 p-6 text-sm text-muted-foreground">
+          {lang === "id" ? (
+            <>Sudah bayar via lynk.id?{" "}
+              <Link to="/coach/claim" className="font-medium text-foreground underline">Klaim akses coach di sini →</Link>
+            </>
+          ) : (
+            <>Already paid via lynk.id?{" "}
+              <Link to="/coach/claim" className="font-medium text-foreground underline">Claim coach access here →</Link>
+            </>
+          )}
+        </div>
       </div>
       <Footer />
     </div>
