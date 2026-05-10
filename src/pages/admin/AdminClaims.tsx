@@ -1,48 +1,41 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { CheckCircle2, XCircle, Clock, Shield } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CheckCircle2, XCircle, Clock, Shield, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/hooks/useAuth";
+import type { Database } from "@/integrations/supabase/types";
 
-type Claim = {
-  id: string;
-  email: string;
-  plan: "starter" | "growth";
-  lynk_order_ref: string | null;
-  proof_url: string | null;
-  note: string | null;
-  status: "pending" | "approved" | "rejected";
-  admin_note: string | null;
-  access_code: string | null;
-  created_at: string;
-};
+type Claim = Database["public"]["Tables"]["coach_payment_claims"]["Row"];
 
 const AdminClaims = () => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   const [claims, setClaims] = useState<Claim[]>([]);
   const [filter, setFilter] = useState<"pending" | "all">("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
 
-  const load = async () => {
-    let q = supabase.from("coach_payment_claims" as any).select("*").order("created_at", { ascending: false });
+  const load = useCallback(async () => {
+    let q = supabase.from("coach_payment_claims").select("*").order("created_at", { ascending: false });
     if (filter === "pending") q = q.eq("status", "pending");
     const { data, error } = await q;
     if (error) { toast.error(error.message); return; }
-    setClaims(((data ?? []) as unknown) as Claim[]);
-  };
+    setClaims(data ?? []);
+  }, [filter]);
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [filter]);
+  useEffect(() => { load(); }, [load]);
 
   const approve = async (claim: Claim) => {
     setBusyId(claim.id);
     try {
-      const { data, error } = await supabase.rpc("approve_payment_claim" as any, {
+      const { data, error } = await supabase.rpc("approve_payment_claim", {
         _claim_id: claim.id,
         _admin_note: notes[claim.id] ?? null,
       });
       if (error) { toast.error(error.message); return; }
-      const row: any = Array.isArray(data) ? data[0] : data;
+      const row = Array.isArray(data) ? data[0] : data;
       if (row?.access_code) {
         supabase.functions.invoke("send-transactional-email", {
           body: {
@@ -62,7 +55,7 @@ const AdminClaims = () => {
     if (!confirm("Tolak klaim ini?")) return;
     setBusyId(claim.id);
     try {
-      const { error } = await supabase.rpc("reject_payment_claim" as any, {
+      const { error } = await supabase.rpc("reject_payment_claim", {
         _claim_id: claim.id,
         _admin_note: notes[claim.id] ?? null,
       });
@@ -75,7 +68,19 @@ const AdminClaims = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-3xl py-16">
-        <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Beranda</Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Beranda</Link>
+          <button
+            onClick={async () => {
+              await signOut();
+              toast.success("Sudah logout");
+              navigate("/auth?admin=1", { replace: true });
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-medium hover:border-foreground"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </button>
+        </div>
         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary">
           <Shield className="h-3 w-3" /> ADMIN
         </div>
