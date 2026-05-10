@@ -30,8 +30,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+      setLoading(true);
       setSession(s);
-      setTimeout(() => loadRoles(s?.user?.id), 0);
+      setTimeout(() => {
+        loadRoles(s?.user?.id).finally(() => setLoading(false));
+      }, 0);
     });
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
