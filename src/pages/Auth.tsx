@@ -71,6 +71,15 @@ const Auth = () => {
     if (result.error) toast.error(result.error.message ?? "Google sign-in failed");
   };
 
+  const handleForgot = async () => {
+    if (!form.email.trim()) { toast.error(lang === "id" ? "Isi email dulu" : "Enter your email first"); return; }
+    const { error } = await supabase.auth.resetPasswordForEmail(form.email.trim(), {
+      redirectTo: window.location.origin + "/reset-password",
+    });
+    if (error) { toast.error(error.message); return; }
+    toast.success(lang === "id" ? "Cek email untuk link reset password" : "Check your email for the reset link");
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
@@ -146,6 +155,14 @@ const Auth = () => {
         <button onClick={handleGoogle} className="w-full rounded-full border border-border px-6 py-3 text-sm font-medium hover:border-foreground">
           {t.google}
         </button>
+
+        {mode === "signin" && (
+          <p className="mt-4 text-center text-xs">
+            <button onClick={handleForgot} className="text-muted-foreground hover:text-foreground hover:underline">
+              {lang === "id" ? "Lupa password?" : "Forgot password?"}
+            </button>
+          </p>
+        )}
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
           {mode === "signin" ? t.noAcc : t.hasAcc}{" "}
