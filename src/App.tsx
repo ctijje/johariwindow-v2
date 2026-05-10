@@ -26,6 +26,7 @@ import Science from "./pages/Science.tsx";
 import AdminClaims from "./pages/admin/AdminClaims.tsx";
 import AdminEntry from "./pages/admin/AdminEntry.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="/admin/claims" element={<ProtectedRoute requireRole="admin"><AdminClaims /></ProtectedRoute>} />
               <Route path="/admin" element={<AdminEntry />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
