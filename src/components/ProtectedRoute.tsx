@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
-type Props = { children: ReactNode; requireRole?: "coach" };
+type Props = { children: ReactNode; requireRole?: "coach" | "admin" };
 
 export const ProtectedRoute = ({ children, requireRole }: Props) => {
   const { session, roles, loading } = useAuth();
@@ -10,6 +10,7 @@ export const ProtectedRoute = ({ children, requireRole }: Props) => {
   if (!session) return <Navigate to="/auth" replace />;
   if (requireRole && !roles.includes(requireRole)) {
     if (requireRole === "coach") return <Navigate to="/coach/redeem" replace />;
+    if (requireRole === "admin") return <Navigate to="/" replace />;
     return <Navigate to="/auth" replace />;
   }
   return <>{children}</>;
