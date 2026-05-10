@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { KeyRound, ArrowRight } from "lucide-react";
+import { KeyRound, ArrowRight, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLang } from "@/lib/lang";
@@ -74,6 +74,22 @@ const CoachRedeem = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {session && (
+        <header className="border-b border-border/60 bg-background/85 backdrop-blur">
+          <div className="container mx-auto flex h-14 items-center justify-between">
+            <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← {lang === "id" ? "Beranda" : "Home"}</Link>
+            <div className="flex items-center gap-3">
+              <span className="hidden text-xs text-muted-foreground sm:inline">{session.user.email}</span>
+              <button
+                onClick={async () => { await supabase.auth.signOut(); toast.success(lang === "id" ? "Keluar" : "Signed out"); navigate("/"); }}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs hover:border-foreground"
+              >
+                <LogOut className="h-3.5 w-3.5" /> {lang === "id" ? "Keluar" : "Sign out"}
+              </button>
+            </div>
+          </div>
+        </header>
+      )}
       <div className="container mx-auto max-w-2xl py-20 md:py-28">
         <Link to="/coach" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Coach</Link>
         <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary">
