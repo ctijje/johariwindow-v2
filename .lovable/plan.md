@@ -1,61 +1,35 @@
-## Tujuan
-Setelah user bayar di lynk.id, mereka klaim akses lewat halaman web. Kamu approve manual di admin panel. Kedua pihak dapat email otomatis.
+## Masalah
 
-## Flow user
-1. Di **Pricing** klik "Bayar via lynk.id" → buka link lynk.id (tab baru)
-2. Selesai bayar → di "pesan setelah pembayaran" lynk.id, kamu paste link: `https://johariwindow.id/coach/claim`
-3. User buka `/coach/claim` → isi form: email, paket (Starter/Growth), nomor order lynk.id, URL bukti (opsional)
-4. Submit → status "menunggu approval" + **email notif otomatis ke `admin.johariwindow.id@gmail.com`** dengan detail klaim
-5. User bisa kembali ke `/coach/claim` kapan saja → lihat status klaimnya
-6. Setelah kamu approve → **user dapat email otomatis** berisi access code + link aktivasi → halaman `/coach/claim` juga otomatis menampilkan code + tombol "Aktifkan sekarang" → `/coach/redeem?code=...` → role coach aktif
+1. **Teks CTA salah** — di `/coach/redeem` masih tertulis "Don't have a code? Contact us for payment info → WhatsApp". Harusnya arahkan ke halaman pricing + konfirmasi via email admin.
+2. **Bug akses otomatis** — semua user yang login/daftar lewat `/auth` (tanpa `?next=...`) langsung dapat role `coach` secara otomatis. Penyebabnya: `src/pages/Auth.tsx` memanggil `supabase.rpc("claim_coach_role")` setiap kali user login sebagai non-individual, dan RPC `claim_coach_role` di database memang langsung insert role tanpa cek apapun. Jadi alur approval (`coach_payment_claims` → admin approve → access code → redeem) jadi tidak ada artinya karena role sudah dikasih duluan.
 
-## Flow admin (kamu)
-- Halaman baru `/admin/claims` (hanya role `admin`) — list klaim `pending`
-- Tiap kartu: detail user + tombol **Approve** / **Reject** + textarea catatan admin
-- Approve → generate code unik → assign ke klaim → status `approved` → trigger email ke user
-- Reject → status `rejected` → (opsional) email ke user dengan alasan
+## Yang akan diubah
 
-## Database
-- Enum `app_role` tambah value `'admin'`
-- Tabel baru `coach_payment_claims`:
-  - `id`, `user_id` (nullable), `email`, `plan` (`starter` | `growth`)
-  - `lynk_order_ref`, `proof_url` (nullable), `note` (nullable)
-  - `status` (`pending` | `approved` | `rejected`), `admin_note`, `access_code` (nullable)
-  - `reviewed_by`, `reviewed_at`, `created_at`, `updated_at`
-- RLS:
-  - Authenticated: INSERT klaim sendiri (`user_id = auth.uid()`)
-  - User: SELECT klaim sendiri
-  - Admin (`has_role(auth.uid(),'admin')`): SELECT/UPDATE semua
-- RPC `approve_payment_claim(_claim_id, _admin_note)`:
-  - Cek caller admin → generate code `JW-XXXXXX` → INSERT `coach_access_codes` → UPDATE klaim
-  - Return: `{ access_code, recipient_email, plan }` untuk dipakai trigger email
-- RPC `reject_payment_claim(_claim_id, _admin_note)` — sama, status `rejected`
+### 1. `src/pages/coach/CoachRedeem.tsx` — ubah teks "noCode"
 
-## Email (pakai infrastruktur email yang sudah ada)
-Scaffold transactional email + 2 template baru:
-- **`new-claim-admin`** — dikirim ke `admin.johariwindow.id@gmail.com` saat klaim baru
-  - Isi: email klaim, paket, nomor order lynk, link bukti, link ke `/admin/claims`
-  - Trigger: di `CoachClaim.tsx` setelah INSERT klaim sukses → `supabase.functions.invoke('send-transactional-email', ...)`
-- **`claim-approved-user`** — dikirim ke email klaim saat approve
-  - Isi: salam, paket, **access code**, tombol "Aktifkan akses" → `/coach/redeem?code=...`
-  - Trigger: di `AdminClaims.tsx` setelah RPC approve sukses
-- (Opsional) **`claim-rejected-user`** — saat reject, kirim alasan
+- ID: `"Belum punya code? "` + link ke `/pricing` ("lihat paket & konfirmasi pembayaran") + teks "kirim bukti ke admin.johariwindow.id@gmail.com"
+- EN versi sama dalam bahasa Inggris
+- Hapus tombol WhatsApp di section ini, ganti jadi link ke `/pricing` + mailto ke `admin.johariwindow.id@gmail.com`
 
-## Frontend
-- `src/pages/coach/CoachClaim.tsx` — form klaim + status klaim aktif (pending/approved/rejected). Jika approved: tampilkan code + tombol aktifkan
-- `src/pages/admin/AdminClaims.tsx` — list pending, approve/reject
-- Update `CoachRedeem.tsx` — terima `?code=` dari URL, auto-fill input
-- Update `Pricing.tsx` — ganti link lynk.id (kamu kasih URL nya), tambah teks "Setelah bayar, klaim akses di johariwindow.id/coach/claim"
-- Update `App.tsx` — tambah route `/coach/claim`, `/admin/claims`
-- Update `ProtectedRoute.tsx` — support `requireRole="admin"`
+### 2. `src/pages/Auth.tsx` — hapus auto-claim coach role
 
-## Setup admin pertama
-Setelah migration, kasih tau email akun kamu (yang dipakai login di johariwindow.id) → aku INSERT manual `user_roles (user_id, role='admin')`.
+- Hapus blok `await supabase.rpc("claim_coach_role")` di `useEffect` (baris 31–34) dan di handler signup (baris 84–87).
+- Setelah login/signup berhasil:
+  - Kalau ada `?next=...` → redirect ke `next` (sama seperti sekarang).
+  - Kalau tidak ada `next` → redirect ke `/coach/redeem` (bukan `/coach/dashboard`). User harus masukkan access code dulu, baru bisa masuk dashboard.
+- `ProtectedRoute` sudah menangani redirect `coach` → `/coach/redeem` kalau role belum ada, jadi akses `/coach/dashboard` langsung tetap aman.
 
-## Yang kamu siapkan
-- URL lynk.id untuk **Coach Starter** dan **Coach Growth** (kalau berbeda dari `pro.johariwindow.id` yang sekarang) — atau kamu update sendiri nanti
-- Email akun login kamu di johariwindow.id (untuk dijadikan admin)
+### 3. Database — nonaktifkan `claim_coach_role` RPC (migrasi)
 
-## Out of scope (versi awal)
-- Tidak ada upload file langsung (cukup URL screenshot ke Drive/Imgur). Bisa ditambah bucket nanti.
-- Tidak ada webhook lynk.id (lynk.id tidak menyediakannya).
+Karena RPC ini bisa dipanggil siapa saja yang login dan langsung kasih role `coach`, ini harus diamankan. Opsi: ganti body function-nya jadi `RAISE EXCEPTION 'Deprecated, use redeem_coach_code instead'`. Lebih aman daripada drop (menghindari error tipe TypeScript & migrasi lain yang mungkin reference). Satu-satunya cara dapat role `coach` jadi lewat `redeem_coach_code` (yang validate access code dari approval admin).
+
+## Catatan untuk user
+
+- **User existing yang sudah dapat role `coach` lewat bug ini** akan tetap punya akses. Kalau mau dibersihkan, harus hapus manual dari tabel `user_roles`. Mau aku siapkan query pembersihannya juga?
+- Setelah perubahan ini, alur lengkap: bayar di lynk.id → klaim di `/coach/claim` → admin approve di `/admin/claims` → email berisi access code → user redeem di `/coach/redeem` → masuk dashboard.
+
+## Acceptance criteria
+
+- Teks di `/coach/redeem` bagian bawah berbunyi (ID): "Belum punya code? Lihat paket & konfirmasi pembayaran ke admin.johariwindow.id@gmail.com"
+- Akun baru yang signup/login dari `/auth` tanpa pernah redeem code → di-redirect ke `/coach/redeem`, akses `/coach/dashboard` ditolak.
+- Memanggil RPC `claim_coach_role` dari client menghasilkan error.
