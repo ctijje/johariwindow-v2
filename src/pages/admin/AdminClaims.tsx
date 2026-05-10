@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { CheckCircle2, XCircle, Clock, Shield } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { CheckCircle2, XCircle, Clock, Shield, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/hooks/useAuth";
 
 type Claim = {
   id: string;
@@ -19,6 +20,8 @@ type Claim = {
 };
 
 const AdminClaims = () => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   const [claims, setClaims] = useState<Claim[]>([]);
   const [filter, setFilter] = useState<"pending" | "all">("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -75,7 +78,19 @@ const AdminClaims = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-3xl py-16">
-        <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Beranda</Link>
+        <div className="flex items-center justify-between gap-4">
+          <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Beranda</Link>
+          <button
+            onClick={async () => {
+              await signOut();
+              toast.success("Sudah logout");
+              navigate("/auth?admin=1", { replace: true });
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-medium hover:border-foreground"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </button>
+        </div>
         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary">
           <Shield className="h-3 w-3" /> ADMIN
         </div>
