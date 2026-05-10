@@ -91,6 +91,57 @@ export type Database = {
           },
         ]
       }
+      coach_payment_claims: {
+        Row: {
+          access_code: string | null
+          admin_note: string | null
+          created_at: string
+          email: string
+          id: string
+          lynk_order_ref: string | null
+          note: string | null
+          plan: string
+          proof_url: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          access_code?: string | null
+          admin_note?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          lynk_order_ref?: string | null
+          note?: string | null
+          plan: string
+          proof_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          access_code?: string | null
+          admin_note?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          lynk_order_ref?: string | null
+          note?: string | null
+          plan?: string
+          proof_url?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -335,6 +386,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_payment_claim: {
+        Args: { _admin_note?: string; _claim_id: string }
+        Returns: {
+          access_code: string
+          plan: string
+          recipient_email: string
+        }[]
+      }
       claim_coach_role: { Args: never; Returns: undefined }
       create_window: {
         Args: {
@@ -475,6 +534,10 @@ export type Database = {
         }[]
       }
       redeem_coach_code: { Args: { _code: string }; Returns: undefined }
+      reject_payment_claim: {
+        Args: { _admin_note?: string; _claim_id: string }
+        Returns: undefined
+      }
       submit_client_self: {
         Args: { _code: string; _name?: string; _self_words: string[] }
         Returns: string

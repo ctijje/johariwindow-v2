@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { KeyRound, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -11,6 +11,7 @@ const CoachRedeem = () => {
   const { session, roles, refreshRoles, loading } = useAuth();
   const { lang } = useLang();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -47,6 +48,11 @@ const CoachRedeem = () => {
       // already coach
     }
   }, [loading, session, roles]);
+
+  useEffect(() => {
+    const c = searchParams.get("code");
+    if (c) setCode(c.trim().toUpperCase());
+  }, [searchParams]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
