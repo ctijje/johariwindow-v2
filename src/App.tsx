@@ -24,6 +24,7 @@ import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Science from "./pages/Science.tsx";
 import AdminClaims from "./pages/admin/AdminClaims.tsx";
+import AdminEntry from "./pages/admin/AdminEntry.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />
               <Route path="/coach/mentee/:id" element={<ProtectedRoute requireRole="coach"><MenteeDetail /></ProtectedRoute>} />
               <Route path="/admin/claims" element={<ProtectedRoute requireRole="admin"><AdminClaims /></ProtectedRoute>} />
+              <Route path="/admin" element={<AdminEntry />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
