@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-type AppRole = "coach" | "admin";
+type DbRole = Database["public"]["Enums"]["app_role"];
+type AppRole = Extract<DbRole, "coach" | "admin">;
 type Ctx = {
   session: Session | null;
   user: User | null;
@@ -25,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loadRoles = async (uid: string | undefined) => {
     if (!uid) { setRoles([]); return; }
     const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
-    setRoles((data ?? []).map((r: any) => r.role as AppRole));
+    setRoles((data ?? []).map((r) => r.role).filter((role): role is AppRole => role === "coach" || role === "admin"));
   };
 
   useEffect(() => {
