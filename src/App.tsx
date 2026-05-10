@@ -19,9 +19,12 @@ import Auth from "./pages/Auth.tsx";
 import CoachLanding from "./pages/coach/CoachLanding.tsx";
 import CoachDashboard from "./pages/coach/CoachDashboard.tsx";
 import CoachRedeem from "./pages/coach/CoachRedeem.tsx";
+import CoachClaim from "./pages/coach/CoachClaim.tsx";
 import MenteeDetail from "./pages/coach/MenteeDetail.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Science from "./pages/Science.tsx";
+import AdminClaims from "./pages/admin/AdminClaims.tsx";
+import Unsubscribe from "./pages/Unsubscribe.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
@@ -47,10 +50,13 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/coach" element={<CoachLanding />} />
               <Route path="/coach/redeem" element={<CoachRedeem />} />
+              <Route path="/coach/claim" element={<CoachClaim />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/science" element={<Science />} />
               <Route path="/coach/dashboard" element={<ProtectedRoute requireRole="coach"><CoachDashboard /></ProtectedRoute>} />
               <Route path="/coach/mentee/:id" element={<ProtectedRoute requireRole="coach"><MenteeDetail /></ProtectedRoute>} />
+              <Route path="/admin/claims" element={<ProtectedRoute requireRole="admin"><AdminClaims /></ProtectedRoute>} />
+              <Route path="/unsubscribe" element={<Unsubscribe />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
