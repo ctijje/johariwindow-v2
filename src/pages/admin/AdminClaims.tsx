@@ -5,19 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/hooks/useAuth";
+import type { Database } from "@/integrations/supabase/types";
 
-type Claim = {
-  id: string;
-  email: string;
-  plan: "starter" | "growth";
-  lynk_order_ref: string | null;
-  proof_url: string | null;
-  note: string | null;
-  status: "pending" | "approved" | "rejected";
-  admin_note: string | null;
-  access_code: string | null;
-  created_at: string;
-};
+type Claim = Database["public"]["Tables"]["coach_payment_claims"]["Row"];
 
 const AdminClaims = () => {
   const navigate = useNavigate();
@@ -28,11 +18,11 @@ const AdminClaims = () => {
   const [notes, setNotes] = useState<Record<string, string>>({});
 
   const load = async () => {
-    let q = supabase.from("coach_payment_claims" as any).select("*").order("created_at", { ascending: false });
+    let q = supabase.from("coach_payment_claims").select("*").order("created_at", { ascending: false });
     if (filter === "pending") q = q.eq("status", "pending");
     const { data, error } = await q;
     if (error) { toast.error(error.message); return; }
-    setClaims(((data ?? []) as unknown) as Claim[]);
+    setClaims(data ?? []);
   };
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [filter]);
@@ -40,12 +30,12 @@ const AdminClaims = () => {
   const approve = async (claim: Claim) => {
     setBusyId(claim.id);
     try {
-      const { data, error } = await supabase.rpc("approve_payment_claim" as any, {
+      const { data, error } = await supabase.rpc("approve_payment_claim", {
         _claim_id: claim.id,
         _admin_note: notes[claim.id] ?? null,
       });
       if (error) { toast.error(error.message); return; }
-      const row: any = Array.isArray(data) ? data[0] : data;
+      const row = Array.isArray(data) ? data[0] : data;
       if (row?.access_code) {
         supabase.functions.invoke("send-transactional-email", {
           body: {
@@ -65,7 +55,7 @@ const AdminClaims = () => {
     if (!confirm("Tolak klaim ini?")) return;
     setBusyId(claim.id);
     try {
-      const { error } = await supabase.rpc("reject_payment_claim" as any, {
+      const { error } = await supabase.rpc("reject_payment_claim", {
         _claim_id: claim.id,
         _admin_note: notes[claim.id] ?? null,
       });
