@@ -1,52 +1,59 @@
-## Goal
+# Update Footer, FAQ, Pricing, and SEO
 
-Email **chairunisatijje@gmail.com** akan otomatis jadi admin, supaya bisa akses `/admin/claims` dan approve klaim pembayaran (yang otomatis generate access code + kirim email ke user).
+Scope: only content, links, and `<head>` metadata. No changes to test logic, auth, or claim flow.
 
-## Status sekarang
+## 1. Footer (`src/components/Footer.tsx` + footer copy in `src/pages/Index.tsx`)
 
-- Email tersebut belum pernah signup di sistem (belum ada di `auth.users`).
-- Tabel `user_roles` ada role `admin`, tapi belum ada row untuk email ini.
-- Flow approve klaim sudah lengkap: `/admin/claims` → klik Approve → RPC `approve_payment_claim` → generate code `JW-XXXXXX` → email `claim-approved-user` ke user.
+In both ID and EN `company` arrays:
+- Remove the "Tentang" / "About" link entirely.
+- Keep "Privasi" → `/privasi`, "Syarat" → `/syarat`, "Kontak" → mailto.
 
-## Plan
+Note: `Index.tsx` has its own duplicate footer copy block (lines ~84–106 and ~174–196). Update that one too so both stay in sync.
 
-### 1. Migrasi DB — auto-grant admin role untuk email tersebut
+## 2. FAQ section (`src/pages/Index.tsx`)
 
-Update trigger `handle_new_user` supaya saat ada signup baru, kalau email-nya `chairunisatijje@gmail.com`, otomatis insert `admin` role ke `user_roles`. Untuk amannya, juga insert sekarang kalau user-nya sudah ada (tidak ada saat ini, tapi defensive).
+- Title (ID): "Hal-hal yang biasa ditanyakan." (replace current `["Lima hal yang", "selalu ditanyakan."]`).
+- Title (EN): keep an equivalent ("Things people often ask.").
+- Sub-message (ID): `Masih ada pertanyaan? Email kami di sini <mailto link>admin.johariwindow.id@gmail.com</mailto>` (rendered as a clickable mailto link, replacing current `lead`).
+- Sub-message (EN): equivalent English version.
+- Replace the 5 ID FAQ items with the new Q1–Q5 provided. Mirror them with English translations for the EN locale.
+- Accordion behavior: the FAQ already uses an expand/collapse pattern (state `open`), so it stays accordion-style — just swap the items.
 
-```sql
--- Update handle_new_user trigger
-CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS trigger
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path TO 'public'
-AS $$
-BEGIN
-  INSERT INTO public.profiles (user_id, display_name)
-  VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'display_name', NEW.email));
+## 3. Pricing page (`src/pages/Pricing.tsx`)
 
-  -- Auto-grant admin role to designated admin email
-  IF lower(NEW.email) = 'chairunisatijje@gmail.com' THEN
-    INSERT INTO public.user_roles (user_id, role)
-    VALUES (NEW.id, 'admin'::app_role)
-    ON CONFLICT (user_id, role) DO NOTHING;
-  END IF;
+- On Coach Starter and Coach Growth tier cards only, add a green pill/label directly under the price:
+  - ID: "✓ Sekali Bayar, Bukan Langganan"
+  - EN: "✓ One-time payment, not a subscription"
+  - Styled with semantic green tokens (e.g. `text-emerald-600 bg-emerald-50` via existing token system or a new `success` token if available).
+- Add a feature comparison table beneath the 3 pricing cards, before the enterprise CTA box:
+  - Columns: Fitur | Gratis | Coach Starter | Coach Growth
+  - Rows exactly as specified by the user (8 rows). Use `✓` and `—`.
+  - Responsive: horizontal scroll on small screens.
+  - Provide ID and EN versions of headers and row labels.
+- Below the table, add a small line:
+  - ID: `Ada pertanyaan soal harga? Hubungi kami via email: admin.johariwindow.id@gmail.com` with the email as a `mailto:` link.
+  - EN equivalent.
 
-  RETURN NEW;
-END;
-$$;
-```
+## 4. SEO meta tags (per-page)
 
-### 2. Langkah aksi user
+Install `react-helmet-async` (lightweight, standard for Vite/React) and wrap the app in `HelmetProvider` in `src/App.tsx`. Then add a `<Helmet>` block to each page:
 
-1. Buka `/auth` di johariwindow.id, klik **Daftar/Create account** dengan email `chairunisatijje@gmail.com` + password.
-2. Setelah login, akan otomatis di-redirect ke `/coach/redeem` (karena belum punya role coach), tapi sekaligus role `admin` sudah ke-set.
-3. Akses `/admin/claims` → muncul dashboard semua klaim pembayaran.
-4. Saat ada user bayar di lynk.id → klaim di `/coach/claim` → muncul di `/admin/claims` → klik **Approve** → user otomatis dapat email berisi access code → user redeem di `/coach/redeem` → masuk dashboard coach.
+- `/` (`src/pages/Index.tsx`):
+  - Title: `Tes Johari Window Indonesia — Temukan Kekuatan & Blind Spot Kamu`
+  - Description: provided text.
+  - Open Graph tags (title/description/type/url/image) as specified.
+  - JSON-LD FAQ schema script as specified.
+- `/pricing` (`src/pages/Pricing.tsx`): title + description as specified.
+- `/coach` (`src/pages/coach/CoachLanding.tsx`): title + description as specified.
+- `/privasi` (`src/pages/Privasi.tsx`): title + description as specified.
+- `/syarat` (`src/pages/Syarat.tsx`): title + description as specified.
 
-## Acceptance
+Also update `index.html` defaults to match the new homepage title/description so pre-hydration crawlers see the right values, and remove the stale `og:image` pointing at the lovable preview (replace with `https://johariwindow.id/og-image.png`).
 
-- Setelah signup dengan email tersebut, query `SELECT * FROM user_roles WHERE role='admin'` menampilkan 1 row.
-- Halaman `/admin/claims` bisa dibuka tanpa redirect ke home.
-- Klik Approve di klaim pending menghasilkan access code dan email ke user.
+Note: `og-image.png` is referenced but may not exist in `/public`. I'll point to it as specified; if missing, we can add the asset in a follow-up.
+
+## Out of scope (untouched)
+
+- Test flow, auth, admin, claim/redeem logic.
+- Database, edge functions, RLS.
+- Existing routes other than meta-tag additions.
