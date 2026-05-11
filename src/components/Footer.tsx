@@ -28,8 +28,8 @@ const COPY = {
       ],
       company: [
         { label: "Tentang", href: "#" },
-        { label: "Privasi", href: "#" },
-        { label: "Syarat", href: "#" },
+        { label: "Privasi", href: "/privasi" },
+        { label: "Syarat", href: "/syarat" },
         { label: "Kontak", href: "mailto:admin@johariwindow.id" },
       ],
     },
@@ -51,8 +51,8 @@ const COPY = {
       ],
       company: [
         { label: "About", href: "#" },
-        { label: "Privacy", href: "#" },
-        { label: "Terms", href: "#" },
+        { label: "Privacy", href: "/privasi" },
+        { label: "Terms", href: "/syarat" },
         { label: "Contact", href: "mailto:admin@johariwindow.id" },
       ],
     },
