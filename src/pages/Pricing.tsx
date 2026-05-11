@@ -156,11 +156,11 @@ const Pricing = () => {
 
         <div className="mt-6 rounded-2xl border border-dashed border-border/70 bg-card/50 p-6 text-sm text-muted-foreground">
           {lang === "id" ? (
-            <>Sudah bayar via lynk.id?{" "}
+            <>Sudah bayar?{" "}
               <Link to="/coach/claim" className="font-medium text-foreground underline">Klaim akses coach di sini →</Link>
             </>
           ) : (
-            <>Already paid via lynk.id?{" "}
+            <>Already paid?{" "}
               <Link to="/coach/claim" className="font-medium text-foreground underline">Claim coach access here →</Link>
             </>
           )}

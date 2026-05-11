@@ -74,6 +74,8 @@ const t = {
         { q: "Apakah data saya aman dan bersifat privat?", a: "Ya. Feedback dari rekan kamu ditampilkan secara agregat, kamu tidak bisa melihat siapa yang memilih kata sifat apa. Seluruh data dienkripsi dan tidak dibagikan ke pihak ketiga." },
         { q: "Apakah perlu mendaftar untuk mencoba?", a: "Ya, kamu perlu membuat akun gratis untuk memulai dan prosesnya juga cepat." },
         { q: "Paket Coach, apakah berlangganan bulanan?", a: "Tidak. Paket Coach Starter (Rp 99.000) dan Coach Growth (Rp 199.000) adalah pembayaran satu kali sekali bayar. Tidak ada biaya bulanan atau tahunan." },
+        { q: "Apakah Johari Window gratis?", a: "Ya, versi inti untuk individu gratis selamanya. Fitur grup dan paket Coach adalah add-on berbayar yang opsional. Dengan paket Coach kamu bisa mengumpulkan hasil murid/mentee/klien dalam satu halaman dan dashboard khusus." },
+        { q: "Bisakah saya melakukan ini bersama terapis atau coach saya?", a: "Tentu saja. Banyak terapis dan coach menggunakan Johari sebagai alat dialog yang lebih kaya bersama klien." },
       ],
     },
     final: {
@@ -164,6 +166,8 @@ const t = {
         { q: "Is my data safe and private?", a: "Yes. Peer feedback is shown in aggregate — you can't see who picked which adjective. All data is encrypted and never shared with third parties." },
         { q: "Do I need to sign up to try it?", a: "Yes, you need a free account to start, and the process is quick." },
         { q: "Are the Coach plans monthly subscriptions?", a: "No. Coach Starter (Rp 99,000) and Coach Growth (Rp 199,000) are one-time payments. No monthly or yearly fees." },
+        { q: "Is the Johari Window free?", a: "Yes, the core version for individuals is free forever. Group features and the Coach plan are optional paid add-ons. With the Coach plan you can collect your students'/mentees'/clients' results in one page and a dedicated dashboard." },
+        { q: "Can I do this with my therapist or coach?", a: "Absolutely. Many therapists and coaches use Johari as a richer dialogue tool with clients." },
       ],
     },
     final: {

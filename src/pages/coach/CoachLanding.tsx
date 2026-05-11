@@ -8,12 +8,12 @@ const CoachLanding = () => {
   const { lang } = useLang();
   const t = lang === "id" ? {
     kicker: "UNTUK COACH",
-    h1: "Sesi coaching yang lebih dalam, dengan data peer-nya.",
-    lead: "Tambah mentee, undang lingkaran mereka untuk memberi feedback, lalu pandu sesi go-through bersama berbasis Johari Window.",
+    h1: "Sesi coaching yang lebih dalam, dengan feedback peer.",
+    lead: "Tambah mentee, undang lingkaran mereka untuk memberi feedback, lalu pandu sesi berbasis Johari Window bersama.",
     cta1: "Daftar sebagai Coach", cta2: "Masuk",
     features: [
       { icon: Users, t: "Kelola mentee", d: "Satu dashboard untuk semua menteemu — status pengisian, peer feedback, dan catatan sesi." },
-      { icon: Eye, t: "Profil bakat lengkap", d: "Lihat 4 panel Johari + Potensi Utama & Pendukung tiap mentee." },
+      { icon: Eye, t: "Profil lengkap dengan feedback peer", d: "Lihat 4 panel Johari + Potensi Utama & Pendukung tiap mentee." },
       { icon: Presentation, t: "Mode Go-through", d: "Mode presentasi step-by-step untuk dipakai langsung saat sesi 1-on-1." },
       { icon: Sparkles, t: "Catatan privat", d: "Simpan refleksi sesi yang hanya kamu yang lihat." },
     ],
