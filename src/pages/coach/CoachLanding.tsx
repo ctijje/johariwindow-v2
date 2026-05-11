@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, Eye, Presentation, Sparkles } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { useLang } from "@/lib/lang";
 import Footer from "@/components/Footer";
 
@@ -31,6 +32,11 @@ const CoachLanding = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Untuk Coach & Fasilitator — Tes Johari Window Indonesia</title>
+        <meta name="description" content="Jalankan sesi coaching yang lebih dalam dengan data peer 360°. Dashboard mentee, dan catatan privat. Mulai dari Rp 99.000." />
+        <link rel="canonical" href="https://johariwindow.id/coach" />
+      </Helmet>
       <div className="container mx-auto py-20 md:py-28">
         <Link to="/" className="font-mono text-xs text-muted-foreground hover:text-foreground">← Johari Window</Link>
         <div className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 font-mono text-[11px] tracking-widest text-primary">

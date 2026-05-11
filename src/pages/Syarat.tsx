@@ -1,5 +1,6 @@
 import { useLang } from "@/lib/lang";
 import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 const COPY = {
   id: {
@@ -39,6 +40,11 @@ const Syarat = () => {
   const c = COPY[lang];
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Syarat & Ketentuan — Johari Window Indonesia</title>
+        <meta name="description" content="Syarat penggunaan platform Johari Window Indonesia untuk pengguna individu dan coach profesional." />
+        <link rel="canonical" href="https://johariwindow.id/syarat" />
+      </Helmet>
       <main className="container mx-auto max-w-3xl px-4 py-20">
         <h1 className="text-4xl font-bold tracking-tight">{c.title}</h1>
         <p className="mt-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">{c.updated}</p>
