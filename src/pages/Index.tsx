@@ -243,6 +243,29 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Helmet>
+        <title>Tes Johari Window Indonesia — Temukan Kekuatan & Blind Spot Kamu</title>
+        <meta name="description" content="Bandingkan persepsi diri vs. persepsi orang lain. Self awareness exercise Johari Window berbasis psikologi untuk pengembangan diri & coaching profesional. Gratis." />
+        <link rel="canonical" href="https://johariwindow.id/" />
+        <meta property="og:title" content="Tes Johari Window Indonesia — Temukan Kekuatan & Blind Spot Kamu" />
+        <meta property="og:description" content="Bandingkan persepsi diri vs. persepsi orang lain. Platform berbasis psikologi untuk pengembangan diri dan coaching." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://johariwindow.id" />
+        <meta property="og:image" content="https://johariwindow.id/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tes Johari Window Indonesia — Temukan Kekuatan & Blind Spot Kamu" />
+        <meta name="twitter:description" content="Bandingkan persepsi diri vs. persepsi orang lain. Platform berbasis psikologi untuk pengembangan diri dan coaching." />
+        <meta name="twitter:image" content="https://johariwindow.id/og-image.png" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "Apakah Johari Window berbeda dengan tes kepribadian seperti MBTI atau DISC?", "acceptedAnswer": { "@type": "Answer", "text": "Ya. MBTI mengukur kepribadian dari jawaban Anda sendiri. Johari Window membandingkan persepsi diri Anda dengan persepsi orang lain — sehingga Anda bisa melihat blind spot yang tidak bisa terdeteksi tes lain." } },
+            { "@type": "Question", "name": "Berapa lama prosesnya?", "acceptedAnswer": { "@type": "Answer", "text": "Langkah pertama memakan waktu kurang dari 2 menit. Hasilnya bisa dilihat 24–48 jam setelah rekan Anda mengisi feedback." } },
+            { "@type": "Question", "name": "Apakah paket Coach berlangganan bulanan?", "acceptedAnswer": { "@type": "Answer", "text": "Tidak. Paket Coach Starter (Rp 99.000) dan Coach Growth (Rp 199.000) adalah pembayaran satu kali. Tidak ada biaya bulanan." } }
+          ]
+        })}</script>
+      </Helmet>
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="container mx-auto flex h-20 items-center justify-between">
@@ -483,7 +506,10 @@ const Index = () => {
               {c.faq.title[0]}<br />
               <em className="text-gradient-brand not-italic">{c.faq.title[1]}</em>
             </h2>
-            <p className="mt-6 text-muted-foreground">{c.faq.lead}</p>
+            <p className="mt-6 text-muted-foreground">
+              {c.faq.leadPrefix}
+              <a href={`mailto:${c.faq.leadEmail}`} className="text-foreground underline hover:text-primary">{c.faq.leadEmail}</a>
+            </p>
           </div>
           <div className="lg:col-span-8">
             <div className="divide-y divide-border/70 border-y border-border/70">
