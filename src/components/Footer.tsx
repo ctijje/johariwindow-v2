@@ -27,7 +27,6 @@ const COPY = {
         { label: "Blog", href: "#" },
       ],
       company: [
-        { label: "Tentang", href: "#" },
         { label: "Privasi", href: "/privasi" },
         { label: "Syarat", href: "/syarat" },
         { label: "Kontak", href: "mailto:admin@johariwindow.id" },
@@ -50,7 +49,6 @@ const COPY = {
         { label: "Blog", href: "#" },
       ],
       company: [
-        { label: "About", href: "#" },
         { label: "Privacy", href: "/privasi" },
         { label: "Terms", href: "/syarat" },
         { label: "Contact", href: "mailto:admin@johariwindow.id" },
