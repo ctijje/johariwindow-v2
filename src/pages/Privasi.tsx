@@ -1,5 +1,6 @@
 import { useLang } from "@/lib/lang";
 import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet-async";
 
 const COPY = {
   id: {
@@ -94,6 +95,11 @@ const Privasi = () => {
   const c = COPY[lang];
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Kebijakan Privasi — Tes Johari Window Indonesia</title>
+        <meta name="description" content="Pelajari bagaimana Johari Window Indonesia mengumpulkan, menggunakan, dan melindungi data pribadi Anda." />
+        <link rel="canonical" href="https://johariwindow.id/privasi" />
+      </Helmet>
       <main className="container mx-auto max-w-3xl px-4 py-20">
         <h1 className="text-4xl font-bold tracking-tight">{c.title}</h1>
         <p className="mt-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">{c.updated}</p>
