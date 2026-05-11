@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Lock, Users, Clock, LayoutGrid, Plus, Minus, Globe } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import johariDoodle from "@/assets/johari-window-doodle.png";
@@ -64,14 +65,15 @@ const t = {
     },
     faq: {
       kicker: "FAQ",
-      title: ["Lima hal yang", "selalu ditanyakan."],
-      lead: "Masih penasaran? Email kami — manusia sungguhan akan balas dalam sehari.",
+      title: ["Hal-hal yang", "biasa ditanyakan."],
+      leadPrefix: "Masih ada pertanyaan? Email kami di sini ",
+      leadEmail: "admin.johariwindow.id@gmail.com",
       items: [
-        { q: "Apakah Johari Window framework psikologi yang nyata?", a: "Ya — dikembangkan tahun 1955 oleh psikolog Joseph Luft dan Harrington Ingham (nama 'Johari' adalah gabungan nama depan mereka). Banyak digunakan dalam terapi, pendidikan, pengembangan kepemimpinan, dan coaching tim." },
-        { q: "Apakah temanku tahu kata yang aku pilih untuk diriku?", a: "Tidak. Mereka memilih dari daftar yang sama tanpa melihat pilihanmu. Hasilnya baru dibandingkan setelah selesai." },
-        { q: "Berapa banyak teman yang sebaiknya diundang?", a: "Minimal 3, idealnya 5–10. Semakin beragam orangnya, semakin kaya jendelamu." },
-        { q: "Apakah Johari Window ini gratis?", a: "Ya, versi inti untuk perorangan gratis selamanya. Fitur group atau fitur Untuk Coach opsional di paket berbayar. Paket Untuk Coach ini kamu dapat mengumpulkan hasil student/mentee/klien kamu dalam 1 page dan 1 dashboard tersendiri." },
-        { q: "Bisa dipakai dengan terapis atau coach saya?", a: "Sangat bisa. Banyak terapis dan coach memakai Johari sebagai bahan dialog yang lebih dalam dengan klien." },
+        { q: "Apakah Johari Window berbeda dengan tes kepribadian seperti MBTI atau DISC?", a: "Ya, sangat berbeda. MBTI dan DISC hanya mengukur kepribadian berdasarkan jawaban kamu sendiri. Johari Window membandingkan persepsi diri kamu dengan persepsi orang lain secara langsung sehingga kamu bisa melihat blind spot yang tidak bisa terdeteksi tes lain." },
+        { q: "Berapa lama prosesnya?", a: "Langkah pertama (memilih kata sifat) memakan waktu kurang dari 2 menit. Setelah kamu mengundang rekan untuk memberi feedback, hasilnya bisa dilihat segera setelah mereka mengisi rata-rata 24–48 jam." },
+        { q: "Apakah data saya aman dan bersifat privat?", a: "Ya. Feedback dari rekan kamu ditampilkan secara agregat, kamu tidak bisa melihat siapa yang memilih kata sifat apa. Seluruh data dienkripsi dan tidak dibagikan ke pihak ketiga." },
+        { q: "Apakah perlu mendaftar untuk mencoba?", a: "Ya, kamu perlu membuat akun gratis untuk memulai dan prosesnya juga cepat." },
+        { q: "Paket Coach, apakah berlangganan bulanan?", a: "Tidak. Paket Coach Starter (Rp 99.000) dan Coach Growth (Rp 199.000) adalah pembayaran satu kali sekali bayar. Tidak ada biaya bulanan atau tahunan." },
       ],
     },
     final: {
@@ -97,9 +99,8 @@ const t = {
           { label: "Blog", href: "#" },
         ],
         company: [
-          { label: "Tentang", href: "#" },
-          { label: "Privasi", href: "#" },
-          { label: "Syarat", href: "#" },
+            { label: "Privasi", href: "/privasi" },
+            { label: "Syarat", href: "/syarat" },
           { label: "Kontak", href: "mailto:admin@johariwindow.id" },
         ],
       },
@@ -154,14 +155,15 @@ const t = {
     },
     faq: {
       kicker: "FAQ",
-      title: ["Five things people", "always ask."],
-      lead: "Still curious? Email us — a real human reads everything within a day.",
+      title: ["Things people", "often ask."],
+      leadPrefix: "Still have questions? Email us at ",
+      leadEmail: "admin.johariwindow.id@gmail.com",
       items: [
-        { q: "Is the Johari Window a real psychology framework?", a: "Yes — it was developed in 1955 by psychologists Joseph Luft and Harrington Ingham (the name 'Johari' is a portmanteau of their first names). It's widely used in therapy, education, leadership development, and team coaching." },
-        { q: "Do my friends see what I picked for myself?", a: "No. They pick from the same list without seeing your choices. Results are only compared after." },
-        { q: "How many friends should I invite?", a: "At least 3, ideally 5–10. The more diverse the group, the richer your window." },
-        { q: "Is the Johari Window free?", a: "Yes — the core version for individuals is free forever. Group features and the Coach plan are optional paid add-ons. With the Coach plan you can collect your students'/mentees'/clients' results in one page and a dedicated dashboard." },
-        { q: "Can I do this with my therapist or coach?", a: "Absolutely. Many therapists and coaches use Johari as a richer dialogue tool with clients." },
+        { q: "How is Johari Window different from MBTI or DISC?", a: "Very different. MBTI and DISC measure personality based only on your own answers. Johari Window directly compares your self-perception with how others perceive you, so you can see blind spots that other tests can't detect." },
+        { q: "How long does the process take?", a: "The first step (picking adjectives) takes less than 2 minutes. Once you invite peers for feedback, results are typically visible within 24–48 hours after they respond." },
+        { q: "Is my data safe and private?", a: "Yes. Peer feedback is shown in aggregate — you can't see who picked which adjective. All data is encrypted and never shared with third parties." },
+        { q: "Do I need to sign up to try it?", a: "Yes, you need a free account to start, and the process is quick." },
+        { q: "Are the Coach plans monthly subscriptions?", a: "No. Coach Starter (Rp 99,000) and Coach Growth (Rp 199,000) are one-time payments. No monthly or yearly fees." },
       ],
     },
     final: {
@@ -187,9 +189,8 @@ const t = {
           { label: "Blog", href: "#" },
         ],
         company: [
-          { label: "About", href: "#" },
-          { label: "Privacy", href: "#" },
-          { label: "Terms", href: "#" },
+            { label: "Privacy", href: "/privasi" },
+            { label: "Terms", href: "/syarat" },
           { label: "Contact", href: "mailto:admin@johariwindow.id" },
         ],
       },
