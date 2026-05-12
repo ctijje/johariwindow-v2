@@ -44,7 +44,7 @@ export const ADJECTIVES: Adjective[] = [
   mk("friendly", "Friendly", "Ramah", "Mudah membuat orang merasa diterima", "connector", "Easily makes people feel welcome"),
   mk("giving", "Giving", "Dermawan", "Senang memberi tanpa hitung-hitungan", "empath", "Loves to give without keeping score"),
   mk("happy", "Happy", "Bahagia", "Memancarkan ketenangan dan rasa syukur", "connector", "Radiates calm and gratitude"),
-  mk("helpful", "Helpful", "Ringan Tangan", "Selalu siap membantu tanpa diminta dua kali", "empath", "Always ready to help without being asked twice"),
+  mk("helpful", "Helpful", "Suka Membantu", "Selalu siap membantu tanpa diminta dua kali", "empath", "Always ready to help without being asked twice"),
   mk("idealistic", "Idealistic", "Idealis", "Punya visi tentang bagaimana seharusnya", "creator", "Has a vision of how things should be"),
   mk("independent", "Independent", "Mandiri", "Tidak perlu dituntun untuk mulai bergerak", "executor", "Doesn't need to be led to get started"),
   mk("ingenious", "Ingenious", "Inovatif", "Suka menemukan cara baru yang lebih baik", "creator", "Loves finding new and better ways"),
