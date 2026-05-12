@@ -12,6 +12,8 @@ type Theme = {
   kicker: string;
   title_id: string;
   title_en: string;
+  subtitle_id?: string;
+  subtitle_en?: string;
   tags: string;
   desc_id: string;
   desc_en: string;
@@ -57,8 +59,8 @@ const THEMES: Record<PanelKey, Theme> = {
     key: "hidden",
     bg: "linear-gradient(160deg,#064e3b 0%,#0f766e 60%,#115e59 100%)",
     kicker: "FAÇADE / TERSEMBUNYI",
-    title_id: "Kamu Tipe Misterius",
-    title_en: "You Are Mysterious",
+    title_id: "Kamu Tipe Tertutup",
+    title_en: "You Are Private",
     tags: "Private · Deep · Complex",
     desc_id: "Kamu menyimpan banyak hal tentang dirimu. Dunia hanya melihat sebagian kecil darimu.",
     desc_en: "You hold a lot about yourself. The world only sees a small part of you.",
@@ -74,6 +76,8 @@ const THEMES: Record<PanelKey, Theme> = {
     kicker: "UNKNOWN / TAK DIKENAL",
     title_id: "Kamu Penuh Kemungkinan",
     title_en: "You Are Full of Possibility",
+    subtitle_id: "Masih Banyak Sisi yang Belum Tergali",
+    subtitle_en: "Many Sides of You Are Yet to Be Discovered",
     tags: "Mysterious · Potential · Limitless",
     desc_id: "Masih banyak sisi dirimu yang belum dieksplorasi — tersembunyi bahkan dari dirimu sendiri.",
     desc_en: "Many sides of you remain unexplored — hidden even from yourself.",
@@ -187,6 +191,12 @@ const Story = () => {
                 <span key={i} className="block">{w}</span>
               ))}
             </h1>
+
+            {(theme.subtitle_id || theme.subtitle_en) && (
+              <div className="mt-2 max-w-[85%] font-serif text-sm italic text-white/75">
+                {lang === "id" ? theme.subtitle_id : theme.subtitle_en}
+              </div>
+            )}
 
             <div className="mt-2 font-serif text-base italic text-white/80">{theme.tags}</div>
 
