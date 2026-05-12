@@ -33,11 +33,11 @@ export const WindowView = ({ windowId }: Props) => {
   const labels = lang === "id"
     ? { open: "Open · Dikenal bersama", blind: "Blind Spot · Peer lihat, kamu belum",
         hidden: "Hidden · Kamu tahu, peer belum", unknown: "Unknown · Belum disadari",
-        primary: "POTENSI UTAMA", secondary: "POTENSI PENDUKUNG",
+        primary: "TEMA DOMINAN", secondary: "TEMA PENDUKUNG",
         peers: `Berdasarkan self + ${peerCount} peer` }
     : { open: "Open · Known to both", blind: "Blind Spot · Others see, you don't",
         hidden: "Hidden · You know, others don't", unknown: "Unknown · Not yet known",
-        primary: "PRIMARY POTENTIAL", secondary: "SUPPORTING POTENTIAL",
+        primary: "DOMINANT THEME", secondary: "SUPPORTING THEME",
         peers: `Based on self + ${peerCount} peer(s)` };
 
   const Pane = ({ title, words, tone }: { title: string; words: string[]; tone: "g" | "p" | "l" | "a" }) => {

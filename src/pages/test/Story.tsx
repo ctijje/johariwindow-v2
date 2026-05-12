@@ -72,8 +72,8 @@ const THEMES: Record<PanelKey, Theme> = {
     key: "unknown",
     bg: "linear-gradient(160deg,#9d174d 0%,#be185d 50%,#c2410c 100%)",
     kicker: "UNKNOWN / TAK DIKENAL",
-    title_id: "Kamu Penuh Potensi",
-    title_en: "You Are Full of Potential",
+    title_id: "Kamu Penuh Kemungkinan",
+    title_en: "You Are Full of Possibility",
     tags: "Mysterious · Potential · Limitless",
     desc_id: "Masih banyak sisi dirimu yang belum dieksplorasi — tersembunyi bahkan dari dirimu sendiri.",
     desc_en: "Many sides of you remain unexplored — hidden even from yourself.",
@@ -201,7 +201,7 @@ const Story = () => {
             {primary && (
               <div className="mt-3 flex flex-col items-center">
                 <div className="font-mono text-[9px] tracking-[0.25em] text-white/70">
-                  {lang === "id" ? "POTENSI UTAMA" : "PRIMARY POTENTIAL"}
+                  {lang === "id" ? "TEMA DOMINAN" : "DOMINANT THEME"}
                 </div>
                 <div className="mt-1 text-[15px] font-bold" style={{ color: theme.cta }}>
                   {lang === "id" ? primary.name_id : primary.name_en}

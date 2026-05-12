@@ -1,59 +1,78 @@
-# Update Footer, FAQ, Pricing, and SEO
+## Tujuan
 
-Scope: only content, links, and `<head>` metadata. No changes to test logic, auth, or claim flow.
+Reposisi halaman hasil (`/test/profile`) agar **data mentah Johari menjadi tampilan utama** (apa adanya, tanpa interpretasi) dan **6 arketipe diturunkan jadi seksi sekunder "tema"** dengan disclaimer jelas. Update juga story image & WindowView agar konsisten pakai kata "tema" (bukan "potensi"). Tidak mengubah scoring, schema, atau flow tes.
 
-## 1. Footer (`src/components/Footer.tsx` + footer copy in `src/pages/Index.tsx`)
+## Susunan baru `/test/profile`
 
-In both ID and EN `company` arrays:
-- Remove the "Tentang" / "About" link entirely.
-- Keep "Privasi" → `/privasi`, "Syarat" → `/syarat`, "Kontak" → mailto.
+```text
+Kicker: HASIL JOHARI WINDOW-MU
+H1: "Begini orang lain & dirimu sendiri melihatmu"
+Sub: berdasarkan self + N peer
 
-Note: `Index.tsx` has its own duplicate footer copy block (lines ~84–106 and ~174–196). Update that one too so both stay in sync.
+[1] HERO — DATA MENTAH (baru, tampilan utama)
+   ┌──────────────────────┬──────────────────────┐
+   │ How Others See You   │ How You See Yourself │
+   │ bar chart top-10 kata│ bar chart top-10 kata│
+   │ pilihan peer         │ pilihan diri sendiri │
+   └──────────────────────┴──────────────────────┘
+   Catatan kecil:
+   "Johari Window dirancang sebagai alat refleksi & dialog
+   (Luft & Ingham, 1955). Data di atas adalah hasil pilihan
+   kamu dan peer."
 
-## 2. FAQ section (`src/pages/Index.tsx`)
+[2] TEMA YANG MUNCUL (seksi sekunder, dulunya "POTENSI")
+   Disclaimer di atas:
+   "Sebagai bantuan refleksi, kami mengelompokkan kata-kata
+   di atas ke 6 tema bakat (Kreator, Pemimpin, Konektor,
+   Analis, Empath, Eksekutor). Pengelompokan ini terinspirasi
+   literatur arketipe bakat, bukan label kepribadian."
+   - Card "TEMA DOMINAN" (was POTENSI UTAMA)
+   - Card "TEMA PENDUKUNG" (was POTENSI PENDUKUNG)
 
-- Title (ID): "Hal-hal yang biasa ditanyakan." (replace current `["Lima hal yang", "selalu ditanyakan."]`).
-- Title (EN): keep an equivalent ("Things people often ask.").
-- Sub-message (ID): `Masih ada pertanyaan? Email kami di sini <mailto link>admin.johariwindow.id@gmail.com</mailto>` (rendered as a clickable mailto link, replacing current `lead`).
-- Sub-message (EN): equivalent English version.
-- Replace the 5 ID FAQ items with the new Q1–Q5 provided. Mirror them with English translations for the EN locale.
-- Accordion behavior: the FAQ already uses an expand/collapse pattern (state `open`), so it stays accordion-style — just swap the items.
+[3] DARI MANA PROFIL INI? (revisi)
+   - Sebut Luft & Ingham (1955) sebagai sumber Johari Window.
+   - Jelaskan bahwa bar chart = data apa adanya, hasil pilihan
+     kamu dan peer.
+   - Sebut 6 tema = kurasi internal, terinspirasi literatur
+     arketipe bakat, bukan label kepribadian.
+   - Hapus klaim "potensi" / "talent profile".
 
-## 3. Pricing page (`src/pages/Pricing.tsx`)
+[4] CTA: Bagikan hasil (tetap)
+```
 
-- On Coach Starter and Coach Growth tier cards only, add a green pill/label directly under the price:
-  - ID: "✓ Sekali Bayar, Bukan Langganan"
-  - EN: "✓ One-time payment, not a subscription"
-  - Styled with semantic green tokens (e.g. `text-emerald-600 bg-emerald-50` via existing token system or a new `success` token if available).
-- Add a feature comparison table beneath the 3 pricing cards, before the enterprise CTA box:
-  - Columns: Fitur | Gratis | Coach Starter | Coach Growth
-  - Rows exactly as specified by the user (8 rows). Use `✓` and `—`.
-  - Responsive: horizontal scroll on small screens.
-  - Provide ID and EN versions of headers and row labels.
-- Below the table, add a small line:
-  - ID: `Ada pertanyaan soal harga? Hubungi kami via email: admin.johariwindow.id@gmail.com` with the email as a `mailto:` link.
-  - EN equivalent.
+## Perubahan teks
 
-## 4. SEO meta tags (per-page)
+### `src/pages/test/Profile.tsx`
+- Kicker page: "PROFIL BAKAT TERSEMBUNYI" → **"HASIL JOHARI WINDOW-MU"** / "YOUR JOHARI WINDOW RESULTS"
+- H1: "Profil bakat tersembunyimu" → **"Begini orang lain & dirimu sendiri melihatmu"** / "How others — and you — see yourself"
+- Card kicker: "POTENSI UTAMA / PENDUKUNG" → **"TEMA DOMINAN / TEMA PENDUKUNG"** / "DOMINANT THEME / SUPPORTING THEME"
+- Card heading internal: "Cara kami menentukan potensimu" → **"Apa arti hasil ini?"** / "What does this mean?"
+- List "Potensi Utama / Pendukung" di seksi penjelasan → "Tema Dominan / Pendukung".
 
-Install `react-helmet-async` (lightweight, standard for Vite/React) and wrap the app in `HelmetProvider` in `src/App.tsx`. Then add a `<Helmet>` block to each page:
+### `src/pages/test/Story.tsx` (story image yang dibagikan)
+- Line 75 `title_id: "Kamu Penuh Potensi"` → **"Tema Yang Muncul Di Dirimu"** (EN sejajar: "Themes That Show Up In You").
+- Line 204 label `"POTENSI UTAMA" / "PRIMARY POTENTIAL"` → **"TEMA DOMINAN" / "DOMINANT THEME"**.
 
-- `/` (`src/pages/Index.tsx`):
-  - Title: `Tes Johari Window Indonesia — Temukan Kekuatan & Blind Spot Kamu`
-  - Description: provided text.
-  - Open Graph tags (title/description/type/url/image) as specified.
-  - JSON-LD FAQ schema script as specified.
-- `/pricing` (`src/pages/Pricing.tsx`): title + description as specified.
-- `/coach` (`src/pages/coach/CoachLanding.tsx`): title + description as specified.
-- `/privasi` (`src/pages/Privasi.tsx`): title + description as specified.
-- `/syarat` (`src/pages/Syarat.tsx`): title + description as specified.
+### `src/components/WindowView.tsx`
+- Line 36/40 label `POTENSI UTAMA / PENDUKUNG` & `PRIMARY / SUPPORTING POTENTIAL` → **TEMA DOMINAN / PENDUKUNG** & **DOMINANT / SUPPORTING THEME**.
 
-Also update `index.html` defaults to match the new homepage title/description so pre-hydration crawlers see the right values, and remove the stale `og:image` pointing at the lovable preview (replace with `https://johariwindow.id/og-image.png`).
+## Komponen baru: bar chart kata sifat
 
-Note: `og-image.png` is referenced but may not exist in `/public`. I'll point to it as specified; if missing, we can add the asset in a follow-up.
+Komponen kecil di dalam `Profile.tsx` (tanpa file baru, sederhana):
+- Input: array string kata sifat + tone warna.
+- Hitung frekuensi → ambil top 10 → render bar horizontal pakai Tailwind (`width: count/max * 100%`). Tanpa library chart baru.
+- Dua instance:
+  - **Peer**: gabungan semua `peers[].words`.
+  - **Self**: `self_words` user.
 
-## Out of scope (untouched)
+## Yang TIDAK diubah
 
-- Test flow, auth, admin, claim/redeem logic.
-- Database, edge functions, RLS.
-- Existing routes other than meta-tag additions.
+- `Result.tsx` (4-kuadran Johari), scoring `computeArchetypes`, schema DB, flow tes, copy Landing/Pricing/Coach.
+- Tidak ada migration, tidak ada dependency baru.
+- Panel "Feedback by Relationship" (dari screenshot referensi) **tidak dibangun** — butuh kolom `relationship` baru di `peer_responses` + perubahan form peer (perubahan flow). Bisa jadi follow-up terpisah.
+
+## File yang diedit
+
+- `src/pages/test/Profile.tsx`
+- `src/pages/test/Story.tsx`
+- `src/components/WindowView.tsx`
