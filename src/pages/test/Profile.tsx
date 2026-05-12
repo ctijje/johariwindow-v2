@@ -40,12 +40,6 @@ const Profile = () => {
         <span className={`inline-block rounded-full px-3 py-1 font-mono text-[10px] tracking-widest ${colors.chip}`}>{badge}</span>
         <h2 className={`mt-4 font-serif text-3xl ${colors.title}`}>{lang === "id" ? data.name_id : data.name_en}</h2>
         <p className="mt-3 text-sm leading-relaxed text-foreground/80">{lang === "id" ? data.desc_id : data.desc_en}</p>
-        <div className={`mt-5 rounded-2xl ${colors.box} p-4`}>
-          <div className={`font-mono text-[10px] tracking-widest ${colors.title} opacity-80`}>
-            {lang === "id" ? "ASSESSMENT LANJUTAN" : "RECOMMENDED ASSESSMENTS"}
-          </div>
-          <div className="mt-1 text-sm font-medium">{lang === "id" ? data.assessment_id : data.assessment_en}</div>
-        </div>
         <div className="mt-5">
           <div className="font-mono text-[10px] tracking-widest text-muted-foreground">
             {lang === "id" ? "LANGKAH KONKRET" : "CONCRETE STEPS"}
