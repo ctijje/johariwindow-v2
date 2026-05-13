@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
+import { Helmet } from "react-helmet-async";
 import { TestShell, StepKicker } from "@/components/test/TestShell";
 import { AdjectiveGrid } from "@/components/test/AdjectiveGrid";
 import { useLang } from "@/lib/lang";
@@ -246,6 +247,14 @@ const Words = () => {
 
   return (
     <TestShell>
+      <Helmet>
+        <title>Mulai Tes Johari Window — Pilih Kata Sifat</title>
+        <meta name="description" content="Pilih 5–20 kata sifat yang menggambarkan dirimu untuk memulai tes Johari Window dan dapatkan feedback dari orang terdekat." />
+        <link rel="canonical" href="https://johariwindow.id/test" />
+        <meta property="og:title" content="Mulai Tes Johari Window — Pilih Kata Sifat" />
+        <meta property="og:description" content="Pilih kata sifat dirimu, undang peer, dan buka empat panel Johari Window-mu." />
+        <meta property="og:url" content="https://johariwindow.id/test" />
+      </Helmet>
       <StepKicker step={1} total={3} label={labels.kicker} />
       <h1 className="font-serif text-4xl md:text-5xl">{labels.h1}</h1>
       <p className="mt-2 text-muted-foreground">{labels.lead}</p>

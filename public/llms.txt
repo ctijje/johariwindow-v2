@@ -1,0 +1,22 @@
+# Johari Window Indonesia
+
+> Tes Johari Window berbasis psikologi: bandingkan persepsi diri dengan persepsi orang lain untuk menemukan kekuatan tersembunyi dan blind spot kamu. Gratis untuk individu, dengan paket berbayar untuk coach profesional.
+
+Johari Window Indonesia adalah platform self-awareness berbahasa Indonesia. Pengguna memilih kata sifat yang menggambarkan diri mereka, mengundang orang terdekat untuk memberi feedback, lalu melihat hasilnya dalam empat panel: Open, Blind, Hidden, dan Unknown. Coach profesional dapat menggunakan dashboard untuk mengelola mentee dan menjalankan sesi go-through.
+
+## Pages
+
+- [Beranda](/): Landing page utama dengan penjelasan framework dan CTA mulai tes.
+- [Mulai Tes](/test): Pilih 5–20 kata sifat untuk memulai penilaian Johari Window.
+- [Sains di Balik Johari](/science): Riset, studi, dan bukti empiris di balik framework Johari Window.
+- [Harga](/pricing): Paket gratis untuk individu dan paket Coach Starter / Coach Growth.
+- [Untuk Coach](/coach): Penjelasan fitur untuk coach dan fasilitator profesional.
+- [Masuk / Daftar](/auth): Halaman autentikasi pengguna dan coach.
+- [Kebijakan Privasi](/privasi): Bagaimana data pengguna dikumpulkan dan dilindungi.
+- [Syarat & Ketentuan](/syarat): Aturan penggunaan platform.
+
+## Optional
+
+- [Redeem Code](/coach/redeem): Untuk coach yang punya access code.
+- [Klaim Coach](/coach/claim): Form klaim akses paket coach.
+- [Berhenti Berlangganan Email](/unsubscribe): Pengelolaan notifikasi email.
