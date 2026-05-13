@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import {
   BarChart,
   Bar,
