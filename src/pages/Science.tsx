@@ -123,6 +123,24 @@ const Logo = () => (
 const Science = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Sains di Balik Johari Window — Riset & Bukti</title>
+        <meta name="description" content="Studi self-awareness, korelasi Open Area dengan performa, dan bukti empiris di balik framework Johari Window." />
+        <link rel="canonical" href="https://johariwindow.id/science" />
+        <meta property="og:title" content="Sains di Balik Johari Window — Riset & Bukti" />
+        <meta property="og:description" content="Studi self-awareness dan bukti empiris di balik framework Johari Window." />
+        <meta property="og:url" content="https://johariwindow.id/science" />
+        <meta property="og:type" content="article" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "Sains di Balik Johari Window",
+          "description": "Riset dan bukti empiris di balik framework Johari Window — self-awareness, blind spot, dan performa.",
+          "author": { "@type": "Organization", "name": "Johari Window Indonesia" },
+          "publisher": { "@type": "Organization", "name": "Johari Window Indonesia" },
+          "mainEntityOfPage": "https://johariwindow.id/science"
+        })}</script>
+      </Helmet>
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/80 backdrop-blur">
         <div className="container mx-auto flex h-16 items-center justify-between">
           <Logo />
