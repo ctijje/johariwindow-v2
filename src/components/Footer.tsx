@@ -91,8 +91,7 @@ export const Footer = () => {
         </div>
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/70 pt-8 md:flex-row md:items-center">
           <p className="font-mono text-xs text-muted-foreground">
-            © 2026 Johari Window · Built by{" "}
-            <a href="https://ranca.id" target="_blank" rel="noreferrer" className="hover:text-primary">Ranca.id</a>
+            © 2026 Johari Window
           </p>
           <p className="font-mono text-xs text-muted-foreground">johariwindow.id</p>
         </div>
