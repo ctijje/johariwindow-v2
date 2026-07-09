@@ -30,6 +30,7 @@ import Unsubscribe from "./pages/Unsubscribe.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Privasi from "./pages/Privasi.tsx";
 import Syarat from "./pages/Syarat.tsx";
+import Report from "./pages/test/Report.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="/test/data" element={<DataDiri />} />
               <Route path="/test/share" element={<Share />} />
               <Route path="/test/result" element={<Result />} />
+              <Route path="/test/report" element={<Report />} />
               <Route path="/test/profile" element={<Profile />} />
               <Route path="/test/story" element={<Story />} />
               <Route path="/peer/:code" element={<Peer />} />

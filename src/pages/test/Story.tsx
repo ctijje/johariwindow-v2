@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Copy, Download, Share2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { computePanels, computeArchetypes, type PanelKey } from "@/lib/johari";
+import { computePanelsLegacy as computePanels, computeArchetypes, type PanelKey } from "@/lib/johari";
 import { useLang } from "@/lib/lang";
 import { toast } from "sonner";
 

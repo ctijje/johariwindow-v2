@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { computePanels, computeArchetypes } from "@/lib/johari";
+import { computePanelsLegacy as computePanels, computeArchetypes } from "@/lib/johari";
 import { findAdjective } from "@/data/adjectives";
 import { useLang } from "@/lib/lang";
 import { cn } from "@/lib/utils";
