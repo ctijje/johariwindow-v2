@@ -116,21 +116,43 @@ const Words = () => {
     setLoading(true);
 
     if (!session) {
-      const redirectUrl = `${window.location.origin}/test/share`;
-      const { error: signUpErr } = await supabase.auth.signUp({
+      // Try sign-in first (returning user)
+      const { error: signInFirst } = await supabase.auth.signInWithPassword({
         email: parsed.data.email,
-        password: parsed.data.password,
-        options: { emailRedirectTo: redirectUrl, data: { display_name: parsed.data.name } },
+        password: parsed.data.password!,
       });
-      if (signUpErr) {
-        const msg = signUpErr.message.toLowerCase();
-        if (msg.includes("registered") || msg.includes("exists") || msg.includes("already")) {
-          const { error: signInErr } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
-          if (signInErr) { toast.error("Email sudah terdaftar. Password salah."); setLoading(false); return; }
-        } else { toast.error(signUpErr.message); setLoading(false); return; }
-      } else {
-        const { error: signInErr } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
-        if (signInErr) { toast.error(signInErr.message); setLoading(false); return; }
+
+      if (signInFirst) {
+        const msg = signInFirst.message.toLowerCase();
+        const isWrongPw = msg.includes("invalid") || msg.includes("credentials") || msg.includes("password");
+        const isNotFound = msg.includes("no user") || msg.includes("not found") || msg.includes("user not found");
+
+        if (isWrongPw && !isNotFound) {
+          // Existing user, wrong password
+          toast.error("Password salah. Coba lagi atau reset password.");
+          setLoading(false);
+          return;
+        }
+
+        // New user — sign up
+        const redirectUrl = `${window.location.origin}/test/share`;
+        const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
+          email: parsed.data.email,
+          password: parsed.data.password!,
+          options: { emailRedirectTo: redirectUrl, data: { display_name: parsed.data.name } },
+        });
+
+        if (signUpErr) {
+          toast.error(signUpErr.message);
+          setLoading(false);
+          return;
+        }
+
+        // If email confirmation is required, signUpData.session will be null.
+        // We still proceed to create the window — it's accessible by UUID without auth.
+        if (!signUpData?.session) {
+          toast.info("Cek emailmu untuk konfirmasi akun. Hasil tetap tersimpan dan bisa diakses via link.");
+        }
       }
     }
 
