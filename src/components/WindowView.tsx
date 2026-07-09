@@ -70,7 +70,14 @@ export const WindowView = ({ windowId }: Props) => {
         <Pane title={labels.open} words={panels.open} tone="g" />
         <Pane title={labels.blind} words={panels.blind} tone="p" />
         <Pane title={labels.hidden} words={panels.hidden} tone="l" />
-        <Pane title={labels.unknown} words={panels.unknown} tone="a" />
+        <div className="rounded-3xl bg-amber-50 p-6">
+          <div className="font-mono text-[11px] font-medium text-amber-900">{labels.unknown}</div>
+          <p className="mt-3 text-xs text-amber-800/80 leading-relaxed">
+            {lang === "id"
+              ? "Belum muncul dari diri sendiri maupun peer. Bisa jadi potensi yang belum aktif, atau belum terlihat dalam konteks relasi ini."
+              : "Not yet surfaced by self or peer. May be latent potential, or simply not visible in this relational context yet."}
+          </p>
+        </div>
       </div>
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         {([["primary", arch.primary], ["secondary", arch.secondary]] as const).map(([k, p]) => (
