@@ -1,0 +1,82 @@
+{
+  "name": "Johari Window — Welcome Email",
+  "nodes": [
+    {
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "a1b2c3d4-0001-4000-8000-000000000001",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "johari-welcome",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
+      "name": "Build Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300],
+      "parameters": {
+        "jsCode": "// Supabase webhook sends payload as body.record\nconst record = $input.first().json.body?.record ?? $input.first().json.record ?? $input.first().json;\n\nconst name    = record.name  ?? 'Kamu';\nconst email   = record.email;\nconst code    = record.code;\nconst siteUrl = 'https://YOUR_SITE.netlify.app'; // ← ganti dengan URL Netlify kamu\n\nconst peerLink   = `${siteUrl}/peer/${code}`;\nconst resultLink = `${siteUrl}/test/result`;\n\nconst htmlContent = `\n<!DOCTYPE html>\n<html lang=\"id\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <style>\n    body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #f8f8f8; margin: 0; padding: 0; }\n    .wrapper { max-width: 600px; margin: 0 auto; background: #ffffff; }\n    .header { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 40px 32px; text-align: center; }\n    .header h1 { color: #ffffff; font-size: 26px; margin: 0; font-weight: 700; }\n    .header p  { color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 14px; }\n    .body  { padding: 32px; }\n    .body p { line-height: 1.7; color: #333; font-size: 15px; margin: 0 0 16px; }\n    .code-box { background: #f0f0ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 16px 20px; text-align: center; margin: 24px 0; }\n    .code-box .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #6366f1; font-weight: 600; }\n    .code-box .code  { font-size: 32px; font-weight: 800; color: #4f46e5; letter-spacing: 6px; margin-top: 4px; }\n    .btn { display: inline-block; background: #4f46e5; color: #ffffff !important; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 15px; margin: 8px 0; }\n    .btn-green { background: #059669; }\n    .link-text { color: #6366f1; font-size: 13px; word-break: break-all; }\n    .divider { border: none; border-top: 1px solid #eee; margin: 28px 0; }\n    .footer { background: #f0f0ff; padding: 24px 32px; text-align: center; }\n    .footer p { color: #9ca3af; font-size: 12px; margin: 0; }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"header\">\n      <h1>🪟 Johari Window-mu sudah siap!</h1>\n      <p>Kenali dirimu dari perspektif orang lain</p>\n    </div>\n    <div class=\"body\">\n      <p>Hai <strong>${name}</strong>,</p>\n      <p>Self-assessment kamu sudah selesai! Sekarang saatnya mengundang orang-orang yang mengenalmu untuk mengisi perspektif mereka tentangmu.</p>\n\n      <div class=\"code-box\">\n        <div class=\"label\">Kode unik Johari Window-mu</div>\n        <div class=\"code\">${code}</div>\n      </div>\n\n      <p>Bagikan link ini ke minimal 3 orang — rekan kerja, teman, atau mentor yang sering berinteraksi denganmu:</p>\n\n      <div style=\"text-align:center; margin: 24px 0\">\n        <a href=\"${peerLink}\" class=\"btn\">Bagikan ke peer →</a>\n      </div>\n\n      <p style=\"font-size:13px; color:#666\">Atau salin link ini secara manual:</p>\n      <p class=\"link-text\">${peerLink}</p>\n\n      <hr class=\"divider\">\n\n      <p>Setelah minimal 1 orang mengisi, kamu bisa langsung melihat Johari Window lengkapmu:</p>\n\n      <div style=\"text-align:center; margin: 24px 0\">\n        <a href=\"${resultLink}\" class=\"btn btn-green\">Lihat hasil →</a>\n      </div>\n\n      <p style=\"font-size:13px; color:#888\">Semakin banyak peer yang mengisi, semakin akurat dan kaya hasil Johari Window-mu. Idealnya minimal 3–5 orang.</p>\n    </div>\n    <div class=\"footer\">\n      <p>Email ini dikirim otomatis dari <strong>Johari Window ID</strong>.<br>Jika kamu tidak merasa membuat akun ini, abaikan saja email ini.</p>\n    </div>\n  </div>\n</body>\n</html>\n`;\n\nreturn [{\n  json: {\n    sender: {\n      name: 'Johari Window ID',\n      email: 'noreply@YOUR_DOMAIN.com'  // ← ganti dengan email sender terverifikasi di Brevo\n    },\n    to: [{ email, name }],\n    subject: `Johari Window-mu sudah siap, ${name}! 🪟`,\n    htmlContent\n  }\n}];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
+      "name": "Send via Brevo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [760, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/smtp/email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [{ "node": "Build Email", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build Email": {
+      "main": [
+        [{ "node": "Send via Brevo", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "johari-window-id"
+  }
+}

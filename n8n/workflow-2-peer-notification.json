@@ -1,0 +1,112 @@
+{
+  "name": "Johari Window — Peer Masuk Notifikasi",
+  "nodes": [
+    {
+      "id": "b1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "b1b2c3d4-0001-4000-8000-000000000001",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "johari-peer-received",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "b1b2c3d4-0002-4000-8000-000000000002",
+      "name": "Get Window Owner",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [500, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://oqifuiuuiazgazhjazih.supabase.co/rest/v1/windows?id=eq.{{ $json.body?.record?.window_id ?? $json.record?.window_id }}&select=id,name,email,code",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "YOUR_SUPABASE_ANON_KEY"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_SUPABASE_ANON_KEY"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b1b2c3d4-0003-4000-8000-000000000003",
+      "name": "Build Notification Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [760, 300],
+      "parameters": {
+        "jsCode": "// $input.first() = Supabase REST response (array of windows rows)\nconst windowRows = $input.first().json;\nconst window = Array.isArray(windowRows) ? windowRows[0] : windowRows;\n\nif (!window || !window.email) {\n  throw new Error('Window owner not found — window_id mungkin tidak valid');\n}\n\n// Ambil data peer dari node Webhook (node index 0)\nconst webhookData = $('Webhook').first().json;\nconst peerRecord  = webhookData.body?.record ?? webhookData.record ?? {};\nconst peerName    = peerRecord.peer_name ?? 'Seseorang';\n\nconst name      = window.name;\nconst email     = window.email;\nconst code      = window.code;\nconst siteUrl   = 'https://YOUR_SITE.netlify.app'; // ← ganti dengan URL Netlify kamu\nconst resultLink = `${siteUrl}/test/result`;\nconst peerLink   = `${siteUrl}/peer/${code}`;\n\nconst displayPeer = peerName !== 'Seseorang' ? `<strong>${peerName}</strong>` : 'Seseorang';\n\nconst htmlContent = `\n<!DOCTYPE html>\n<html lang=\"id\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <style>\n    body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #f8f8f8; margin: 0; padding: 0; }\n    .wrapper { max-width: 600px; margin: 0 auto; background: #ffffff; }\n    .header { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); padding: 40px 32px; text-align: center; }\n    .header h1 { color: #ffffff; font-size: 26px; margin: 0; font-weight: 700; }\n    .header p  { color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 14px; }\n    .body  { padding: 32px; }\n    .body p { line-height: 1.7; color: #333; font-size: 15px; margin: 0 0 16px; }\n    .highlight { background: #fff7ed; border-left: 4px solid #f59e0b; border-radius: 4px; padding: 16px 20px; margin: 20px 0; font-size: 15px; color: #92400e; }\n    .btn { display: inline-block; background: #4f46e5; color: #ffffff !important; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 15px; margin: 8px 0; }\n    .btn-ghost { background: transparent; color: #6366f1 !important; border: 2px solid #6366f1; }\n    .divider { border: none; border-top: 1px solid #eee; margin: 28px 0; }\n    .link-text { color: #6366f1; font-size: 13px; word-break: break-all; }\n    .footer { background: #fff7ed; padding: 24px 32px; text-align: center; }\n    .footer p { color: #9ca3af; font-size: 12px; margin: 0; }\n  </style>\n</head>\n<body>\n  <div class=\"wrapper\">\n    <div class=\"header\">\n      <h1>👀 Ada feedback baru masuk!</h1>\n      <p>Seseorang baru saja mengisi Johari Window milikmu</p>\n    </div>\n    <div class=\"body\">\n      <p>Hai <strong>${name}</strong>,</p>\n\n      <div class=\"highlight\">\n        ${displayPeer} baru saja mengisi perspektif mereka tentangmu di Johari Window-mu.\n      </div>\n\n      <p>Setiap feedback yang masuk memperkaya gambar dirimu — semakin banyak peer yang mengisi, semakin akurat dan lengkap Johari Window-mu.</p>\n\n      <div style=\"text-align:center; margin: 28px 0\">\n        <a href=\"${resultLink}\" class=\"btn\">Lihat Johari Window-ku →</a>\n      </div>\n\n      <hr class=\"divider\">\n\n      <p>Belum cukup peer yang mengisi? Bagikan lagi ke orang lain:</p>\n      <p class=\"link-text\">${peerLink}</p>\n\n      <div style=\"text-align:center; margin: 20px 0\">\n        <a href=\"${peerLink}\" class=\"btn btn-ghost\">Salin link peer →</a>\n      </div>\n\n      <p style=\"font-size:13px; color:#888\">Idealnya minimal 3–5 orang peer untuk hasil yang kaya dan akurat.</p>\n    </div>\n    <div class=\"footer\">\n      <p>Email ini dikirim otomatis dari <strong>Johari Window ID</strong>.<br>Kamu menerima email ini karena kamu membuat Johari Window dengan kode <strong>${code}</strong>.</p>\n    </div>\n  </div>\n</body>\n</html>\n`;\n\nreturn [{\n  json: {\n    sender: {\n      name: 'Johari Window ID',\n      email: 'noreply@YOUR_DOMAIN.com'  // ← ganti dengan email sender terverifikasi di Brevo\n    },\n    to: [{ email, name }],\n    subject: `👀 Ada peer baru yang mengisi Johari Window-mu, ${name}!`,\n    htmlContent\n  }\n}];"
+      }
+    },
+    {
+      "id": "b1b2c3d4-0004-4000-8000-000000000004",
+      "name": "Send via Brevo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1020, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/smtp/email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [{ "node": "Get Window Owner", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Window Owner": {
+      "main": [
+        [{ "node": "Build Notification Email", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build Notification Email": {
+      "main": [
+        [{ "node": "Send via Brevo", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "johari-window-id"
+  }
+}
